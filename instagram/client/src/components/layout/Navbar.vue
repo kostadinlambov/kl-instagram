@@ -13,7 +13,7 @@
       <li class="nav-item">
         <router-link to="/about" class="nav-link" href="#">About</router-link>
       </li>
-      <li class="nav-item dropdown">
+      <!-- <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Dropdown
         </a>
@@ -23,6 +23,13 @@
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Something else here</a>
         </div>
+      </li> -->
+
+      <li class="nav-item">
+        <router-link to="/login" class="nav-link" href="#">Login</router-link>
+      </li>
+      <li class="nav-item">
+        <router-link to="/register" class="nav-link" href="#">Register</router-link>
       </li>
       
     </ul>
