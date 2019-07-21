@@ -19,7 +19,6 @@
             class="form-text text-muted"
           >We'll never share your username with anyone else.</small>
         </div>
-        <div>{{username}}</div>
         <div class="form-group text-left">
           <label for="password">Password</label>
           <input
@@ -30,17 +29,9 @@
             placeholder="Enter password"
           />
         </div>
-        <div>{{password}}</div>
-
         <button :disabled="!isEnabled" type="submit" class="btn btn-primary btn-lg m-3">Submit</button>
       </form>
 
-      <!-- <div class="text-center">
-        <button
-          disabled="{!isEnabled}"
-          type="submit"
-          class="btn App-button-primary btn-lg m-3"
-      >Login</button>-->
     </div>
   </section>
 </template>
@@ -79,7 +70,7 @@ export default {
         },
         body: JSON.stringify(data)
       })
-      .then(response => response.json)
+      .then(response => response.json())
       .then(data => {
           console.log(data)
       });
@@ -88,7 +79,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .w-40 {
   width: 30%;
   margin: auto;
