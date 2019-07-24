@@ -20,10 +20,10 @@ public class UserRegisterBindingModel implements Serializable {
     private String confirmPassword;
     private String firstName;
     private String lastName;
-    private String address;
-    private String city;
-    private String profilePicUrl;
-    private String backgroundImageUrl;
+//    private String address;
+//    private String city;
+//    private String profilePicUrl;
+//    private String backgroundImageUrl;
 
     public UserRegisterBindingModel() {
     }
@@ -84,39 +84,39 @@ public class UserRegisterBindingModel implements Serializable {
         this.lastName = lastName;
     }
 
-    @NotNull(message = ValidationMessageConstants.USER_ADDRESS_REQUIRED_MESSAGE)
-    @Length(min = 1, message = ValidationMessageConstants.USER_ADDRESS_REQUIRED_MESSAGE)
-    public String getAddress() {
-        return this.address;
-    }
+//    @NotNull(message = ValidationMessageConstants.USER_ADDRESS_REQUIRED_MESSAGE)
+//    @Length(min = 1, message = ValidationMessageConstants.USER_ADDRESS_REQUIRED_MESSAGE)
+//    public String getAddress() {
+//        return this.address;
+//    }
+//
+//    public void setAddress(String address) {
+//        this.address = address;
+//    }
+//
+//    @NotNull(message = ValidationMessageConstants.USER_CITY_REQUIRED_MESSAGE)
+//    @Length(min = 1, message = ValidationMessageConstants.USER_CITY_REQUIRED_MESSAGE)
+//    public String getCity() {
+//        return this.city;
+//    }
+//
+//    public void setCity(String city) {
+//        this.city = city;
+//    }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    @NotNull(message = ValidationMessageConstants.USER_CITY_REQUIRED_MESSAGE)
-    @Length(min = 1, message = ValidationMessageConstants.USER_CITY_REQUIRED_MESSAGE)
-    public String getCity() {
-        return this.city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getProfilePicUrl() {
-        return this.profilePicUrl;
-    }
-
-    public void setProfilePicUrl(String profilePicUrl) {
-        this.profilePicUrl = profilePicUrl;
-    }
-
-    public String getBackgroundImageUrl() {
-        return this.backgroundImageUrl;
-    }
-
-    public void setBackgroundImageUrl(String backgroundImageUrl) {
-        this.backgroundImageUrl = backgroundImageUrl;
-    }
+//    public String getProfilePicUrl() {
+//        return this.profilePicUrl;
+//    }
+//
+//    public void setProfilePicUrl(String profilePicUrl) {
+//        this.profilePicUrl = profilePicUrl;
+//    }
+//
+//    public String getBackgroundImageUrl() {
+//        return this.backgroundImageUrl;
+//    }
+//
+//    public void setBackgroundImageUrl(String backgroundImageUrl) {
+//        this.backgroundImageUrl = backgroundImageUrl;
+//    }
 }
