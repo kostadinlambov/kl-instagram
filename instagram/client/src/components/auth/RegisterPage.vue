@@ -2,6 +2,7 @@
   <section class="pt-3 w-40">
     <div class="container login-form-content-section pb-4">
       <h1 class="text-center font-weight-bold mt-4">Register</h1>
+      <h2>{{username}}</h2>
 
       <form @submit.prevent="onSubmitHandler">
         <div class="section-container">
@@ -99,6 +100,8 @@
   </section>
 </template>
 <script>
+import { userService } from "../../mixins/userService";
+
 export default {
   name: "register-page",
   data: function() {
@@ -113,54 +116,56 @@ export default {
   },
   computed: {
     isEnabled() {
-      return this.username && this.password && this.email && this.firstName && this.lastName && this.confirmPassword;
+      return (
+        this.username &&
+        this.password &&
+        this.email &&
+        this.firstName &&
+        this.lastName &&
+        this.confirmPassword
+      );
     }
   },
-   methods: {
+  mixins: [userService],
+  methods: {
     onSubmitHandler() {
       if (!this.isEnabled) {
         console.log("not enabled");
         return;
       }
 
-
-      const data = {
-        username: this.username, 
-        password: this.password, 
-        email: this.email, 
-        firstName: this.firstName, 
-        lastName: this.lastName, 
+      const userData = {
+        username: this.username,
+        password: this.password,
+        email: this.email,
+        firstName: this.firstName,
+        lastName: this.lastName,
         confirmPassword: this.confirmPassword
-        }
+      };
 
-      console.log('data: ', data);
-
-      fetch("http://localhost:8000/users/register", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      })
-      .then(response => response.json())
-      .then(data => {
-          console.log(data)
-      });
+      this.userResource
+        .registerUser(userData)
+        .then(res => {
+          console.log("res => ", res);
+        })
+        .catch(err => {
+          console.log("err =>", err);
+        });
     }
-   }
+  }
 };
 </script>
 
 <style scoped>
-.section-container{
+.section-container {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.left-section, .right-section{
-    flex: 0 1 36%;
-    margin: 0 2rem;
+.left-section,
+.right-section {
+  flex: 0 1 36%;
+  margin: 0 2rem;
 }
 </style>
