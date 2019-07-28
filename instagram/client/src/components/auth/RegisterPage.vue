@@ -2,7 +2,6 @@
   <section class="pt-3 w-40">
     <div class="container login-form-content-section pb-4">
       <h1 class="text-center font-weight-bold mt-4">Register</h1>
-      <h2>{{username}}</h2>
 
       <form @submit.prevent="onSubmitHandler">
         <div class="section-container">
@@ -11,42 +10,65 @@
               <label for="username">Username</label>
               <input
                 type="text"
-                v-model="username"
+                v-model.trim="$v.username.$model"
                 class="form-control"
                 id="username"
                 aria-describedby="usernameHelp"
                 placeholder="Enter username"
               />
               <small
+                v-if="!$v.username.required && $v.username.$dirty"
                 id="usernameHelp"
-                class="form-text text-muted"
-              >We'll never share your username with anyone else.</small>
+                class="form-text alert alert-danger"
+              >Username is required!</small>
+              <small
+                v-else-if="$v.username.$error"
+                id="usernameHelp"
+                class="form-text alert alert-danger"
+              >Username must be between 4 and 16 characters long!</small>
             </div>
 
             <div class="form-group text-left">
               <label for="firstName">First Name</label>
               <input
                 type="text"
-                v-model="firstName"
+                v-model.trim="$v.firstName.$model"
                 class="form-control"
                 id="firstName"
                 aria-describedby="firstNameHelp"
                 placeholder="Enter first name"
               />
               <small
+                v-if="!$v.firstName.required && $v.firstName.$dirty"
                 id="firstNameHelp"
-                class="form-text text-muted"
-              >We'll never share your firstName with anyone else.</small>
+                class="form-text alert alert-danger"
+              >Firstname is required!</small>
+              <small
+                v-else-if="$v.firstName.$error"
+                id="firstNameHelp"
+                class="form-text alert alert-danger"
+              >First Name must start with a capital letter and contain only letters!</small>
             </div>
+
             <div class="form-group text-left">
               <label for="password">Password</label>
               <input
                 type="password"
-                v-model="password"
+                v-model.trim="$v.password.$model"
                 class="form-control"
                 id="password"
                 placeholder="Enter password"
               />
+              <small
+                v-if="!$v.password.required && $v.password.$dirty"
+                id="passwordHelp"
+                class="form-text alert alert-danger"
+              >Password is required!</small>
+              <small
+                v-else-if="$v.password.$error"
+                id="passwordHelp"
+                class="form-text alert alert-danger"
+              >Password must be between 4 and 16 characters long and contains only letters and digits!</small>
             </div>
           </section>
 
@@ -55,42 +77,60 @@
               <label for="email">Email Address</label>
               <input
                 type="email"
-                v-model="email"
+                v-model.trim="$v.email.$model"
                 class="form-control"
                 id="email"
                 aria-describedby="emailHelp"
                 placeholder="Enter email"
               />
-              <small
+               <small
+                v-if="!$v.email.required && $v.email.$dirty"
                 id="emailHelp"
-                class="form-text text-muted"
-              >We'll never share your email with anyone else.</small>
+                class="form-text alert alert-danger"
+              >Emai is required!</small>
+              <small
+                v-else-if="$v.email.$error"
+                id="emailHelp"
+                class="form-text alert alert-danger"
+              >Invalid e-mail address!</small>
             </div>
 
             <div class="form-group text-left">
               <label for="lastName">Last Name</label>
               <input
                 type="text"
-                v-model="lastName"
+                v-model.trim="$v.lastName.$model"
                 class="form-control"
                 id="lastName"
                 aria-describedby="lastNameHelp"
                 placeholder="Enter last name"
               />
               <small
+                v-if="!$v.lastName.required && $v.lastName.$dirty"
                 id="lastNameHelp"
-                class="form-text text-muted"
-              >We'll never share your lastName with anyone else.</small>
+                class="form-text alert alert-danger"
+              >LastName is required!</small>
+              <small
+                v-else-if="$v.lastName.$error"
+                id="lastNameHelp"
+                class="form-text alert alert-danger"
+              >Last Name must start with a capital letter and contain only letters!</small>
             </div>
             <div class="form-group text-left">
               <label for="confirmPassword">Confirm Password</label>
               <input
                 type="password"
-                v-model="confirmPassword"
+                v-model.trim="$v.confirmPassword.$model"
                 class="form-control"
                 id="confirmPassword"
                 placeholder="Confirm your password"
+                aria-describedby="confirmPasswordHelp"
               />
+              <small
+                v-if="!$v.confirmPassword.sameAsPassword && $v.confirmPassword.$dirty"
+                id="confirmPasswordHelp"
+                class="form-text alert alert-danger"
+              >Passwords must be identical!</small>
             </div>
           </section>
         </div>
@@ -101,6 +141,18 @@
 </template>
 <script>
 import { userService } from "../../mixins/userService";
+import {
+  required,
+  email,
+  minLength,
+  maxLength,
+  between,
+  sameAs,
+  helpers
+} from "vuelidate/lib/validators";
+
+const firstLastNameRegex = /^[A-Z]([a-zA-Z]+)?$/;
+const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
 
 export default {
   name: "register-page",
@@ -127,6 +179,33 @@ export default {
     }
   },
   mixins: [userService],
+  validations: {
+    username: {
+      required,
+      minLength: minLength(4),
+      maxLength: maxLength(16)
+    },
+    email: {
+      required,
+      emailRegex:  value => emailRegex.test(value)
+    },
+    firstName: {
+      required,
+      firstNameRegex: value => firstLastNameRegex.test(value)
+    },
+    lastName: {
+      required,
+      lastNameRegex: value => firstLastNameRegex.test(value)
+    },
+    password: {
+      required,
+      minLength: minLength(4),
+      maxLength: maxLength(16)
+    },
+    confirmPassword: {
+      sameAsPassword: sameAs("password")
+    }
+  },
   methods: {
     onSubmitHandler() {
       if (!this.isEnabled) {
