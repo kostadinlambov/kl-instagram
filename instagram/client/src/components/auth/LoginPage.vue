@@ -100,6 +100,6 @@ export default {
 <style scoped>
 .w-40 {
   width: 30%;
-  margin: auto;
+  margin: 0 auto;
 }
 </style>
