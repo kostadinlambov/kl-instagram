@@ -1,15 +1,12 @@
-package com.instagram.domain.entities;
+package com.instagram.domain.models.serviceModels;
 
-import org.springframework.security.core.userdetails.UserDetails;
+import com.instagram.domain.entities.UserRole;
 
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.List;
+import java.io.Serializable;
 import java.util.Set;
 
-@Entity
-@Table(name = "users")
-public class User extends BaseEntity implements UserDetails {
+public class UserServiceModel implements Serializable {
+    private String id;
     private String username;
     private String email;
     private String password;
@@ -25,12 +22,17 @@ public class User extends BaseEntity implements UserDetails {
     private boolean isCredentialsNonExpired;
     private boolean isEnabled;
 
-    public User() {
-        this.authorities = new HashSet<>();
+    public UserServiceModel() {
     }
 
-    @Override
-    @Column(name = "username", nullable = false, unique = true, columnDefinition = "VARCHAR(50) BINARY")
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getUsername() {
         return this.username;
     }
@@ -39,7 +41,6 @@ public class User extends BaseEntity implements UserDetails {
         this.username = username;
     }
 
-    @Column(name = "email", nullable = false, unique = true, columnDefinition = "VARCHAR(50) BINARY")
     public String getEmail() {
         return this.email;
     }
@@ -48,8 +49,6 @@ public class User extends BaseEntity implements UserDetails {
         this.email = email;
     }
 
-    @Override
-    @Column(name = "password", nullable = false)
     public String getPassword() {
         return this.password;
     }
@@ -58,7 +57,6 @@ public class User extends BaseEntity implements UserDetails {
         this.password = password;
     }
 
-    @Column(name = "first_name", nullable = false)
     public String getFirstName() {
         return this.firstName;
     }
@@ -67,7 +65,6 @@ public class User extends BaseEntity implements UserDetails {
         this.firstName = firstName;
     }
 
-    @Column(name = "last_name", nullable = false)
     public String getLastName() {
         return this.lastName;
     }
@@ -76,7 +73,6 @@ public class User extends BaseEntity implements UserDetails {
         this.lastName = lastName;
     }
 
-    @Column(name = "profile_pic_url", columnDefinition = "TEXT")
     public String getProfilePicUrl() {
         return this.profilePicUrl;
     }
@@ -93,7 +89,6 @@ public class User extends BaseEntity implements UserDetails {
         isDeleted = deleted;
     }
 
-    @Column(name = "is_online", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     public boolean isOnline() {
         return this.isOnline;
     }
@@ -102,11 +97,6 @@ public class User extends BaseEntity implements UserDetails {
         isOnline = online;
     }
 
-    @Override
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinTable(name = "users_roles",
-    joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-    inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     public Set<UserRole> getAuthorities() {
         return this.authorities;
     }
@@ -115,44 +105,35 @@ public class User extends BaseEntity implements UserDetails {
         this.authorities = authorities;
     }
 
-    @Override
-    @Column(name = "is_account_non_expired", nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     public boolean isAccountNonExpired() {
-        return true;
+        return this.isAccountNonExpired;
     }
 
     public void setAccountNonExpired(boolean accountNonExpired) {
         isAccountNonExpired = accountNonExpired;
     }
 
-    @Override
-    @Column(name = "is_account_non_locked", nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     public boolean isAccountNonLocked() {
-        return true;
+        return this.isAccountNonLocked;
     }
 
     public void setAccountNonLocked(boolean accountNonLocked) {
         isAccountNonLocked = accountNonLocked;
     }
 
-    @Override
-    @Column(name = "is_credentials_non_expired", nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     public boolean isCredentialsNonExpired() {
-        return true;
+        return this.isCredentialsNonExpired;
     }
 
     public void setCredentialsNonExpired(boolean credentialsNonExpired) {
         isCredentialsNonExpired = credentialsNonExpired;
     }
 
-    @Override
-    @Column(name = "is_enabled", nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     public boolean isEnabled() {
-        return true;
+        return this.isEnabled;
     }
 
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
     }
-
 }

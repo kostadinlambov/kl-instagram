@@ -1,8 +1,9 @@
 package com.instagram.domain.models.serviceModels;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class LoggerServiceModel {
+public class LoggerServiceModel implements Serializable {
     private String id;
     private String username;
     private String method;

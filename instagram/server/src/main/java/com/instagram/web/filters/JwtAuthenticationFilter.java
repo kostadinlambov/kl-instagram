@@ -52,7 +52,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             return authenticate;
 
         } catch (IOException | AuthenticationException ex) {
-//            ex.printStackTrace();
+            ex.printStackTrace();
             throw new CustomException(ex.getMessage());
 //            return null;
         }
@@ -89,8 +89,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 
         if (request.getMethod().equals("POST") && request.getRequestURI().endsWith("/login")) {
-                String username = user.getUsername();
-                loggerService.createLog("POST", username, "-", "login");
+            String username = user.getUsername();
+//            loggerService.createLog("POST", username, "-", "login");
         }
 
         response.addHeader("Authorization", "Bearer " + token);

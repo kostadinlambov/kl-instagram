@@ -2,6 +2,8 @@ package com.instagram.web.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.instagram.domain.models.bindingModels.user.UserRegisterBindingModel;
+import com.instagram.domain.models.serviceModels.UserServiceModel;
+import com.instagram.domain.models.viewModels.user.UserCreateViewModel;
 import com.instagram.services.UserService;
 import com.instagram.utils.responseHandler.exceptions.BadRequestException;
 import com.instagram.utils.responseHandler.successResponse.SuccessResponse;
@@ -39,24 +41,20 @@ public class UserController {
 
     @PostMapping(value = "/register")
     public ResponseEntity<Object> registerUser(@RequestBody UserRegisterBindingModel userRegisterBindingModel) throws Exception {
-
         if (!userValidationService.isValid(userRegisterBindingModel.getPassword(), userRegisterBindingModel.getConfirmPassword())) {
             throw new BadRequestException(PASSWORDS_MISMATCH_ERROR_MESSAGE);
         }
 
-//        if (!userValidationService.isValid(userRegisterBindingModel)) {
-//            throw new Exception(SERVER_ERROR_MESSAGE);
-//        }
-//
-//        UserServiceModel user = modelMapper.map(userRegisterBindingModel, UserServiceModel.class);
-//        UserCreateViewModel savedUser = this.userService.createUser(user);
-//
-//        SuccessResponse successResponse = successResponseBuilder(LocalDateTime.now(), SUCCESSFUL_REGISTER_MESSAGE, savedUser, true);
-//
-        return new ResponseEntity<>(this.objectMapper.writeValueAsString(userRegisterBindingModel), HttpStatus.OK);
-//        return new ResponseEntity<>(this.objectMapper.writeValueAsString(successResponse), HttpStatus.OK);
+        if (!userValidationService.isValid(userRegisterBindingModel)) {
+            throw new Exception(SERVER_ERROR_MESSAGE);
+        }
 
-//        return null;
+        UserServiceModel user = modelMapper.map(userRegisterBindingModel, UserServiceModel.class);
+        UserCreateViewModel savedUser = this.userService.createUser(user);
+
+        SuccessResponse successResponse = successResponseBuilder(LocalDateTime.now(), SUCCESSFUL_REGISTER_MESSAGE, savedUser, true);
+
+        return new ResponseEntity<>(this.objectMapper.writeValueAsString(successResponse), HttpStatus.OK);
     }
 
     private SuccessResponse successResponseBuilder(LocalDateTime timestamp, String message, Object payload, boolean success) {
