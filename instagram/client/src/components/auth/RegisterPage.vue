@@ -134,7 +134,7 @@
             </div>
           </section>
         </div>
-        <button :disabled="!isEnabled" type="submit" class="btn btn-primary btn-lg m-3">Submit</button>
+        <button :disabled="$v.$invalid" type="submit" class="btn btn-primary btn-lg m-3">Submit</button>
       </form>
     </div>
   </section>
