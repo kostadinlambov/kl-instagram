@@ -20,23 +20,30 @@ Vue.use(VueResource);
 Vue.http.options.root = 'http://localhost:8000';
 
 Vue.http.interceptors.push((request, next) => {
-  if(request.method === 'GET'){
-    alert('GET request was sent.')
-  }else if(request.method === 'POST'){
-    alert('POST request was sent.')
+  const token = localStorage.getItem('token');
+
+  if(token && token.length && !request.url.endsWith('login') && !request.url.endsWith('register')){
+    request.headers.set('Authorization', `Bearer ${token}`)
   }
 
+  // if(request.url.endsWith('login') ){
+  //   // alert('GET request was sent.')
+  // }else if(request.method === 'POST'){
+  //   // alert('POST request was sent.')
+  // }
+
   next((responce) => {
-    if(responce.status === 200){
-      alert('responce.status === 200 : User registered successfully!')
+    if(responce.status === 200 && responce.url.endsWith('login')){
+      saveToken(responce.body);
+      // console.log('responce.status === 200 : You have successfully logged in!')
     }
-    // if(responce.method === 'GET' && responce.status === 200) {
-    //   alert('Fetched data successfully!');
-    // }else if(responce.method === 'POST' && responce.status === 200){
-    //   alert('User registered successfully!')
-    // }
   });
 })
+
+const saveToken = (data) => {
+  const token = data.split(' ')[1];
+  localStorage.setItem('token', token);
+}
 
 new Vue({
   router,

@@ -12,7 +12,7 @@ export const userService = {
       },
       loginUser: {
         method: "post",
-        url: "users/login"
+        url: "login"
       }
     };
 

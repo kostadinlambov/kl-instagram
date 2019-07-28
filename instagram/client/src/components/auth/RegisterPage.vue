@@ -139,7 +139,9 @@
     </div>
   </section>
 </template>
+
 <script>
+import router from '../../router';
 import { userService } from "../../mixins/userService";
 import {
   required,
@@ -226,6 +228,7 @@ export default {
         .registerUser(userData)
         .then(res => {
           console.log("res => ", res);
+          router.push('/login');
         })
         .catch(err => {
           console.log("err =>", err);

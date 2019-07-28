@@ -44,7 +44,9 @@
 </template>
 
 <script>
+import { userService } from "../../mixins/userService";
 import { required } from "vuelidate/lib/validators";
+import router from '../../router';
 
 export default {
   name: "login-page",
@@ -54,6 +56,7 @@ export default {
       password: ""
     };
   },
+  mixins: [userService],
   computed: {
     isEnabled() {
       return this.username && this.password;
@@ -72,26 +75,23 @@ export default {
   methods: {
     onSubmitHandler() {
       if (this.$v.$invalid) {
-        console.log("not enabled");
+        console.log("Submit not enabled");
         return;
       }
 
-      const data = { username: this.username, password: this.password };
+      const userData = { username: this.username, password: this.password };
 
-      console.log("data: ", data);
+      console.log("userData: ", userData);
 
-      fetch("http://localhost:8000/login", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-        });
+      this.userResource
+        .loginUser(userData)
+        .then(res => {
+          console.log("res => ", res);
+          router.push('/');
+        })
+        .catch(err => {
+          console.log("err =>", err);
+        }); 
     }
   }
 };
