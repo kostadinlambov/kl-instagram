@@ -37,7 +37,7 @@
           >Password is required!</small>
         </div>
 
-        <button :disabled="$v.$invalid" type="submit" class="btn btn-primary btn-lg m-3">Submit</button>
+        <button :disabled="$v.$invalid" type="submit" class="btn btn-primary btn-lg m-3">Login</button>
       </form>
     </div>
   </section>
@@ -46,7 +46,6 @@
 <script>
 import { userService } from "../../mixins/userService";
 import { required } from "vuelidate/lib/validators";
-import router from '../../router';
 
 export default {
   name: "login-page",
@@ -87,7 +86,7 @@ export default {
         .loginUser(userData)
         .then(res => {
           console.log("res => ", res);
-          router.push('/');
+          this.$router.push('/');
         })
         .catch(err => {
           console.log("err =>", err);
@@ -99,7 +98,7 @@ export default {
 
 <style scoped>
 .w-40 {
-  width: 30%;
+  width: 20%;
   margin: 0 auto;
 }
 </style>

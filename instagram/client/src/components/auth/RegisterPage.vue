@@ -134,14 +134,13 @@
             </div>
           </section>
         </div>
-        <button :disabled="$v.$invalid" type="submit" class="btn btn-primary btn-lg m-3">Submit</button>
+        <button :disabled="$v.$invalid" type="submit" class="btn btn-primary btn-lg m-3">Register</button>
       </form>
     </div>
   </section>
 </template>
 
 <script>
-import router from '../../router';
 import { userService } from "../../mixins/userService";
 import {
   required,
@@ -228,7 +227,7 @@ export default {
         .registerUser(userData)
         .then(res => {
           console.log("res => ", res);
-          router.push('/login');
+          this.$router.push('/login');
         })
         .catch(err => {
           console.log("err =>", err);

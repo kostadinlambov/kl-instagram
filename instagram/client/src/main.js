@@ -3,15 +3,10 @@ import App from './App.vue';
 import router from './router';
 import VueResource from 'vue-resource';
 import Vuelidate from 'vuelidate';
-
-// import jQuery from 'jquery';
-// import 'popper.js';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 // import './assets/app.css'
 
-// // Assign jQuery to $
-// window.$ = window.jQuery = jQuery
 
 Vue.config.productionTip = false
 
@@ -25,12 +20,6 @@ Vue.http.interceptors.push((request, next) => {
   if(token && token.length && !request.url.endsWith('login') && !request.url.endsWith('register')){
     request.headers.set('Authorization', `Bearer ${token}`)
   }
-
-  // if(request.url.endsWith('login') ){
-  //   // alert('GET request was sent.')
-  // }else if(request.method === 'POST'){
-  //   // alert('POST request was sent.')
-  // }
 
   next((responce) => {
     if(responce.status === 200 && responce.url.endsWith('login')){

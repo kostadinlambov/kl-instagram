@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import LandingPage from "./views/LandingPage.vue";
+import ErrorPage from "./views/ErrorPage.vue";
 
 Vue.use(Router);
 
@@ -29,6 +30,9 @@ export default new Router({
       path: "/login",
       name: "login-page",
       component: () => import("./components/auth/LoginPage.vue")
-    }
+    },
+    {
+      path: '*' , name: 'error-page' , component: ErrorPage
+    },
   ]
 });
