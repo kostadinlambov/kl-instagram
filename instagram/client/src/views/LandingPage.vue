@@ -1,15 +1,68 @@
 <template>
-  <div>
+  <div class="container mt-5 text-center">
+    <div class="container text-center start-page-margin pt-5">
+      <div
+        class="jumbotron bg-light text-dark text-center mb-0 mx-auto mt-5 jumbo-wrapper"
+        :style="'boxShadow : 0 0 14px 1px rgba(0, 0, 0, 0.3)'"
+      >
+        <h2 class="h1 h1-responsive">Welcome to Instagram!</h2>
+        <div class="hr-styles"></div>
+        <hr class="hr-styles" />
+        <p class="lead message">
+          Please
+          <router-link class="text-info" to="/login">Login </router-link>or
+          <router-link class="text-info" to="/register">Register</router-link> if you don't have an account.
+        </p>
+        <hr class="hr-styles" />
+        <p class="lead">
+          <router-link class="btn app-button-primary btn-lg m-3" to="/login" role="button">Login</router-link>
+          <router-link
+            class="btn app-button-primary btn-lg m-3"
+            to="/register"
+            role="button"
+          >Register</router-link>
+        </p>
+      </div>
+    </div>
     <div class="container text-center start-page-margin">
       <div class="jumbotron bg-light text-dark text-center mb-0 mt-5 mx-auto jumbo-wrapper">
         <h2 class="h1 h1-responsive">Welcome to Instagram!</h2>
         <div class="hr-styles"></div>
         <hr class="hr-styles" />
-        <p className="lead message" >Please <router-link className="text-info" exact to="/login">Login</router-link> or <router-link className="text-info" exact to="/register">Register</router-link> if you don't have an account.</p>
+        <p class="lead message">
+          Please
+          <router-link class="text-info" to="/login">Login </router-link>or
+          <router-link class="text-info" to="/register">Register</router-link> if you don't have an account.
+        </p>
         <hr class="hr-styles" />
         <p class="lead">
-          <router-link class="btn App-button-primary btn-lg m-3" to="/login" role="button">Login</router-link>
-          <router-link class="btn App-button-primary btn-lg m-3" to="/register" role="button">Register</router-link>
+          <router-link class="btn app-button-primary btn-lg m-3" to="/login" role="button">Login</router-link>
+          <router-link
+            class="btn app-button-primary btn-lg m-3"
+            to="/register"
+            role="button"
+          >Register</router-link>
+        </p>
+      </div>
+    </div>
+    <div class="container text-center start-page-margin">
+      <div class="jumbotron bg-light text-dark text-center mb-0 mt-5 mx-auto jumbo-wrapper">
+        <h2 class="h1 h1-responsive">Welcome to Instagram!</h2>
+        <div class="hr-styles"></div>
+        <hr class="hr-styles" />
+        <p class="lead message">
+          Please
+          <router-link class="text-info" to="/login">Login </router-link>or
+          <router-link class="text-info" exact to="/register">Register</router-link> if you don't have an account.
+        </p>
+        <hr class="hr-styles" />
+        <p class="lead">
+          <router-link class="btn app-button-primary btn-lg m-3" to="/login" role="button">Login</router-link>
+          <router-link
+            class="btn App-button-primary btn-lg m-3"
+            to="/register"
+            role="button"
+          >Register</router-link>
         </p>
       </div>
     </div>
@@ -24,19 +77,35 @@ export default {
 </script>
 
 <style scoped>
+.app-button-primary {
+  background-color: rgb(53, 73, 94);
+  color: white;
+}
+
+.app-button-primary:hover {
+  background: rgb(65, 184, 131);
+  color: #fff;
+  border: 1px solid #fff;
+  box-shadow: 0 0 14px 1px rgba(0, 0, 0, 0.3);
+}
+
+.text-inf {
+  /* color: rgb(53, 73, 94); */
+}
+
 .hr-styles {
   width: 70%;
   margin: 1.5rem auto;
 }
 
-.message{
-    margin-bottom: 1.5rem;
-    font-weight: 600;
+.message {
+  margin-bottom: 1.5rem;
+  font-weight: 600;
 }
 
 .jumbo-wrapper {
   background-color: rgba(238, 238, 238, 0.95) !important;
-  background: url('../assets/images/SoftUniFoundation_Logo.png');
+  background: url("../assets/images/SoftUniFoundation_Logo.png");
   background-repeat: none;
   background-size: cover;
   /* background-position: center; */

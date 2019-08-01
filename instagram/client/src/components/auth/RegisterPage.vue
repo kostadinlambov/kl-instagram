@@ -1,7 +1,7 @@
 <template>
-  <section class="pt-3 w-40">
+  <section class="mt-5 w-40">
     <div class="container login-form-content-section pb-4">
-      <h1 class="text-center font-weight-bold mt-4">Register</h1>
+      <h1 class="text-center font-weight-bold mt-5">Register</h1>
 
       <form @submit.prevent="onSubmitHandler">
         <div class="section-container">
@@ -134,7 +134,7 @@
             </div>
           </section>
         </div>
-        <button :disabled="$v.$invalid" type="submit" class="btn btn-primary btn-lg m-3">Register</button>
+        <button :disabled="$v.$invalid" type="submit" class="btn app-button-primary btn-lg m-3">Register</button>
       </form>
     </div>
   </section>
@@ -248,5 +248,17 @@ export default {
 .right-section {
   flex: 0 1 36%;
   margin: 0 2rem;
+}
+
+.app-button-primary{
+  background-color:rgb(53, 73, 94);
+  color:white;
+}
+
+.app-button-primary:hover{
+  background: rgb(65, 184, 131);
+  color:#fff;
+  border: 1px solid #fff;
+  box-shadow: 0 0 14px 1px rgba(0,0,0,.3)
 }
 </style>

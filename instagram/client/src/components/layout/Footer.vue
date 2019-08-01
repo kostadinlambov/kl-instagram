@@ -1,6 +1,6 @@
 <template>
   <div class="App-footer">
-    <div class="mb-5">
+    <div class="mb-5 mt-5">
       <p class="footer-insta">&copy; KL-Instagram @ KL 2019. All rights reserved.</p>
     </div>
   </div>
@@ -13,7 +13,6 @@ export default {
 </script>
 
 <style>
-
 .footer-insta{
   color: black;
 }
