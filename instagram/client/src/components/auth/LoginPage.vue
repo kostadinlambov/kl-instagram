@@ -86,6 +86,7 @@ export default {
         .loginUser(userData)
         .then(res => {
           console.log("res => ", res);
+          this.$root.$emit('user-login');
           this.$router.push('/');
         })
         .catch(err => {

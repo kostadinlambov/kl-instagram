@@ -5,6 +5,7 @@ export const userService = {
       }
   },
   created() {
+    // vue-resource
     const userActions = {
       registerUser: {
         method: "post",
@@ -17,5 +18,8 @@ export const userService = {
     };
 
     this.userResource = this.$resource("", {}, userActions)
+  },
+  isAuth: () => {
+    return localStorage.getItem('token') != null;
   }
 };
