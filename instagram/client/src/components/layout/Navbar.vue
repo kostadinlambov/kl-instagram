@@ -3,7 +3,7 @@
     <section class="navbar-section">
       <div class="navbar-wrapper">
         <nav class="navbar navbar-expand-lg">
-        <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light"> -->
+          <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light"> -->
           <router-link to="/" class="navbar-brand">Instagram</router-link>
           <button
             class="navbar-toggler"
@@ -37,17 +37,6 @@
                 />
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
               </form>
-              <!-- <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-              </li>-->
             </ul>
             <ul class="navbar-nav ml-auto">
               <li class="nav-item" v-if="!isAuth">
@@ -88,12 +77,18 @@ export default {
       return;
     },
     onClickAuth() {
+      console.log("this.isAuth before: ", this.isAuth);
       this.isAuth = localStorage.getItem("token") != null;
+      console.log("this.isAuth after: ", this.isAuth);
     }
   },
   created() {
     this.$root.$on("user-login", this.onClickAuth);
-  }
+
+    if (!this.isAuth) {
+      this.isAuth = localStorage.getItem("token") != null;
+    }
+  },
   // watch: {
   //   isAuth: function(newValue, oldValue) {
   //     console.log("newValue", newValue);
@@ -104,10 +99,10 @@ export default {
 </script>
 
 <style scoped>
-.navbar-section{
+.navbar-section {
   /* background: rgb(65, 184, 131); */
   background: rgb(53, 73, 94);
-  color:white;
+  color: white;
   position: fixed;
   top: 0;
   left: 0;
@@ -115,7 +110,7 @@ export default {
   z-index: 1000;
 }
 
-.navbar-wrapper{
+.navbar-wrapper {
   width: 80%;
   margin: auto;
   /* display: flex;
@@ -129,18 +124,16 @@ li {
   /* color: rgb(192, 192, 192); */
 }
 
-a:hover{
+a:hover {
   text-decoration: underline;
   color: white;
 }
 
-.nav-link, .navbar-brand{
+.nav-link,
+.navbar-brand {
   /* color: white; */
   color: rgb(192, 192, 192);
 }
-
-
-
 </style>
 
 
