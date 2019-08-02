@@ -146,7 +146,7 @@
 </template>
 
 <script>
-import { userService } from "../../mixins/userService";
+import { requester } from "../../mixins/requester";
 import {
   required,
   email,
@@ -172,19 +172,8 @@ export default {
       confirmPassword: ""
     };
   },
-  computed: {
-    isEnabled() {
-      return (
-        this.username &&
-        this.password &&
-        this.email &&
-        this.firstName &&
-        this.lastName &&
-        this.confirmPassword
-      );
-    }
-  },
-  mixins: [userService],
+  computed: {},
+  mixins: [requester],
   validations: {
     username: {
       required,
@@ -214,7 +203,7 @@ export default {
   },
   methods: {
     onSubmitHandler() {
-      if (!this.isEnabled) {
+      if (this.$v.$invalid) {
         console.log("not enabled");
         return;
       }
@@ -306,17 +295,16 @@ h1 {
   padding-top: 2rem;
 }
 
+@media screen and (max-width: 1300px) {
+  .register-form-content-section {
+    margin-top: 10rem;
+  }
+}
 
-@media  screen and (max-width: 1300px){
-   .register-form-content-section{
-        margin-top: 10rem;
-     }
- }
-
- @media  screen and (max-width: 800px){
-     .register-form-content-section{
-        margin-top: 5rem;
-        width: 100%;
-     }
- }
+@media screen and (max-width: 800px) {
+  .register-form-content-section {
+    margin-top: 5rem;
+    width: 100%;
+  }
+}
 </style>

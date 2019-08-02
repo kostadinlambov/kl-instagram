@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { userService } from "../../mixins/userService";
+import { requester } from "../../mixins/requester";
 import { required } from "vuelidate/lib/validators";
 
 export default {
@@ -60,11 +60,8 @@ export default {
       password: ""
     };
   },
-  mixins: [userService],
+  mixins: [requester],
   computed: {
-    isEnabled() {
-      return this.username && this.password;
-    }
   },
 
   validations: {

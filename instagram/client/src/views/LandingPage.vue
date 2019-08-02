@@ -7,10 +7,9 @@
       >
         <h2 class="h1 h1-responsive">Welcome to Instagram!</h2>
         <div class="hr-styles"></div>
-        <hr class="hr-styles" />
         <p class="lead message">
           Please
-          <router-link class="text-info" to="/login">Login </router-link>or
+          <router-link class="text-info" to="/login">Login</router-link> or
           <router-link class="text-info" to="/register">Register</router-link> if you don't have an account.
         </p>
         <hr class="hr-styles" />
@@ -24,55 +23,14 @@
         </p>
       </div>
     </div>
-    <div class="container text-center start-page-margin">
-      <div class="jumbotron bg-light text-dark text-center mb-0 mt-5 mx-auto jumbo-wrapper">
-        <h2 class="h1 h1-responsive">Welcome to Instagram!</h2>
-        <div class="hr-styles"></div>
-        <hr class="hr-styles" />
-        <p class="lead message">
-          Please
-          <router-link class="text-info" to="/login">Login </router-link>or
-          <router-link class="text-info" to="/register">Register</router-link> if you don't have an account.
-        </p>
-        <hr class="hr-styles" />
-        <p class="lead">
-          <router-link class="btn app-button-primary btn-lg m-3" to="/login" role="button">Login</router-link>
-          <router-link
-            class="btn app-button-primary btn-lg m-3"
-            to="/register"
-            role="button"
-          >Register</router-link>
-        </p>
-      </div>
-    </div>
-    <div class="container text-center start-page-margin">
-      <div class="jumbotron bg-light text-dark text-center mb-0 mt-5 mx-auto jumbo-wrapper">
-        <h2 class="h1 h1-responsive">Welcome to Instagram!</h2>
-        <div class="hr-styles"></div>
-        <hr class="hr-styles" />
-        <p class="lead message">
-          Please
-          <router-link class="text-info" to="/login">Login </router-link>or
-          <router-link class="text-info" exact to="/register">Register</router-link> if you don't have an account.
-        </p>
-        <hr class="hr-styles" />
-        <p class="lead">
-          <router-link class="btn app-button-primary btn-lg m-3" to="/login" role="button">Login</router-link>
-          <router-link
-            class="btn App-button-primary btn-lg m-3"
-            to="/register"
-            role="button"
-          >Register</router-link>
-        </p>
-      </div>
-    </div>
+    
   </div>
 </template>
 
 <script>
 export default {
-  name: "LandingPage",
-  components: {}
+  name: "landing-page",
+  components: {},
 };
 </script>
 
@@ -115,7 +73,7 @@ export default {
 
 @media screen and (max-width: 1300px) {
   .start-page-margin {
-    margin-top: 8rem;
+    /* margin-top: 8rem; */
   }
 }
 
