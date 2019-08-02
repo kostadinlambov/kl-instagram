@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { userService } from "../../mixins/userService";
+import { userService } from "../../infrastructure/userService";
 
 export default {
   name: "Navbar",
@@ -87,9 +87,7 @@ export default {
       return;
     },
     onClickAuth() {
-      console.log("this.isAuth before: ", this.isAuth);
       this.isAuth = localStorage.getItem("token") != null;
-      console.log("this.isAuth after: ", this.isAuth);
     }
   },
   created() {

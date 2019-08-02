@@ -69,7 +69,7 @@
                 v-else-if="$v.password.$error"
                 id="passwordHelp"
                 class="form-text alert alert-danger"
-              >Password must be between 4 and 16 characters long and contains only letters and digits!</small>
+              >Password must be between 4 and 16 characters long and contain only letters and digits!</small>
             </div>
           </section>
 
@@ -228,7 +228,15 @@ export default {
           this.$router.push("/login");
         })
         .catch(err => {
-          console.log("err =>", err);
+          let message = "Server error!";
+          if (err.status === 400) {
+            message = err.body.message;
+          }
+
+          this.$toast.open({
+            message,
+            type: "error"
+          });
         });
     }
   }
@@ -301,7 +309,7 @@ h1 {
 
 @media screen and (max-width: 1300px) {
   .register-form-content-section {
-    margin-top: 10rem;
+    /* margin-top: 10rem; */
   }
 }
 

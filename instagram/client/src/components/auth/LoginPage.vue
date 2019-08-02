@@ -61,8 +61,7 @@ export default {
     };
   },
   mixins: [requester],
-  computed: {
-  },
+  computed: {},
 
   validations: {
     username: {
@@ -91,12 +90,20 @@ export default {
           this.$root.$emit("user-login");
           this.$toast.open({
             message: "You have successfully logged in!",
-            type: "success",
-          })
+            type: "success"
+          });
           this.$router.push("/");
         })
         .catch(err => {
-          console.log("err =>", err);
+          let message = "Server error!";
+          if (err.status === 403) {
+            message = "Incorrect email or password!";
+          }
+
+          this.$toast.open({
+            message,
+            type: "error"
+          });
         });
     }
   }
@@ -104,7 +111,6 @@ export default {
 </script>
 
 <style scoped>
-
 .login-form-content-section input {
   background: #eee;
 }
@@ -161,20 +167,20 @@ h1 {
   padding-top: 2rem;
 }
 
-@media  screen and (max-width: 1300px){
-    .login-form-content-section{
-        margin-top: 10rem;
-     }
+@media screen and (max-width: 1300px) {
+  .login-form-content-section {
+    /* margin-top: 10rem; */
+  }
 
-     .login-form-content-section{
-        width: 50%;
-     }
- }
+  .login-form-content-section {
+    width: 50%;
+  }
+}
 
- @media  screen and (max-width: 800px){
-    .login-form-content-section{
-        margin-top: 5rem;
-        width: 100%;
-     }
- }
+@media screen and (max-width: 800px) {
+  .login-form-content-section {
+    margin-top: 5rem;
+    width: 100%;
+  }
+}
 </style>

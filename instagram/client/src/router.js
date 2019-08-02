@@ -1,9 +1,9 @@
 import Vue from "vue";
 import Router from "vue-router";
-// import {isAuth} from "./mixins/userService.js"
-import { userService } from "./mixins/userService";
+import { userService } from "./infrastructure/userService";
 import LandingPage from "./views/LandingPage.vue";
 import ErrorPage from "./views/ErrorPage.vue";
+import UserPage from "./components/user/UserPage";
 
 Vue.use(Router);
 
@@ -74,7 +74,25 @@ export default new Router({
           next();
         }
       },
-      component: () => import("./views/HomePage.vue")
+      component: () => import("./views/HomePage.vue"),
+    },
+    {
+      path: "/user",
+      name: "user-page",
+      component: UserPage,
+      beforeEnter: (to, from, next) => {
+        const isAuth = userService.isAuth();
+
+        if (!isAuth) {
+          next("/");
+        } else {
+          next();
+        }
+      },
+      children: [
+       { path: 'all',   component: () => import("./components/user/UserAllPage.vue")}
+      ]
+     
     },
     {
       path: "*",

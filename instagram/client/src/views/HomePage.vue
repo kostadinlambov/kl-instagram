@@ -18,7 +18,7 @@
           >Profile</router-link>
            <router-link
             class="btn app-button-primary btn-lg m-3"
-            to="/users/all"
+            to="/user/all"
             role="button"
           >All Users</router-link>
         </p>
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { userService } from "../mixins/userService";
+import { userService } from "../infrastructure/userService";
 
 const username = userService.getUsername();
 console.log(username);

@@ -1,6 +1,6 @@
 <template>
-  <section>
-    <div class="container">
+  <section class="mt-5">
+    <div class="container mt-5">
       <h1 class="text-center mt-4">This page isn't available</h1>
 
       <h3>The link you followed may be broken, or the page may have been removed.</h3>
