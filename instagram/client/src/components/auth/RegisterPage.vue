@@ -1,7 +1,8 @@
 <template>
   <section class="mt-5 w-40">
-    <div class="container login-form-content-section pb-4">
+    <div class="container register-form-content-section pb-4">
       <h1 class="text-center font-weight-bold mt-5">Register</h1>
+      <div class="hr-styles" :style="{ 'width': '70%' }"></div>
 
       <form @submit.prevent="onSubmitHandler">
         <div class="section-container">
@@ -11,7 +12,7 @@
               <input
                 type="text"
                 v-model.trim="$v.username.$model"
-                class="form-control"
+                v-bind:class="['form-control', {'error': $v.username.$error}]"
                 id="username"
                 aria-describedby="usernameHelp"
                 placeholder="Enter username"
@@ -33,7 +34,7 @@
               <input
                 type="text"
                 v-model.trim="$v.firstName.$model"
-                class="form-control"
+                v-bind:class="['form-control', {'error': $v.firstName.$error}]"
                 id="firstName"
                 aria-describedby="firstNameHelp"
                 placeholder="Enter first name"
@@ -55,7 +56,7 @@
               <input
                 type="password"
                 v-model.trim="$v.password.$model"
-                class="form-control"
+                v-bind:class="['form-control', {'error': $v.password.$error}]"
                 id="password"
                 placeholder="Enter password"
               />
@@ -78,12 +79,12 @@
               <input
                 type="email"
                 v-model.trim="$v.email.$model"
-                class="form-control"
+                v-bind:class="['form-control', {'error': $v.email.$error}]"
                 id="email"
                 aria-describedby="emailHelp"
                 placeholder="Enter email"
               />
-               <small
+              <small
                 v-if="!$v.email.required && $v.email.$dirty"
                 id="emailHelp"
                 class="form-text alert alert-danger"
@@ -100,7 +101,7 @@
               <input
                 type="text"
                 v-model.trim="$v.lastName.$model"
-                class="form-control"
+                v-bind:class="['form-control', {'error': $v.lastName.$error}]"
                 id="lastName"
                 aria-describedby="lastNameHelp"
                 placeholder="Enter last name"
@@ -121,7 +122,7 @@
               <input
                 type="password"
                 v-model.trim="$v.confirmPassword.$model"
-                class="form-control"
+                v-bind:class="['form-control', {'error': $v.confirmPassword.$error}]"
                 id="confirmPassword"
                 placeholder="Confirm your password"
                 aria-describedby="confirmPasswordHelp"
@@ -134,7 +135,11 @@
             </div>
           </section>
         </div>
-        <button :disabled="$v.$invalid" type="submit" class="btn app-button-primary btn-lg m-3">Register</button>
+        <button
+          :disabled="$v.$invalid"
+          type="submit"
+          class="btn app-button-primary btn-lg m-3"
+        >Register</button>
       </form>
     </div>
   </section>
@@ -188,7 +193,7 @@ export default {
     },
     email: {
       required,
-      emailRegex:  value => emailRegex.test(value)
+      emailRegex: value => emailRegex.test(value)
     },
     firstName: {
       required,
@@ -227,7 +232,7 @@ export default {
         .registerUser(userData)
         .then(res => {
           console.log("res => ", res);
-          this.$router.push('/login');
+          this.$router.push("/login");
         })
         .catch(err => {
           console.log("err =>", err);
@@ -250,15 +255,68 @@ export default {
   margin: 0 2rem;
 }
 
-.app-button-primary{
-  background-color:rgb(53, 73, 94);
-  color:white;
+.app-button-primary {
+  background-color: rgb(53, 73, 94);
+  color: white;
 }
 
-.app-button-primary:hover{
+.app-button-primary:hover {
   background: rgb(65, 184, 131);
-  color:#fff;
+  color: #fff;
   border: 1px solid #fff;
-  box-shadow: 0 0 14px 1px rgba(0,0,0,.3)
+  box-shadow: 0 0 14px 1px rgba(0, 0, 0, 0.3);
 }
+
+.form-group {
+  position: relative;
+  margin-bottom: 3.8rem;
+}
+
+.alert {
+  position: absolute;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+}
+
+.register-form-content-section input {
+  background: #eee;
+}
+
+input.error:focus {
+  border-color: rgba(229, 103, 23, 0.8);
+  box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset,
+    0 0 10px rgba(229, 103, 23, 0.8);
+  outline: 0 none;
+}
+
+input.error {
+  border: 1px solid red;
+}
+
+.register-form-content-section {
+  width: 80%;
+  margin: 5rem auto;
+  border-radius: 5px;
+  box-shadow: 0 0 14px 1px rgba(0, 0, 0, 0.3);
+  background: white;
+}
+
+h1 {
+  margin: 1rem auto;
+  padding-top: 2rem;
+}
+
+
+@media  screen and (max-width: 1300px){
+   .register-form-content-section{
+        margin-top: 10rem;
+     }
+ }
+
+ @media  screen and (max-width: 800px){
+     .register-form-content-section{
+        margin-top: 5rem;
+        width: 100%;
+     }
+ }
 </style>
