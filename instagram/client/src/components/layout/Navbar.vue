@@ -5,7 +5,6 @@
       <section class="navbar-section">
         <div class="navbar-wrapper">
           <nav class="navbar navbar-expand-lg">
-            <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light"> -->
             <router-link to="/" class="navbar-brand">Instagram</router-link>
             <button
               class="navbar-toggler"
@@ -81,6 +80,10 @@ export default {
     logout() {
       localStorage.clear();
       // this.$router.push('/login')
+      this.$toast.open({
+        message: "You have successfully logged out!",
+        type: "info"
+      });
       return;
     },
     onClickAuth() {

@@ -221,6 +221,10 @@ export default {
         .registerUser(userData)
         .then(res => {
           console.log("res => ", res);
+          this.$toast.open({
+            message: res.body.message,
+            type: "success"
+          });
           this.$router.push("/login");
         })
         .catch(err => {

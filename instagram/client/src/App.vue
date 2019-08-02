@@ -16,14 +16,12 @@ export default {
   components: {
     Navbar,
     Footer
-  }
+  },
 };
 </script>
 
 <style>
-@import url('https://use.fontawesome.com/releases/v5.4.2/css/all.css');
-
-
+@import url("https://use.fontawesome.com/releases/v5.4.2/css/all.css");
 
 /* Reset CSS */
 html {
@@ -201,14 +199,11 @@ a {
 
 /* Forms CSS */
 
-
-.hr-styles{
-    margin: 1rem auto 1.5rem auto;
-    border: 0;
-    border-top: 1px solid rgb(224, 224, 224);
-    width: 70%;
-    /* margin: auto; */
+.hr-styles {
+  margin: 1rem auto 1.5rem auto;
+  border: 0;
+  border-top: 1px solid rgb(224, 224, 224);
+  width: 70%;
+  /* margin: auto; */
 }
-
-
 </style>

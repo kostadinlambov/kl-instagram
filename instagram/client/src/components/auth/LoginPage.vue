@@ -89,6 +89,10 @@ export default {
         .then(res => {
           console.log("res => ", res);
           this.$root.$emit("user-login");
+          this.$toast.open({
+            message: "You have successfully logged in!",
+            type: "success",
+          })
           this.$router.push("/");
         })
         .catch(err => {
