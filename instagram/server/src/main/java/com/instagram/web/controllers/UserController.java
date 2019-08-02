@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 
 import static com.instagram.utils.constants.ResponseMessageConstants.*;
@@ -40,7 +41,7 @@ public class UserController {
 
 
     @PostMapping(value = "/register")
-    public ResponseEntity<Object> registerUser(@RequestBody UserRegisterBindingModel userRegisterBindingModel) throws Exception {
+    public ResponseEntity<Object> registerUser(@RequestBody @Valid UserRegisterBindingModel userRegisterBindingModel) throws Exception {
         if (!userValidationService.isValid(userRegisterBindingModel.getPassword(), userRegisterBindingModel.getConfirmPassword())) {
             throw new BadRequestException(PASSWORDS_MISMATCH_ERROR_MESSAGE);
         }

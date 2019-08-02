@@ -73,6 +73,16 @@ public class UserServiceImpl implements UserService {
         throw new CustomException(SERVER_ERROR_MESSAGE);
     }
 
+    @Override
+    public User getByUsernameValidation(String username) {
+        return this.userRepository.findByUsername(username).orElse(null);
+    }
+
+    @Override
+    public User getByEmailValidation(String email) {
+        return this.userRepository.findByEmail(email);
+    }
+
 //    @Override
 //    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 //        return null;
