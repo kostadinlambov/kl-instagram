@@ -5,7 +5,11 @@
       <section class="navbar-section">
         <div class="navbar-wrapper">
           <nav class="navbar navbar-expand-lg">
-            <router-link to="/" class="navbar-brand">Instagram</router-link>
+            <router-link to="/" class="navbar-brand insta-icon-container">
+              <i class="fab fa-instagram"></i>
+              <div class="vertical-line"></div>
+              <div>Instagram</div>
+            </router-link>
             <button
               class="navbar-toggler"
               type="button"
@@ -30,9 +34,12 @@
                     <span class="sr-only">(current)</span>
                   </router-link>
                 </li>
-                <li class="nav-item">
-                  <router-link to="/about" class="nav-link" href="#">About</router-link>
-                </li>
+                <!-- <li class="nav-item">
+                  <router-link to="/about" class="nav-link" href="#"><i class="far fa-heart">About</i></router-link>
+                </li>-->
+              </ul>
+
+              <ul class="navbar-nav">
                 <form class="form-inline my-2 my-lg-0">
                   <input
                     class="form-control mr-sm-2"
@@ -43,12 +50,28 @@
                   <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
               </ul>
+
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item" v-if="!isAuth">
                   <router-link to="/login" class="nav-link">Login</router-link>
                 </li>
                 <li class="nav-item" v-if="!isAuth">
                   <router-link to="/register" class="nav-link">Register</router-link>
+                </li>
+                <li class="nav-item" v-if="isAuth">
+                  <router-link to="/user/generalFeed" class="nav-link">
+                    <i class="far fa-compass"></i>
+                  </router-link>
+                </li>
+                <li class="nav-item" v-if="isAuth">
+                  <router-link to="/user/activities" class="nav-link">
+                    <i class="fas fa-heart"></i>
+                  </router-link>
+                </li>
+                <li class="nav-item" v-if="isAuth">
+                  <router-link to="/user/profile" class="nav-link">
+                    <i class="fas fa-user-alt"></i>
+                  </router-link>
                 </li>
                 <li class="nav-item" v-if="isAuth" v-on:click="onClickAuth">
                   <router-link class="nav-link" to="/login">
@@ -128,12 +151,12 @@ export default {
 }
 
 li {
-  padding: 0.5rem 0;
+  padding: 0.5rem 0.25rem;
   /* color: rgb(192, 192, 192); */
 }
 
 a:hover {
-  text-decoration: underline;
+  /* text-decoration: underline; */
   color: white;
 }
 
@@ -141,6 +164,32 @@ a:hover {
 .navbar-brand {
   /* color: white; */
   color: rgb(192, 192, 192);
+}
+
+/* .fa-instagram{
+  border-right: 1px solid red;
+  padding-right: 1rem;
+} */
+
+.insta-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .fa-instagram:hover {
+  text-decoration: none;
+} */
+
+.vertical-line {
+  background-color: rgb(192, 192, 192);
+  height: 28px;
+  margin: 0 16px;
+  width: 1px;
+}
+
+.fa-compass, .fa-heart, .fa-user-alt{
+  font-size: 1.25rem;
 }
 
 /* CSS Hamburger */
