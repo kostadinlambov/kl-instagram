@@ -5,32 +5,53 @@
         class="jumbotron bg-light text-dark text-center mb-0 mx-auto mt-5 jumbo-wrapper"
         :style="'boxShadow : 0 0 14px 1px rgba(0, 0, 0, 0.3)'"
       >
+        <h3 class="md-display-5 h3 h3-responsive mb-3">Hello {{username}}!</h3>
+        <div class="hr-styles"></div>
         <h2 class="h1 h1-responsive">Welcome to Instagram!</h2>
         <div class="hr-styles"></div>
-        <p class="lead message">
-          Please
-          <router-link class="text-info" to="/login">Login</router-link> or
-          <router-link class="text-info" to="/register">Register</router-link> if you don't have an account.
-        </p>
-        <hr class="hr-styles" />
         <p class="lead">
-          <router-link class="btn app-button-primary btn-lg m-3" to="/login" role="button">Login</router-link>
+          <router-link class="btn app-button-primary btn-lg m-3" :to="getUserHomePageRoute()" role="button">Home</router-link>
+           <router-link
+            class="btn app-button-primary btn-lg m-3"
+            to="/explore"
+            role="button"
+          >Explore</router-link>
           <router-link
             class="btn app-button-primary btn-lg m-3"
-            to="/register"
+            to="/accounts/edit"
             role="button"
-          >Register</router-link>
+          >Profile</router-link>
+           <router-link
+            class="btn app-button-primary btn-lg m-3"
+            to="/people"
+            role="button"
+          >People</router-link>
         </p>
       </div>
     </div>
-    
   </div>
+
 </template>
 
 <script>
+import { userService } from "../infrastructure/userService";
+
+const username = userService.getUsername();
+console.log(username);
+
 export default {
-  name: "landing-page",
-  components: {},
+  name: "home-page",
+  components: {  },
+  data() {
+    return {
+      username: userService.getUsername()
+    };
+  },
+  methods: {
+     getUserHomePageRoute(){
+      return '/user/' + userService.getUsername();
+    }
+  }
 };
 </script>
 
@@ -84,5 +105,7 @@ export default {
   }
 }
 </style>
+
+
 
 

@@ -6,7 +6,7 @@
       <h3>The link you followed may be broken, or the page may have been removed.</h3>
 
       <div class="image-wrapper mt-5">
-        <img src='../assets/images/Social_Media.jpg' alt="pic" />
+        <img src='@/assets/images/Social_Media.jpg' alt="pic" />
       </div>
     </div>
   </section>

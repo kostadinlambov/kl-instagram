@@ -1,9 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import { userService } from "./infrastructure/userService";
-import LandingPage from "./views/LandingPage.vue";
-import ErrorPage from "./views/ErrorPage.vue";
-import UserPage from "./components/user/UserPage";
+import ErrorPage from "@/components/common/ErrorPage.vue";
 
 Vue.use(Router);
 
@@ -13,23 +11,16 @@ export default new Router({
     {
       path: "/",
       name: "landing-page",
-      component: LandingPage,
-      beforeEnter: (to, from, next) => {
-        const isAuth = userService.isAuth();
+      component: () => import("./components/common/LandingPage.vue"),
+      // beforeEnter: (to, from, next) => {
+      //   const isAuth = userService.isAuth();
 
-        if (isAuth) {
-          next("/home");
-        } else {
-          next();
-        }
-      }
-    },
-    {
-      path: "/about",
-      name: "about",
-
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About.vue")
+      //   if (isAuth) {
+      //     next("/home");
+      //   } else {
+      //     next();
+      //   }
+      // }
     },
     {
       path: "/register",
@@ -74,12 +65,12 @@ export default new Router({
           next();
         }
       },
-      component: () => import("./views/HomePage.vue"),
+      component: () => import("./components/user/UserFeedPage.vue"),
     },
     {
-      path: "/user",
-      name: "user-page",
-      component: UserPage,
+      path: "/people",
+      name: "single-user-page",
+      component: () => import("./components/user/UserAllPage.vue"),
       beforeEnter: (to, from, next) => {
         const isAuth = userService.isAuth();
 
@@ -88,16 +79,73 @@ export default new Router({
         } else {
           next();
         }
-      },
-      children: [
-       { path: 'all',   component: () => import("./components/user/UserAllPage.vue")}
-      ]
-     
+      }
+    },
+    {
+      path: "/explore",
+      name: "explore",
+      component: () => import("./components/user/Explore.vue"),
+      beforeEnter: (to, from, next) => {
+        const isAuth = userService.isAuth();
+
+        if (!isAuth) {
+          next("/");
+        } else {
+          next();
+        }
+      }
+    },
+    {
+      path: "/user/:username",
+      name: "single-user-page",
+      component: () => import("./components/user/UserHomePage.vue"),
+      beforeEnter: (to, from, next) => {
+        const isAuth = userService.isAuth();
+
+        if (!isAuth) {
+          next("/");
+        } else {
+          next();
+        }
+      }
+    },
+    {
+      path: "/account/activity",
+      name: "single-user-page",
+      component: () => import("./components/account/Activity.vue"),
+      beforeEnter: (to, from, next) => {
+        const isAuth = userService.isAuth();
+
+        if (!isAuth) {
+          next("/");
+        } else {
+          next();
+        }
+      }
     },
     {
       path: "*",
       name: "error-page",
       component: ErrorPage
     }
+    
+    // {
+    //   path: "/user",
+    //   name: "user-page",
+    //   component: UserPage,
+    //   beforeEnter: (to, from, next) => {
+    //     const isAuth = userService.isAuth();
+
+    //     if (!isAuth) {
+    //       next("/");
+    //     } else {
+    //       next();
+    //     }
+    //   },
+    //   children: [
+    //    { path: 'all',   component: () => import("./components/user/UserAllPage.vue")}
+    //   ]
+     
+    // },
   ]
 });

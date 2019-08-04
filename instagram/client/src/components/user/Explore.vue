@@ -1,8 +1,8 @@
 <template>
   <article>
     <section>
-      <div class="container text-center col-md-10">
-        <h1 class="text-center font-weight-bold mt-5">All Users</h1>
+      <div class="container text-center col-md-10 mt-5">
+        <h1 class="text-center font-weight-bold pt-5">Explore</h1>
         
       </div>
     </section>
@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: "user-all-page"
+  name: "explore"
 };
 </script>
 

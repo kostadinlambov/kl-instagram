@@ -9,7 +9,6 @@
 <script>
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
-import LandingPage from "./views/LandingPage";
 
 export default {
   name: "app",

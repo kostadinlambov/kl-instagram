@@ -28,15 +28,15 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <!-- <li class="nav-item active">
                   <router-link to="/home" class="nav-link">
                     Home
                     <span class="sr-only">(current)</span>
                   </router-link>
                 </li>
-                <!-- <li class="nav-item">
+                <li class="nav-item">
                   <router-link to="/about" class="nav-link" href="#"><i class="far fa-heart">About</i></router-link>
-                </li>-->
+                </li> -->
               </ul>
 
               <ul class="navbar-nav" v-if="isAuth">
@@ -62,20 +62,25 @@
                 </template>
                 <template v-if="isAuth">
                   <li class="nav-item" >
-                    <router-link to="/user/generalFeed" class="nav-link">
+                    <router-link to="/explore" class="nav-link">
                       <i class="far fa-compass"></i>
                     </router-link>
                   </li>
                   <li class="nav-item">
-                    <router-link to="/user/activities" class="nav-link">
+                    <router-link to="/account/activity" class="nav-link">
                       <i class="fas fa-heart"></i>
                     </router-link>
                   </li>
-                  <li class="nav-item">
-                    <router-link to="/user/profile" class="nav-link" data-toggle="modal" data-target="#testleModalId">
+                   <li class="nav-item" >
+                    <router-link :to="getUserHomePageRoute()" class="nav-link">
                       <i class="fas fa-user-alt"></i>
                     </router-link>
                   </li>
+                  <!-- <li class="nav-item">
+                    <router-link :to="link" class="nav-link" data-toggle="modal" data-target="#testleModalId">
+                      <i class="fas fa-user-alt"></i>
+                    </router-link>
+                  </li> -->
                    <!-- <li class="nav-item" >
                     <router-link to="/user/profile" class="nav-link">
                       <i class="fas fa-user-alt"></i>
@@ -109,7 +114,8 @@ export default {
   data() {
     return {
       isAuth: userService.isAuth(),
-      showContent: ""
+      showContent: "",
+      // username: userService.getUsername(),
     };
   },
   computed: { },
@@ -125,6 +131,10 @@ export default {
     },
     onClickAuth() {
       this.isAuth = userService.isAuth();
+      // this.username = userService.getUsername();
+    },
+    getUserHomePageRoute(){
+      return '/user/' + userService.getUsername();
     }
   },
   created() {
