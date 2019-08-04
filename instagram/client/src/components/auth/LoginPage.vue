@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { requester } from "../../mixins/requester";
+import { requester } from "@/mixins/requester";
 import { required } from "vuelidate/lib/validators";
 
 export default {
@@ -83,7 +83,7 @@ export default {
 
       console.log("userData: ", userData);
 
-      this.userResource
+      this.userRequester
         .loginUser(userData)
         .then(res => {
           console.log("res => ", res);

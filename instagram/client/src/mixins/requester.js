@@ -1,7 +1,11 @@
+import Vue from 'vue';
+
+Vue.http.options.root = 'http://localhost:8000';
+
 export const requester = {
     data() {
       return {
-        userResource: {}
+        userRequester: {}
       };
     },
     created() {
@@ -17,7 +21,7 @@ export const requester = {
         }
       };
   
-      this.userResource = this.$resource("", {}, userActions);
+      this.userRequester = this.$resource("", {}, userActions);
     }
   };
   

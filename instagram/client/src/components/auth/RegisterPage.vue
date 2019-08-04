@@ -217,7 +217,7 @@ export default {
         confirmPassword: this.confirmPassword
       };
 
-      this.userResource
+      this.userRequester
         .registerUser(userData)
         .then(res => {
           console.log("res => ", res);

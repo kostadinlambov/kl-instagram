@@ -39,7 +39,7 @@
                 </li>-->
               </ul>
 
-              <ul class="navbar-nav">
+              <ul class="navbar-nav " v-if="isAuth">
                 <form class="form-inline my-2 my-lg-0">
                   <input
                     class="form-control mr-sm-2"
