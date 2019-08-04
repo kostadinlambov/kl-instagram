@@ -146,7 +146,7 @@
 </template>
 
 <script>
-import { requester } from "../../mixins/requester";
+import { authRequester } from "../../mixins/requester";
 import {
   required,
   email,
@@ -173,7 +173,7 @@ export default {
     };
   },
   computed: {},
-  mixins: [requester],
+  mixins: [authRequester],
   validations: {
     username: {
       required,
@@ -217,7 +217,7 @@ export default {
         confirmPassword: this.confirmPassword
       };
 
-      this.userRequester
+      this.authRequester
         .registerUser(userData)
         .then(res => {
           console.log("res => ", res);

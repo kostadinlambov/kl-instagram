@@ -39,7 +39,7 @@
                 </li>-->
               </ul>
 
-              <ul class="navbar-nav " v-if="isAuth">
+              <ul class="navbar-nav" v-if="isAuth">
                 <form class="form-inline my-2 my-lg-0">
                   <input
                     class="form-control mr-sm-2"
@@ -52,32 +52,36 @@
               </ul>
 
               <ul class="navbar-nav ml-auto">
-                <li class="nav-item" v-if="!isAuth">
-                  <router-link to="/login" class="nav-link">Login</router-link>
-                </li>
-                <li class="nav-item" v-if="!isAuth">
-                  <router-link to="/register" class="nav-link">Register</router-link>
-                </li>
-                <li class="nav-item" v-if="isAuth">
-                  <router-link to="/user/generalFeed" class="nav-link">
-                    <i class="far fa-compass"></i>
-                  </router-link>
-                </li>
-                <li class="nav-item" v-if="isAuth">
-                  <router-link to="/user/activities" class="nav-link">
-                    <i class="fas fa-heart"></i>
-                  </router-link>
-                </li>
-                <li class="nav-item" v-if="isAuth">
-                  <router-link to="/user/profile" class="nav-link">
-                    <i class="fas fa-user-alt"></i>
-                  </router-link>
-                </li>
-                <li class="nav-item" v-if="isAuth" v-on:click="onClickAuth">
-                  <router-link class="nav-link" to="/login">
-                    <span @click="logout">Logout</span>
-                  </router-link>
-                </li>
+                <template v-if="!isAuth">
+                  <li class="nav-item">
+                    <router-link to="/login" class="nav-link">Login</router-link>
+                  </li>
+                  <li class="nav-item">
+                    <router-link to="/register" class="nav-link">Register</router-link>
+                  </li>
+                </template>
+                <template v-if="isAuth">
+                  <li class="nav-item" v-if="isAuth">
+                    <router-link to="/user/generalFeed" class="nav-link">
+                      <i class="far fa-compass"></i>
+                    </router-link>
+                  </li>
+                  <li class="nav-item" v-if="isAuth">
+                    <router-link to="/user/activities" class="nav-link">
+                      <i class="fas fa-heart"></i>
+                    </router-link>
+                  </li>
+                  <li class="nav-item" v-if="isAuth">
+                    <router-link to="/user/profile" class="nav-link">
+                      <i class="fas fa-user-alt"></i>
+                    </router-link>
+                  </li>
+                  <li class="nav-item" v-if="isAuth" v-on:click="onClickAuth">
+                    <router-link class="nav-link" to="/login">
+                      <span @click="logout">Logout</span>
+                    </router-link>
+                  </li>
+                </template>
               </ul>
             </div>
           </nav>
@@ -94,7 +98,7 @@ export default {
   name: "Navbar",
   data() {
     return {
-      isAuth: "",
+      isAuth: userService.isAuth(),
       showContent: ""
     };
   },
@@ -110,15 +114,15 @@ export default {
       return;
     },
     onClickAuth() {
-      this.isAuth = localStorage.getItem("token") != null;
+      this.isAuth = userService.isAuth();
     }
   },
   created() {
     this.$root.$on("user-login", this.onClickAuth);
 
-    if (!this.isAuth) {
-      this.isAuth = localStorage.getItem("token") != null;
-    }
+    // if (!this.isAuth) {
+    //   this.isAuth = userService.isAuth();
+    // }
   }
   // watch: {
   //   isAuth: function(newValue, oldValue) {
@@ -188,7 +192,9 @@ a:hover {
   width: 1px;
 }
 
-.fa-compass, .fa-heart, .fa-user-alt{
+.fa-compass,
+.fa-heart,
+.fa-user-alt {
   font-size: 1.25rem;
 }
 
