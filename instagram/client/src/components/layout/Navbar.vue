@@ -61,22 +61,27 @@
                   </li>
                 </template>
                 <template v-if="isAuth">
-                  <li class="nav-item" v-if="isAuth">
+                  <li class="nav-item" >
                     <router-link to="/user/generalFeed" class="nav-link">
                       <i class="far fa-compass"></i>
                     </router-link>
                   </li>
-                  <li class="nav-item" v-if="isAuth">
+                  <li class="nav-item">
                     <router-link to="/user/activities" class="nav-link">
                       <i class="fas fa-heart"></i>
                     </router-link>
                   </li>
-                  <li class="nav-item" v-if="isAuth">
-                    <router-link to="/user/profile" class="nav-link">
+                  <li class="nav-item">
+                    <router-link to="/user/profile" class="nav-link" data-toggle="modal" data-target="#testleModalId">
                       <i class="fas fa-user-alt"></i>
                     </router-link>
                   </li>
-                  <li class="nav-item" v-if="isAuth" v-on:click="onClickAuth">
+                   <!-- <li class="nav-item" >
+                    <router-link to="/user/profile" class="nav-link">
+                      <i class="fas fa-user-alt"></i>
+                    </router-link>
+                  </li> -->
+                  <li class="nav-item" v-on:click="onClickAuth">
                     <router-link class="nav-link" to="/login">
                       <span @click="logout">Logout</span>
                     </router-link>
@@ -88,21 +93,26 @@
         </div>
       </section>
     </header>
+      <Modal />
   </div>
 </template>
 
 <script>
 import { userService } from "../../infrastructure/userService";
+import Modal from '@/components/user/Modal';
 
 export default {
   name: "Navbar",
+  components: {
+    Modal
+  },
   data() {
     return {
       isAuth: userService.isAuth(),
       showContent: ""
     };
   },
-  computed: {},
+  computed: { },
   methods: {
     logout() {
       localStorage.clear();

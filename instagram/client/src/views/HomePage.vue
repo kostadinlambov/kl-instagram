@@ -25,6 +25,7 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -35,7 +36,7 @@ console.log(username);
 
 export default {
   name: "home-page",
-  components: {},
+  components: {  },
   data() {
     return {
       username: userService.getUsername()
