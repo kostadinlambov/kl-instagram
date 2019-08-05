@@ -5,6 +5,7 @@ export default {
 
     if ( token && token.length && !request.url.endsWith("login") && !request.url.endsWith("register")) {
       request.headers.set("Authorization", `Bearer ${token}`);
+      request.headers.set("Accept", 'application/json');
     }
 
     next(responce => {
@@ -18,7 +19,7 @@ export default {
 }
 
 const saveToken = data => {
-  const token = data.split(" ")[1];
+  const token = JSON.parse(data).split(" ")[1];
   localStorage.setItem("token", token);
 };
 

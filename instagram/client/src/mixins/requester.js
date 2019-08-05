@@ -34,9 +34,9 @@ export const userRequester = {
   created() {
     // vue-resource
     const userActions = {
-      registerUser: {
-        method: "post",
-        url: "users/register"
+      getAllUsers: {
+        method: "get",
+        url: "users/all{/id}" 
       },
       loginUser: {
         method: "post",

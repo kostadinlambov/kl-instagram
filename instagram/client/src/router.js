@@ -55,7 +55,7 @@ export default new Router({
     },
     {
       path: "/home",
-      name: "home-page",
+      name: "user-feed-page",
       beforeEnter: (to, from, next) => {
         const isAuth = userService.isAuth();
 
@@ -69,8 +69,8 @@ export default new Router({
     },
     {
       path: "/people",
-      name: "single-user-page",
-      component: () => import("./components/user/UserAllPage.vue"),
+      name: "all-users-page",
+      component: () => import("./components/user/People.vue"),
       beforeEnter: (to, from, next) => {
         const isAuth = userService.isAuth();
 
