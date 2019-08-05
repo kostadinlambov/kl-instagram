@@ -86,11 +86,17 @@
                       <i class="fas fa-user-alt"></i>
                     </router-link>
                   </li> -->
-                  <li class="nav-item" v-on:click="onClickAuth">
+                  <li class="nav-item" v-on:click="logout">
                     <router-link class="nav-link" to="/login">
-                      <span @click="logout">Logout</span>
+                       Logout
                     </router-link>
                   </li>
+                    <!-- <li class="nav-item" v-on:click="logout"> -->
+                  <!-- <li class="nav-item" v-on:click="onClickAuth">
+                    <router-link class="nav-link" to="/login"  >
+                      <span @click="logout">Logout</span>
+                    </router-link>
+                  </li> -->
                 </template>
               </ul>
             </div>
@@ -122,7 +128,8 @@ export default {
   methods: {
     logout() {
       localStorage.clear();
-      // this.$router.push('/login')
+      this.onClickAuth();
+      this.$router.push('/login')
       this.$toast.open({
         message: "You have successfully logged out!",
         type: "info"

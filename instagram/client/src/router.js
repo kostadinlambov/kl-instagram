@@ -33,7 +33,7 @@ export default new Router({
         const isAuth = userService.isAuth();
 
         if (isAuth) {
-          next("/home");
+          next("/");
         } else {
           next();
         }
@@ -47,7 +47,7 @@ export default new Router({
         const isAuth = userService.isAuth();
 
         if (isAuth) {
-          next("/home");
+          next("/");
         } else {
           next();
         }
