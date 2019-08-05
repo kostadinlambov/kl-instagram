@@ -17,7 +17,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.instagram.utils.constants.ResponseMessageConstants.SERVER_ERROR_MESSAGE;
 import static com.instagram.utils.constants.ResponseMessageConstants.USER_NOT_FOUND_ERROR_MESSAGE;
@@ -66,12 +69,33 @@ public class UserServiceImpl implements UserService {
 
         User user = this.userRepository.saveAndFlush(userEntity);
 
-        if(user != null){
+        if (user != null) {
             return this.modelMapper.map(userEntity, UserCreateViewModel.class);
         }
 
         throw new CustomException(SERVER_ERROR_MESSAGE);
     }
+
+    @Override
+    public List<UserServiceModel> getAllUsers(String userId) throws Exception {
+        User userById = this.userRepository.findById(userId).orElse(null);
+
+        if (!userValidation.isValid(userById)) {
+            throw new Exception(SERVER_ERROR_MESSAGE);
+        }
+
+        return this.userRepository.findAll().stream()
+                .map(x -> this.modelMapper.map(x, UserServiceModel.class))
+                .collect(Collectors.toList());
+    }
+
+    private List<UserRole> getUserRoles(User userById) {
+        return userById.getAuthorities().stream().filter(userRole ->
+                userRole.getAuthority().equals("ROOT")
+                        || userRole.getAuthority().equals("ADMIN"))
+                .collect(Collectors.toList());
+    }
+
 
     @Override
     public User getByUsernameValidation(String username) {
@@ -82,6 +106,7 @@ public class UserServiceImpl implements UserService {
     public User getByEmailValidation(String email) {
         return this.userRepository.findByEmail(email);
     }
+
 
 //    @Override
 //    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {

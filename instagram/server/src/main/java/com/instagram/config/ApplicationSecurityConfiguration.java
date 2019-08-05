@@ -61,6 +61,7 @@ public class ApplicationSecurityConfiguration
                         "/**/*.js"
                 ).permitAll()
                 .antMatchers(
+                        "/users/all/*"
 //                        "/users/details/*",
 //                        "/users/update/*",
 //                        "/relationship/friends/*",
@@ -87,7 +88,7 @@ public class ApplicationSecurityConfiguration
                 .antMatchers(
 //                        "/users/promote",
 //                        "/users/demote",
-//                        "/users/all/*",
+
 //                        "/users/details/username",
 //                        "/logs/all",
 //                        "/logs/findByUserName/*"

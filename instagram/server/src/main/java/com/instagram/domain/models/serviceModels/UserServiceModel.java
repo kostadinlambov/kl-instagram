@@ -136,4 +136,12 @@ public class UserServiceModel implements Serializable {
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
     }
+
+    public String extractAuthority() {
+        return this.getAuthorities()
+                .stream()
+                .findFirst()
+                .orElse(null)
+                .getAuthority();
+    }
 }
