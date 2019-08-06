@@ -38,6 +38,10 @@ export const userRequester = {
         method: "get",
         url: "users/all{/id}" 
       },
+      getAllUsersAdmin: {
+        method: "get",
+        url: "users/admin/all{/id}" 
+      },
       promote: {
         method: "post",
         url: "users/promote"

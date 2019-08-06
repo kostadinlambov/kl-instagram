@@ -2,7 +2,7 @@
   <article class="mt-5">
     <div class="container col-md-10 wrapper mt-5">
       <div class="title-wrapper">
-        <div class="title">Suggested</div>
+        <div class="title">All Users</div>
       </div>
       <section class="people-section">
         <div v-for="user in users" :key="user.id">
@@ -80,14 +80,13 @@ export default {
       this.users = [...newUserArr];
     },
     addEventListeners() {
-      console.log("addEventListeners");
       this.$root.$on("on-promote", this.onPromoteHandler);
       this.$root.$on("on-demote", this.onDemoteHandler);
     }
   },
   created() {
     this.userRequester
-      .getAllUsers({ id: this.userId })
+      .getAllUsersAdmin({ id: this.userId })
       .then(res => {
         console.log(res);
         this.users = res.body;
@@ -101,6 +100,10 @@ export default {
   },
   mounted() {
     this.addEventListeners();
+  },
+  beforeDestroy() {
+    this.$root.$off("on-promote");
+    this.$root.$off("on-demote");
   }
 };
 </script>

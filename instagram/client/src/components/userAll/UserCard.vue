@@ -6,25 +6,29 @@
       </div>
       <div class="usernames-container">
         <div class="username">{{currentUser.username}}</div>
-        <div class="names">{{currentUser.firstName}} {{currentUser.lastName}}</div>
+        <!-- <div class="names">{{currentUser.firstName}} {{currentUser.lastName}}</div> -->
       </div>
     </div>
 
     <div class="buttons-wrapper">
-      <div class="user-role">{{currentUser.role}}</div>
-      <button class="btn app-button-primary btn-sm" v-on:click="promote(currentUser.id)">Promote</button>
-      <button class="btn app-button-primary btn-sm" v-on:click="demote(currentUser.id)">Demote</button>
+     
+      <button v-if="showButtons(currentUser.id, currentUser.role)" class="btn app-button-primary btn-sm" v-on:click="promote(currentUser.id)">Promote</button>
+      <button v-if="showButtons(currentUser.id, currentUser.role)" class="btn app-button-primary btn-sm" v-on:click="demote(currentUser.id)">Demote</button>
+     <div class="user-role">{{currentUser.role}}</div>
     </div>
   </div>
 </template>
 
 <script>
 import defaultProfilePic from "@/assets/images/placeholder.png";
+import { userService } from "@/infrastructure/userService";
 
 export default {
   name: "user-card",
   data() {
-    return {};
+    return {
+      loggedInUserId: userService.getUserId(),
+    };
   },
   props: {
     currentUser: {
@@ -38,6 +42,13 @@ export default {
     },
     demote(userId) {
       this.$root.$emit("on-demote", userId);
+    },
+    showButtons(userId, role){
+      if(userId === this.loggedInUserId || role === "ROOT"){
+        return false;
+      }
+
+      return true;
     }
   }
 };
@@ -110,9 +121,10 @@ export default {
 }
 
 .buttons-wrapper {
-  flex: 0 1 50%;
+  flex: 0 0 40%;
   display: flex;
   justify-content: flex-end;
+  align-items: flex-end;
   margin-right: 5px;
 }
 
@@ -121,8 +133,9 @@ export default {
 }
 
 .user-role {
-  margin-left: 10px;
-  margin: auto;
+  width: 50px;
+  /* margin-left: 10px; */
+  margin:  auto 20px;
   color: rgb(65, 184, 131);
 }
 
@@ -145,8 +158,12 @@ export default {
 }
 
 @media screen and (max-width: 400px) {
+  .wrapper{
+    padding: 2px;
+  }
+
   .card-container {
-    padding: 0.5rem 0.5rem;
+    padding: 0.5rem 0.2rem;
     /* flex-direction: column; */
     
   }
@@ -158,9 +175,17 @@ export default {
     margin-left: 3px;
   }
 
-  .user-role {
-    margin-left: 3px;
+  .button-wrapper{
+    margin-right: 0px;
   }
+
+  .user-role {
+    /* margin-left: 3px; */
+       width: 43px;
+    margin: auto 0 auto 7px;
+  }
+
+ 
 }
 
 @media screen and (max-width: 350px) {

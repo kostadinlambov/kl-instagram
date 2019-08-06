@@ -20,4 +20,6 @@ public interface UserService extends UserDetailsService {
     List<UserServiceModel> getAllUsers(String userId) throws Exception;
 
     boolean promoteUser(String id) throws Exception;
+
+    List<UserServiceModel> getAllUsersAdmin(String userId) throws Exception;
 }

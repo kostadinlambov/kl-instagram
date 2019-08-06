@@ -48,7 +48,8 @@ body {
   flex-direction: column;
   margin: 0;
   min-height: 100vh;
-  background: #eee;
+  background: rgb(250, 250, 250);
+  /* background: #eee; */
   /* font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

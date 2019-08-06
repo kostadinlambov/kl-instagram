@@ -6,7 +6,7 @@
       </div>
       <section class="people-section">
         <div v-for="user in users" :key="user.id">
-          <people-card v-bind:currentUser="user"></people-card>
+          <people-card v-bind:currentUser="user" v-if="user.id != loggedInUserId"></people-card>
           <!-- <div>{{user.firstName}} - {{user.lastName}} - {{user.role}}</div> -->
         </div>
       </section>
@@ -25,7 +25,7 @@ export default {
   components: { PeopleCard },
   data() {
     return {
-      userId: userService.getUserId(),
+      loggedInUserId: userService.getUserId(),
       users: []
     };
   },
@@ -41,7 +41,7 @@ export default {
   },
   created() {
     this.userRequester
-      .getAllUsers({ id: this.userId })
+      .getAllUsers({ id: this.loggedInUserId })
       .then(res => {
         console.log(res);
         this.users = res.body;

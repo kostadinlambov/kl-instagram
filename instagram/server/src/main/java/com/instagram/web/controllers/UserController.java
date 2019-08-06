@@ -61,6 +61,20 @@ public class UserController {
     }
 
 
+    @GetMapping(value = "/admin/all/{id}")
+    public List<UserAllViewModel> getAllUsersAdmin(@PathVariable(value = "id") String userId) throws Exception {
+        List<UserServiceModel> allUsers = this.userService.getAllUsersAdmin(userId);
+
+        return allUsers.stream()
+                .map(x -> {
+                    UserAllViewModel userAllViewModel = this.modelMapper.map(x, UserAllViewModel.class);
+                    userAllViewModel.setRole(x.extractAuthority());
+                    return userAllViewModel;
+                })
+                .collect(Collectors.toList());
+    }
+
+
     @GetMapping(value = "/all/{id}")
     public List<UserAllViewModel> getAllUsers(@PathVariable(value = "id") String userId) throws Exception {
         List<UserServiceModel> allUsers = this.userService.getAllUsers(userId);
@@ -72,8 +86,8 @@ public class UserController {
                     return userAllViewModel;
                 })
                 .collect(Collectors.toList());
-
     }
+
 
     @PostMapping(value = "/promote")
     public ResponseEntity promoteUser(@RequestParam(name = "id") String id) throws Exception {

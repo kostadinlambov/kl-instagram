@@ -87,7 +87,8 @@ public class ApplicationSecurityConfiguration
                 ).hasAnyAuthority("ADMIN", "ROOT", "USER")
                 .antMatchers(
                         "/users/promote",
-                        "/users/demote"
+                        "/users/demote",
+                        "/users/admin/all/*"
 
 //                        "/users/details/username",
 //                        "/logs/all",

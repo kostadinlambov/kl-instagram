@@ -88,6 +88,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserServiceModel> getAllUsersAdmin(String userId) throws Exception {
+        User userById = this.userRepository.findById(userId).orElse(null);
+
+        if (!userValidation.isValid(userById)) {
+            throw new Exception(SERVER_ERROR_MESSAGE);
+        }
+
+        List<UserRole> userRoles = this.getUserRoles(userById);
+
+        if (userRoles.size() > 0) {
+            return this.userRepository
+                    .findAll()
+                    .stream()
+                    .map(x -> this.modelMapper.map(x, UserServiceModel.class))
+                    .collect(Collectors.toList());
+        }
+
+        throw new CustomException(UNAUTHORIZED_SERVER_ERROR_MESSAGE);
+    }
+
+    @Override
     public boolean promoteUser(String id) throws Exception {
         User user = this.userRepository.findById(id)
                 .filter(userValidation::isValid)
@@ -107,6 +128,7 @@ public class UserServiceImpl implements UserService {
 
         return this.userRepository.save(user) != null;
     }
+
 
     @Override
     public boolean demoteUser(String id) throws Exception {
