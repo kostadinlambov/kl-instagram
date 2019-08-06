@@ -1,6 +1,5 @@
 <template>
   <div class="container mt-5 text-center">
-     
     <template v-if="!isAuth">
       <div class="container text-center start-page-margin pt-5">
         <div
@@ -11,8 +10,8 @@
           <div class="hr-styles"></div>
           <p class="lead message">
             Please
-            <router-link class="text-info" to="/login">Login</router-link> or
-            <router-link class="text-info" to="/register">Register</router-link> if you don't have an account.
+            <router-link class="text-info" to="/login">Login</router-link>or
+            <router-link class="text-info" to="/register">Register</router-link>if you don't have an account.
           </p>
           <hr class="hr-styles" />
           <p class="lead">
@@ -37,25 +36,24 @@
           <h2 class="h1 h1-responsive">Welcome to Instagram!</h2>
           <div class="hr-styles"></div>
           <p class="lead">
-            <router-link
-              class="btn app-button-primary btn-lg m-3"
-              to="/home"
-              role="button"
-            >Home</router-link>
+            <router-link class="btn app-button-primary btn-lg m-3" to="/home" role="button">Home</router-link>
             <router-link
               class="btn app-button-primary btn-lg m-3"
               to="/explore"
               role="button"
             >Explore</router-link>
-            <router-link class="btn app-button-primary btn-lg m-3" 
-            to="/people" 
-            role="button">
-            People</router-link>
+            <router-link class="btn app-button-primary btn-lg m-3" to="/people" role="button">People</router-link>
             <router-link
               class="btn app-button-primary btn-lg m-3"
               :to="getUserHomePageRoute()"
               role="button"
             >Profile</router-link>
+            <router-link
+              v-if="isAdminOrRoot"
+              class="btn app-button-primary btn-lg m-3"
+              to="/admin/all"
+              role="button"
+            >All Users</router-link>
           </p>
         </div>
       </div>
@@ -72,9 +70,11 @@ export default {
   data() {
     return {
       isAuth: userService.isAuth(),
-      username: userService.getUsername()
+      username: userService.getUsername(),
+      isAdminOrRoot: userService.isAdminOrRoot()
     };
   },
+  computed: {},
   methods: {
     getUserHomePageRoute() {
       return "/user/" + userService.getUsername();
@@ -100,7 +100,6 @@ export default {
   border: 1px solid #fff;
   box-shadow: 0 0 14px 1px rgba(0, 0, 0, 0.3);
 }
-
 
 .hr-styles {
   width: 70%;

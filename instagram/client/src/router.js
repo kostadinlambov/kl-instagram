@@ -70,7 +70,7 @@ export default new Router({
     {
       path: "/people",
       name: "all-users-page",
-      component: () => import("./components/user/People.vue"),
+      component: () => import("./components/people/People.vue"),
       beforeEnter: (to, from, next) => {
         const isAuth = userService.isAuth();
 
@@ -96,6 +96,21 @@ export default new Router({
       }
     },
     {
+      path: "/admin/all",
+      name: "user-all",
+      component: () => import("./components/user/UserAll.vue"),
+      beforeEnter: (to, from, next) => {
+        const isAuth = userService.isAuth();
+        const role = userService.getRole();
+
+        if (!isAuth || (role !== "ROOT" && role !== "ADMIN")) {
+          next("/");
+        } else {
+          next();
+        }
+      }
+    },
+    {
       path: "/user/:username",
       name: "single-user-page",
       component: () => import("./components/user/UserHomePage.vue"),
@@ -111,7 +126,7 @@ export default new Router({
     },
     {
       path: "/account/activity",
-      name: "single-user-page",
+      name: "activity",
       component: () => import("./components/account/Activity.vue"),
       beforeEnter: (to, from, next) => {
         const isAuth = userService.isAuth();
