@@ -98,7 +98,7 @@ export default new Router({
     {
       path: "/admin/all",
       name: "user-all",
-      component: () => import("./components/user/UserAll.vue"),
+      component: () => import("./components/userAll/UserAllPage.vue"),
       beforeEnter: (to, from, next) => {
         const isAuth = userService.isAuth();
         const role = userService.getRole();

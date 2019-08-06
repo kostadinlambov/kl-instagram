@@ -12,9 +12,8 @@
 
     <div class="buttons-wrapper">
       <div class="user-role">{{currentUser.role}}</div>
-      <button class="btn app-button-primary btn-sm" v-on:click="folgen(currentUser.id)">Promote</button>
-      <button class="btn app-button-primary btn-sm" v-on:click="folgen(currentUser.id)">Demote</button>
-      <!-- <button class="btn app-button-primary btn-sm" v-on:click="folgen(currentUser.id)">Follow</button> -->
+      <button class="btn app-button-primary btn-sm" v-on:click="promote(currentUser.id)">Promote</button>
+      <button class="btn app-button-primary btn-sm" v-on:click="demote(currentUser.id)">Demote</button>
     </div>
   </div>
 </template>
@@ -34,8 +33,11 @@ export default {
     }
   },
   methods: {
-    folgen(userId) {
-      this.$root.$emit("on-follow", userId);
+    promote(userId) {
+      this.$root.$emit("on-promote", userId);
+    },
+    demote(userId) {
+      this.$root.$emit("on-demote", userId);
     }
   }
 };
@@ -48,7 +50,6 @@ export default {
   align-items: center;
   /* flex-wrap: wrap; */
 
-  /* border: 2px solid red; */
   background: rgb(255, 255, 255);
   padding: 0.5rem 1rem;
   border-radius: 5px;
@@ -58,7 +59,6 @@ export default {
   display: flex;
   justify-content: start;
   align-items: center;
-  /* border: 2px solid blue; */
   width: 100%;
 }
 

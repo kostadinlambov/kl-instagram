@@ -9,7 +9,6 @@
           <user-card v-bind:currentUser="user"></user-card>
         </div>
       </section>
-      <!-- <h1 class="text-center font-weight-bold mt-5">All Users</h1> -->
     </div>
   </article>
 </template>
@@ -30,12 +29,60 @@ export default {
   },
   mixins: [userRequester],
   methods: {
-    onFollowHandler(userToFollowId) {
-      console.log("onFollowHandler userId: ", userToFollowId);
+    onPromoteHandler(userToPromoteId) {
+      this.userRequester
+        .promote({ id: userToPromoteId }, {})
+        .then(res => {
+          this.changeUserRole(userToPromoteId, "ADMIN");
+
+          this.$toast.open({
+            message: res.body.message,
+            type: "success"
+          });
+        })
+        .catch(err => {
+          this.$toast.open({
+            message: err.body.message,
+            type: "error"
+          });
+        });
+    },
+    onDemoteHandler(userToDemoteId) {
+      this.userRequester
+        .demote({ id: userToDemoteId }, {})
+        .then(res => {
+          this.changeUserRole(userToDemoteId, "USER");
+
+          this.$toast.open({
+            message: res.body.message,
+            type: "success"
+          });
+        })
+        .catch(err => {
+          this.$toast.open({
+            message: err.body.message,
+            type: "error"
+          });
+        });
+    },
+    changeUserRole(userId, role) {
+      const newUserArr = this.users.map(user => {
+        if (user.id !== userId) {
+          return user;
+        }
+
+        return {
+          ...user,
+          role
+        };
+      });
+
+      this.users = [...newUserArr];
     },
     addEventListeners() {
       console.log("addEventListeners");
-      this.$root.$on("on-follow", this.onFollowHandler);
+      this.$root.$on("on-promote", this.onPromoteHandler);
+      this.$root.$on("on-demote", this.onDemoteHandler);
     }
   },
   created() {
@@ -46,7 +93,10 @@ export default {
         this.users = res.body;
       })
       .catch(err => {
-        console.log(err);
+        this.$toast.open({
+          message: body.error.message,
+          type: "error"
+        });
       });
   },
   mounted() {
@@ -60,7 +110,6 @@ export default {
   margin: 0 auto;
   max-width: 700px;
   width: 100%;
-  /* border: 1px solid red; */
 }
 
 @media screen and (min-width: 640px) {

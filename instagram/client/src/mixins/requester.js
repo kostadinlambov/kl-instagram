@@ -38,9 +38,13 @@ export const userRequester = {
         method: "get",
         url: "users/all{/id}" 
       },
-      loginUser: {
+      promote: {
         method: "post",
-        url: "login"
+        url: "users/promote"
+      },
+      demote: {
+        method: "post",
+        url: "users/demote"
       }
     };
 

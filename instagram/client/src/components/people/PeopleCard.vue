@@ -12,9 +12,9 @@
 
     <div class="buttons-wrapper">
       <!-- <div class="user-role">{{currentUser.role}}</div>
-      <button class="btn app-button-primary btn-sm" v-on:click="folgen(currentUser.id)">Promote</button>
-      <button class="btn app-button-primary btn-sm" v-on:click="folgen(currentUser.id)">Demote</button> -->
-      <button class="btn app-button-primary btn-sm" v-on:click="folgen(currentUser.id)">Follow</button>
+      <button class="btn app-button-primary btn-sm" v-on:click="follow(currentUser.id)">Promote</button>
+      <button class="btn app-button-primary btn-sm" v-on:click="follow(currentUser.id)">Demote</button> -->
+      <button class="btn app-button-primary btn-sm" v-on:click="follow(currentUser.id)">Follow</button>
     </div>
   </div>
 </template>
@@ -34,7 +34,7 @@ export default {
     }
   },
   methods: {
-    folgen(userId) {
+    follow(userId) {
       this.$root.$emit("on-follow", userId);
     }
   }
