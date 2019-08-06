@@ -86,8 +86,8 @@ public class ApplicationSecurityConfiguration
 //                        "/socket/**"
                 ).hasAnyAuthority("ADMIN", "ROOT", "USER")
                 .antMatchers(
-//                        "/users/promote",
-//                        "/users/demote",
+                        "/users/promote",
+                        "/users/demote"
 
 //                        "/users/details/username",
 //                        "/logs/all",

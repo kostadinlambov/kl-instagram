@@ -22,8 +22,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.instagram.utils.constants.ResponseMessageConstants.SERVER_ERROR_MESSAGE;
-import static com.instagram.utils.constants.ResponseMessageConstants.USER_NOT_FOUND_ERROR_MESSAGE;
+import static com.instagram.utils.constants.ResponseMessageConstants.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -66,7 +65,6 @@ public class UserServiceImpl implements UserService {
         }
 
         userEntity.setAuthorities(roles);
-
         User user = this.userRepository.saveAndFlush(userEntity);
 
         if (user != null) {
@@ -87,6 +85,66 @@ public class UserServiceImpl implements UserService {
         return this.userRepository.findAll().stream()
                 .map(x -> this.modelMapper.map(x, UserServiceModel.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean promoteUser(String id) throws Exception {
+        User user = this.userRepository.findById(id)
+                .filter(userValidation::isValid)
+                .orElseThrow(Exception::new);
+
+        String userAuthority = this.getUserAuthority(user.getId());
+
+        switch (userAuthority) {
+            case "USER":
+                user.setAuthorities(this.getAuthorities("ADMIN"));
+                break;
+            case "ROOT":
+                throw new CustomException(USER_FAILURE_CHANGING_ROOT_AUTHORITY_MESSAGE);
+            default:
+                throw new CustomException(USER_FAILURE_PROMOTING_ADMIN_MESSAGE);
+        }
+
+        return this.userRepository.save(user) != null;
+    }
+
+    @Override
+    public boolean demoteUser(String id) throws Exception {
+        User user = this.userRepository.findById(id)
+                .filter(userValidation::isValid)
+                .orElseThrow(Exception::new);
+
+        String userAuthority = this.getUserAuthority(user.getId());
+
+        switch (userAuthority) {
+            case "ADMIN":
+                user.setAuthorities(this.getAuthorities("USER"));
+                break;
+            case "ROOT":
+                throw new CustomException(USER_FAILURE_CHANGING_ROOT_AUTHORITY_MESSAGE);
+            case "USER":
+                throw new CustomException(USER_FAILURE_DEMOTING_USER_MESSAGE);
+        }
+
+        return this.userRepository.save(user) != null;
+    }
+
+    private Set<UserRole> getAuthorities(String authority) {
+        Set<UserRole> userAuthorities = new HashSet<>();
+        userAuthorities.add(this.roleRepository.getByAuthority(authority));
+
+        return userAuthorities;
+    }
+
+    private String getUserAuthority(String id) {
+        return this.userRepository
+                .findById(id)
+                .get()
+                .getAuthorities()
+                .stream()
+                .findFirst()
+                .get()
+                .getAuthority();
     }
 
     private List<UserRole> getUserRoles(User userById) {

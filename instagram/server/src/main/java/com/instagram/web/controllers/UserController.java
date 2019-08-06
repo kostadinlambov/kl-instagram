@@ -7,8 +7,10 @@ import com.instagram.domain.models.viewModels.user.UserAllViewModel;
 import com.instagram.domain.models.viewModels.user.UserCreateViewModel;
 import com.instagram.services.UserService;
 import com.instagram.utils.responseHandler.exceptions.BadRequestException;
+import com.instagram.utils.responseHandler.exceptions.CustomException;
 import com.instagram.utils.responseHandler.successResponse.SuccessResponse;
 import com.instagram.validations.serviceValidation.services.UserValidationService;
+import org.apache.coyote.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -63,17 +65,42 @@ public class UserController {
     public List<UserAllViewModel> getAllUsers(@PathVariable(value = "id") String userId) throws Exception {
         List<UserServiceModel> allUsers = this.userService.getAllUsers(userId);
 
-        List<UserAllViewModel> collect = allUsers.stream().map(x -> {
-            UserAllViewModel userAllViewModel =  this.modelMapper.map(x, UserAllViewModel.class);
-            userAllViewModel.setRole(x.extractAuthority());
-            return userAllViewModel;
-        }).collect(Collectors.toList());
+        return allUsers.stream()
+                .map(x -> {
+                    UserAllViewModel userAllViewModel = this.modelMapper.map(x, UserAllViewModel.class);
+                    userAllViewModel.setRole(x.extractAuthority());
+                    return userAllViewModel;
+                })
+                .collect(Collectors.toList());
 
-        return collect;
+    }
+
+    @PostMapping(value = "/promote")
+    public ResponseEntity promoteUser(@RequestParam(name = "id") String id) throws Exception {
+        boolean resultOfPromoting = this.userService.promoteUser(id);
+
+        if (resultOfPromoting) {
+            SuccessResponse successResponse = successResponseBuilder(LocalDateTime.now(), SUCCESSFUL_USER_PROMOTED_MESSAGE, "", true);
+            return new ResponseEntity<>(this.objectMapper.writeValueAsString(successResponse), HttpStatus.OK);
+        }
+
+        throw new CustomException(USER_FAILURE_PROMOTING_MESSAGE);
     }
 
     private SuccessResponse successResponseBuilder(LocalDateTime timestamp, String message, Object payload, boolean success) {
         return new SuccessResponse(timestamp, message, payload, success);
+    }
+
+    @PostMapping(value = "/demote")
+    public ResponseEntity demoteUser(@RequestParam(name = "id") String id) throws Exception {
+        boolean resultOfDemoting = this.userService.demoteUser(id);
+
+        if (resultOfDemoting) {
+
+            SuccessResponse successResponse = successResponseBuilder(LocalDateTime.now(), SUCCESSFUL_USER_DEMOTED_MESSAGE, "", true);
+            return new ResponseEntity<>(this.objectMapper.writeValueAsString(successResponse), HttpStatus.OK);
+        }
+        throw new CustomException(USER_FAILURE_DEMOTING_MESSAGE);
     }
 
 }

@@ -11,9 +11,13 @@ import java.util.List;
 public interface UserService extends UserDetailsService {
     UserCreateViewModel createUser(UserServiceModel userServiceModel);
 
+    boolean demoteUser(String id) throws Exception;
+
     User getByUsernameValidation(String username);
 
     User getByEmailValidation(String email);
 
     List<UserServiceModel> getAllUsers(String userId) throws Exception;
+
+    boolean promoteUser(String id) throws Exception;
 }
