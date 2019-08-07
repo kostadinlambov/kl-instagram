@@ -63,6 +63,7 @@
 
 <script>
 import { userService } from "@/infrastructure/userService";
+import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 
 export default {
   name: "landing-page",
@@ -71,14 +72,16 @@ export default {
     return {
       isAuth: userService.isAuth(),
       username: userService.getUsername(),
-      isAdminOrRoot: userService.isAdminOrRoot()
+      isAdminOrRoot: userService.isAdminOrRoot(),
+      num: 20,
     };
   },
-  computed: {},
+  computed: {
+  },
   methods: {
     getUserHomePageRoute() {
       return "/user/" + userService.getUsername();
-    }
+    },
   },
   created() {
     // this.$root.$on("user-login", () => {

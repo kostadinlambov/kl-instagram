@@ -105,12 +105,14 @@
       </section>
     </header>
       <Modal />
+      
   </div>
 </template>
 
 <script>
 import { userService } from "../../infrastructure/userService";
 import Modal from '@/components/user/Modal';
+import {mapState, mapGetters} from 'vuex';
 
 export default {
   name: "Navbar",
@@ -124,7 +126,7 @@ export default {
       // username: userService.getUsername(),
     };
   },
-  computed: { },
+  computed:{},
   methods: {
     logout() {
       localStorage.clear();

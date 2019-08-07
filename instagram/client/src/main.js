@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/index.css';
 import interceptors from '@/plugins/interceptorPlugin';
+import { store } from './store/store';
 // import './assets/app.css'
 
 Vue.config.productionTip = false
@@ -22,6 +23,7 @@ Vue.use(VueToast, {
 });
 
 new Vue({
+  store,
   router,
   render: h => h(App)
 }).$mount('#app')
