@@ -51,6 +51,7 @@
 <script>
 import { authRequester } from "@/mixins/requester";
 import { required } from "vuelidate/lib/validators";
+import { mapActions } from 'vuex';
 
 export default {
   name: "login-page",
@@ -73,6 +74,8 @@ export default {
   },
 
   methods: {
+    ...mapActions(['changeIsAuth']),
+
     onSubmitHandler() {
       if (this.$v.$invalid) {
         console.log("Submit not enabled");
@@ -81,21 +84,23 @@ export default {
 
       const userData = { username: this.username, password: this.password };
 
-      console.log("userData: ", userData);
-
       this.authRequester
         .loginUser(userData)
         .then(res => {
           console.log("res => ", res);
-          this.$root.$emit("user-login");
+          // this.$root.$emit("user-login");
+          this.changeIsAuth({value: true});
+
           this.$toast.open({
             message: "You have successfully logged in!",
             type: "success"
           });
+
           this.$router.push("/");
         })
         .catch(err => {
           let message = "Server error!";
+          
           if (err.status === 403) {
             message = "Incorrect email or password!";
           }

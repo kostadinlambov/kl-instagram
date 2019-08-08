@@ -36,7 +36,7 @@
                 </li>
                 <li class="nav-item">
                   <router-link to="/about" class="nav-link" href="#"><i class="far fa-heart">About</i></router-link>
-                </li> -->
+                </li>-->
               </ul>
 
               <ul class="navbar-nav" v-if="isAuth">
@@ -61,7 +61,7 @@
                   </li>
                 </template>
                 <template v-if="isAuth">
-                  <li class="nav-item" >
+                  <li class="nav-item">
                     <router-link to="/explore" class="nav-link">
                       <i class="far fa-compass"></i>
                     </router-link>
@@ -71,7 +71,7 @@
                       <i class="fas fa-heart"></i>
                     </router-link>
                   </li>
-                   <li class="nav-item" >
+                  <li class="nav-item">
                     <router-link :to="getUserHomePageRoute()" class="nav-link">
                       <i class="fas fa-user-alt"></i>
                     </router-link>
@@ -80,23 +80,15 @@
                     <router-link :to="link" class="nav-link" data-toggle="modal" data-target="#testleModalId">
                       <i class="fas fa-user-alt"></i>
                     </router-link>
-                  </li> -->
-                   <!-- <li class="nav-item" >
+                  </li>-->
+                  <!-- <li class="nav-item" >
                     <router-link to="/user/profile" class="nav-link">
                       <i class="fas fa-user-alt"></i>
                     </router-link>
-                  </li> -->
+                  </li>-->
                   <li class="nav-item" v-on:click="logout">
-                    <router-link class="nav-link" to="/login">
-                       Logout
-                    </router-link>
+                    <router-link class="nav-link" to="/login">Logout</router-link>
                   </li>
-                    <!-- <li class="nav-item" v-on:click="logout"> -->
-                  <!-- <li class="nav-item" v-on:click="onClickAuth">
-                    <router-link class="nav-link" to="/login"  >
-                      <span @click="logout">Logout</span>
-                    </router-link>
-                  </li> -->
                 </template>
               </ul>
             </div>
@@ -104,15 +96,15 @@
         </div>
       </section>
     </header>
-      <Modal />
-      
+    <Modal />
   </div>
 </template>
 
 <script>
-import { userService } from "../../infrastructure/userService";
-import Modal from '@/components/user/Modal';
-import {mapState, mapGetters} from 'vuex';
+import { userService } from "@/infrastructure/userService";
+import Modal from "@/components/user/Modal";
+import { mapState, mapGetters, mapActions } from "vuex";
+import { CHANGE_IS_AUTHENTICATED } from "@/store/mutationTypes";
 
 export default {
   name: "Navbar",
@@ -121,44 +113,33 @@ export default {
   },
   data() {
     return {
-      isAuth: userService.isAuth(),
-      showContent: "",
-      // username: userService.getUsername(),
+      showContent: ""
     };
   },
-  computed:{},
+  computed: {
+    ...mapGetters(["isAuth"]),
+  },
   methods: {
+    ...mapActions(['changeIsAuth']),
+
     logout() {
+      this.changeIsAuth({value: false})
+
       localStorage.clear();
-      this.onClickAuth();
-      this.$router.push('/login')
+      this.$router.push("/login");
       this.$toast.open({
         message: "You have successfully logged out!",
         type: "info"
       });
       return;
     },
-    onClickAuth() {
-      this.isAuth = userService.isAuth();
-      // this.username = userService.getUsername();
-    },
-    getUserHomePageRoute(){
-      return '/user/' + userService.getUsername();
+    getUserHomePageRoute() {
+      return "/user/" + userService.getUsername();
     }
   },
   created() {
-    this.$root.$on("user-login", this.onClickAuth);
-
-    // if (!this.isAuth) {
-    //   this.isAuth = userService.isAuth();
-    // }
+    // this.$root.$on("user-login", this.onClickAuth);
   }
-  // watch: {
-  //   isAuth: function(newValue, oldValue) {
-  //     console.log("newValue", newValue);
-  //     console.log("oldValue", oldValue);
-  //   }
-  // }
 };
 </script>
 
