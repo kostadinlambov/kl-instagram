@@ -49,9 +49,8 @@
 </template>
 
 <script>
-import { authRequester } from "@/mixins/requester";
 import { required } from "vuelidate/lib/validators";
-import { mapActions } from 'vuex';
+import { mapActions } from "vuex";
 
 export default {
   name: "login-page",
@@ -61,7 +60,6 @@ export default {
       password: ""
     };
   },
-  mixins: [authRequester],
   computed: {},
 
   validations: {
@@ -74,42 +72,15 @@ export default {
   },
 
   methods: {
-    ...mapActions(['changeIsAuth']),
+    ...mapActions('auth', ["loginAction"]),
 
     onSubmitHandler() {
       if (this.$v.$invalid) {
-        console.log("Submit not enabled");
         return;
       }
 
       const userData = { username: this.username, password: this.password };
-
-      this.authRequester
-        .loginUser(userData)
-        .then(res => {
-          console.log("res => ", res);
-          // this.$root.$emit("user-login");
-          this.changeIsAuth({value: true});
-
-          this.$toast.open({
-            message: "You have successfully logged in!",
-            type: "success"
-          });
-
-          this.$router.push("/");
-        })
-        .catch(err => {
-          let message = "Server error!";
-          
-          if (err.status === 403) {
-            message = "Incorrect email or password!";
-          }
-
-          this.$toast.open({
-            message,
-            type: "error"
-          });
-        });
+      this.loginAction(userData);
     }
   }
 };

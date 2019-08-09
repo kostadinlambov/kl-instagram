@@ -11,9 +11,6 @@
     </div>
 
     <div class="buttons-wrapper">
-      <!-- <div class="user-role">{{currentUser.role}}</div>
-      <button class="btn app-button-primary btn-sm" v-on:click="follow(currentUser.id)">Promote</button>
-      <button class="btn app-button-primary btn-sm" v-on:click="follow(currentUser.id)">Demote</button> -->
       <button class="btn app-button-primary btn-sm" v-on:click="follow(currentUser.id)">Follow</button>
     </div>
   </div>

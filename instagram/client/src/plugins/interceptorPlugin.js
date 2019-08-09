@@ -11,8 +11,13 @@ export default {
     next(responce => {
       if (responce.status === 200 && responce.url.endsWith("login")) {
         saveToken(responce.body);
-        // console.log('responce.status === 200 : You have successfully logged in!')
       }
+
+      if(responce.status === 0 && !responce.body){
+        responce.body = {'message': 'Server Error!'}
+        responce.status = '500'
+      }
+
     });
   });
 }

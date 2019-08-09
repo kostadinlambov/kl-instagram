@@ -6,7 +6,6 @@
       </div>
       <div class="usernames-container">
         <div class="username">{{currentUser.username}}</div>
-        <!-- <div class="names">{{currentUser.firstName}} {{currentUser.lastName}}</div> -->
       </div>
     </div>
 
@@ -40,9 +39,11 @@ export default {
     promote(userId) {
       this.$root.$emit("on-promote", userId);
     },
+    
     demote(userId) {
       this.$root.$emit("on-demote", userId);
     },
+
     showButtons(userId, role){
       if(userId === this.loggedInUserId || role === "ROOT"){
         return false;

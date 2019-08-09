@@ -146,7 +146,6 @@
 </template>
 
 <script>
-import { authRequester } from "../../mixins/requester";
 import {
   required,
   email,
@@ -156,6 +155,8 @@ import {
   sameAs,
   helpers
 } from "vuelidate/lib/validators";
+
+import { mapActions } from "vuex";
 
 const firstLastNameRegex = /^[A-Z]([a-zA-Z]+)?$/;
 const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
@@ -172,9 +173,29 @@ export default {
       confirmPassword: ""
     };
   },
-  computed: {},
-  mixins: [authRequester],
-  validations: {
+ 
+  methods: {
+      ...mapActions('auth', ["registerAction"]),
+
+    onSubmitHandler() {
+      if (this.$v.$invalid) {
+        return;
+      }
+
+      const userData = {
+        username: this.username,
+        password: this.password,
+        email: this.email,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        confirmPassword: this.confirmPassword
+      };
+
+      this.registerAction(userData);
+    }
+  },
+
+   validations: {
     username: {
       required,
       minLength: minLength(4),
@@ -201,45 +222,6 @@ export default {
       sameAsPassword: sameAs("password")
     }
   },
-  methods: {
-    onSubmitHandler() {
-      if (this.$v.$invalid) {
-        console.log("not enabled");
-        return;
-      }
-
-      const userData = {
-        username: this.username,
-        password: this.password,
-        email: this.email,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        confirmPassword: this.confirmPassword
-      };
-
-      this.authRequester
-        .registerUser(userData)
-        .then(res => {
-          console.log("res => ", res);
-          this.$toast.open({
-            message: res.body.message,
-            type: "success"
-          });
-          this.$router.push("/login");
-        })
-        .catch(err => {
-          let message = "Server error!";
-          if (err.status === 400) {
-            message = err.body.message;
-          }
-
-          this.$toast.open({
-            message,
-            type: "error"
-          });
-        });
-    }
-  }
 };
 </script>
 

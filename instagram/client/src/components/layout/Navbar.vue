@@ -39,7 +39,7 @@
                 </li>-->
               </ul>
 
-              <ul class="navbar-nav" v-if="isAuth">
+              <ul class="navbar-nav" v-if="isLoggedIn">
                 <form class="form-inline my-2 my-lg-0">
                   <input
                     class="form-control mr-sm-2"
@@ -52,7 +52,7 @@
               </ul>
 
               <ul class="navbar-nav ml-auto">
-                <template v-if="!isAuth">
+                <template v-if="!isLoggedIn">
                   <li class="nav-item">
                     <router-link to="/login" class="nav-link">Login</router-link>
                   </li>
@@ -60,7 +60,7 @@
                     <router-link to="/register" class="nav-link">Register</router-link>
                   </li>
                 </template>
-                <template v-if="isAuth">
+                <template v-if="isLoggedIn">
                   <li class="nav-item">
                     <router-link to="/explore" class="nav-link">
                       <i class="far fa-compass"></i>
@@ -104,7 +104,6 @@
 import { userService } from "@/infrastructure/userService";
 import Modal from "@/components/user/Modal";
 import { mapState, mapGetters, mapActions } from "vuex";
-import { CHANGE_IS_AUTHENTICATED } from "@/store/mutationTypes";
 
 export default {
   name: "Navbar",
@@ -113,33 +112,21 @@ export default {
   },
   data() {
     return {
-      showContent: ""
     };
   },
   computed: {
-    ...mapGetters(["isAuth"]),
+    ...mapState("auth", ["isLoggedIn"]),
   },
   methods: {
-    ...mapActions(['changeIsAuth']),
+    ...mapActions("auth", ["logoutAction"]),
 
     logout() {
-      this.changeIsAuth({value: false})
-
-      localStorage.clear();
-      this.$router.push("/login");
-      this.$toast.open({
-        message: "You have successfully logged out!",
-        type: "info"
-      });
-      return;
+      this.logoutAction();
     },
     getUserHomePageRoute() {
       return "/user/" + userService.getUsername();
     }
   },
-  created() {
-    // this.$root.$on("user-login", this.onClickAuth);
-  }
 };
 </script>
 

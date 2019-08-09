@@ -1,6 +1,26 @@
 export const userService = {
   isAuth: () => {
-    return localStorage.getItem("token") != null;
+    const token = localStorage.getItem("token");
+    if (token !== null && token !== undefined) {
+      try {
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        const role = payload["role"];
+
+        if (payload) {
+          if (role !== null || role !== undefined) {
+            return true;
+          }
+        }
+      } catch (err) {
+        localStorage.clear();
+       
+        this.$toast.open({
+          message: "Unauthorized",
+          type: "error"
+        });
+      }
+    }
+    return false;
   },
 
   getUsername: () => {
@@ -61,5 +81,7 @@ export const userService = {
         return false;
       }
     }
-  }
+  },
+
+ 
 };

@@ -5,7 +5,7 @@
         <div class="title">All Users</div>
       </div>
       <section class="people-section">
-        <div v-for="user in users" :key="user.id">
+        <div v-for="user in usersAdmin" :key="user.id">
           <user-card v-bind:currentUser="user"></user-card>
         </div>
       </section>
@@ -14,93 +14,50 @@
 </template>
 
 <script>
-import { userRequester } from "@/mixins/requester";
 import { userService } from "@/infrastructure/userService";
 import UserCard from "./UserCard";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "user-all",
+
   components: { UserCard },
+
   data() {
     return {
       userId: userService.getUserId(),
       users: []
     };
   },
-  mixins: [userRequester],
+
+  computed: {
+    ...mapState("user", ["usersAdmin"])
+  },
   methods: {
+    ...mapActions("user", [ "fetchAllUsersAdminAction", "promoteUserAction", "demoteUserAction"]),
+
     onPromoteHandler(userToPromoteId) {
-      this.userRequester
-        .promote({ id: userToPromoteId }, {})
-        .then(res => {
-          this.changeUserRole(userToPromoteId, "ADMIN");
-
-          this.$toast.open({
-            message: res.body.message,
-            type: "success"
-          });
-        })
-        .catch(err => {
-          this.$toast.open({
-            message: err.body.message,
-            type: "error"
-          });
-        });
+      this.promoteUserAction(userToPromoteId);
     },
+
     onDemoteHandler(userToDemoteId) {
-      this.userRequester
-        .demote({ id: userToDemoteId }, {})
-        .then(res => {
-          this.changeUserRole(userToDemoteId, "USER");
-
-          this.$toast.open({
-            message: res.body.message,
-            type: "success"
-          });
-        })
-        .catch(err => {
-          this.$toast.open({
-            message: err.body.message,
-            type: "error"
-          });
-        });
+      this.demoteUserAction(userToDemoteId);
     },
-    changeUserRole(userId, role) {
-      const newUserArr = this.users.map(user => {
-        if (user.id !== userId) {
-          return user;
-        }
-
-        return {
-          ...user,
-          role
-        };
-      });
-
-      this.users = [...newUserArr];
-    },
+ 
     addEventListeners() {
       this.$root.$on("on-promote", this.onPromoteHandler);
       this.$root.$on("on-demote", this.onDemoteHandler);
     }
   },
+
   created() {
-    this.userRequester
-      .getAllUsersAdmin({ id: this.userId })
-      .then(res => {
-        console.log(res);
-        this.users = res.body;
-      })
-      .catch(err => {
-        this.$toast.open({
-          message: body.error.message,
-          type: "error"
-        });
-      });
+    this.fetchAllUsersAdminAction({ id: this.userId });
   },
+
   mounted() {
     this.addEventListeners();
   },
+
   beforeDestroy() {
     this.$root.$off("on-promote");
     this.$root.$off("on-demote");

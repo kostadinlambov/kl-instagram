@@ -10,27 +10,32 @@
           <!-- <div>{{user.firstName}} - {{user.lastName}} - {{user.role}}</div> -->
         </div>
       </section>
-      <!-- <h1 class="text-center font-weight-bold mt-5">All Users</h1> -->
     </div>
   </article>
 </template>
 
 <script>
-import { userRequester } from "@/mixins/requester";
 import { userService } from "@/infrastructure/userService";
 import PeopleCard from "./PeopleCard";
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: "people",
+
   components: { PeopleCard },
+
   data() {
     return {
       loggedInUserId: userService.getUserId(),
-      users: []
     };
   },
-  mixins: [userRequester],
+
+  computed: {
+    ...mapState('user', ['users'])
+  },
+
   methods: {
+    ...mapActions('user', ['fetchAllUsersAction']),
     onFollowHandler(userId) {
       console.log("onFollowHandler userId: ", userId);
     },
@@ -39,17 +44,11 @@ export default {
       this.$root.$on("on-follow", this.onFollowHandler);
     }
   },
+
   created() {
-    this.userRequester
-      .getAllUsers({ id: this.loggedInUserId })
-      .then(res => {
-        console.log(res);
-        this.users = res.body;
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.fetchAllUsersAction({ id: this.loggedInUserId })
   },
+
   mounted() {
     this.addEventListeners();
   }

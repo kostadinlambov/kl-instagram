@@ -6,8 +6,6 @@
 </template>
 
 <script>
-
-
 export default {
   name: "user-feed-page",
   components: {  },
