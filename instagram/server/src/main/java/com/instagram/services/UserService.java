@@ -21,5 +21,7 @@ public interface UserService extends UserDetailsService {
 
     boolean promoteUser(String id) throws Exception;
 
+    List<UserServiceModel> getAllUsersNotFollowers(String userId) throws Exception;
+
     List<UserServiceModel> getAllUsersAdmin(String userId) throws Exception;
 }

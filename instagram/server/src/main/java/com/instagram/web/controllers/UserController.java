@@ -74,6 +74,18 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping(value = "/notFollowers/{id}")
+    public List<UserAllViewModel> getAllUsersNotFollowers(@PathVariable(value = "id") String userId) throws Exception {
+        List<UserServiceModel> allUsers = this.userService.getAllUsersNotFollowers(userId);
+
+        return allUsers.stream()
+                .map(x -> {
+                    UserAllViewModel userAllViewModel = this.modelMapper.map(x, UserAllViewModel.class);
+                    userAllViewModel.setRole(x.extractAuthority());
+                    return userAllViewModel;
+                })
+                .collect(Collectors.toList());
+    }
 
     @GetMapping(value = "/all/{id}")
     public List<UserAllViewModel> getAllUsers(@PathVariable(value = "id") String userId) throws Exception {

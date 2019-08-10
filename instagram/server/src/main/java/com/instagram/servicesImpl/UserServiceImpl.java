@@ -88,6 +88,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserServiceModel> getAllUsersNotFollowers(String userId) throws Exception {
+        User userById = this.userRepository.findById(userId).orElse(null);
+
+        if (!userValidation.isValid(userById)) {
+            throw new Exception(SERVER_ERROR_MESSAGE);
+        }
+
+        return this.userRepository.getAllNotFollowers(userId).stream()
+                .map(x -> this.modelMapper.map(x, UserServiceModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<UserServiceModel> getAllUsersAdmin(String userId) throws Exception {
         User userById = this.userRepository.findById(userId).orElse(null);
 
