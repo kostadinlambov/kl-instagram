@@ -1,5 +1,7 @@
 // User
-export const FETCH_ALL_USERS = 'FETCH_ALL_USERS';
-export const FETCH_ALL_USERS_ADMIN = 'FETCH_ALL_USERS_ADMIN';
-export const PROMOTE_USER = 'PROMOTE_USER';
-export const DEMOTE_USER = 'DEMOTE_USER';
+export const FETCH_ALL_USERS = 'user/FETCH_ALL_USERS';
+export const FETCH_ALL_USERS_ADMIN = 'user/FETCH_ALL_USERS_ADMIN';
+export const PROMOTE_USER = 'user/PROMOTE_USER';
+export const DEMOTE_USER = 'user/DEMOTE_USER';
+
+export const RESET_STATE = 'RESET_STATE';

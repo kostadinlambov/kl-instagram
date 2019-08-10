@@ -19,7 +19,7 @@
             <router-link
               class="btn app-button-primary btn-lg m-3"
               to="/register"
-              role="button"
+              tag="button"
             >Register</router-link>
           </p>
         </div>
@@ -31,7 +31,7 @@
           class="jumbotron bg-light text-dark text-center mb-0 mx-auto mt-5 jumbo-wrapper"
           :style="'boxShadow : 0 0 14px 1px rgba(0, 0, 0, 0.3)'"
         >
-          <h3 class="md-display-5 h3 h3-responsive mb-3">Hello {{username}}!</h3>
+          <h3 class="md-display-5 h3 h3-responsive mb-3">Hello {{loggedInUserData.username}}!</h3>
           <div class="hr-styles"></div>
           <h2 class="h1 h1-responsive">Welcome to Instagram!</h2>
           <div class="hr-styles"></div>
@@ -45,11 +45,11 @@
             <router-link class="btn app-button-primary btn-lg m-3" to="/people" role="button">People</router-link>
             <router-link
               class="btn app-button-primary btn-lg m-3"
-              :to="getUserHomePageRoute()"
+              :to="{name:'single-user-page', params: {username: loggedInUserData.username}}"
               role="button"
             >Profile</router-link>
             <router-link
-              v-if="isAdminOrRoot"
+              v-if="loggedInUserData.isAdminOrRoot"
               class="btn app-button-primary btn-lg m-3"
               to="/admin/all"
               role="button"
@@ -63,26 +63,22 @@
 
 <script>
 import { userService } from "@/infrastructure/userService";
-import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   name: "landing-page",
   components: {},
   data() {
     return {
-      isAuth: userService.isAuth(),
-      username: userService.getUsername(),
-      isAdminOrRoot: userService.isAdminOrRoot(),
     };
   },
   computed: {
-    ...mapState('auth', ['isLoggedIn'])
+    ...mapGetters('auth', {
+      isLoggedIn: 'getIsLoggedIn', 
+      loggedInUserData: 'getLoggedInUserData'
+    })
   },
-  methods: {
-    getUserHomePageRoute() {
-      return "/user/" + userService.getUsername();
-    },
-  },
+  
 };
 </script>
 

@@ -17,7 +17,7 @@
 <script>
 import { userService } from "@/infrastructure/userService";
 import PeopleCard from "./PeopleCard";
-import { mapState, mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: "people",
@@ -31,7 +31,9 @@ export default {
   },
 
   computed: {
-    ...mapState('user', ['users'])
+    ...mapGetters("user", {
+        users: "getAllUsers",
+    })
   },
 
   methods: {

@@ -16,7 +16,7 @@
 <script>
 import { userService } from "@/infrastructure/userService";
 import UserCard from "./UserCard";
-import { mapState, mapActions } from "vuex";
+import { mapGetters,  mapActions } from "vuex";
 
 export default {
   name: "user-all",
@@ -31,7 +31,9 @@ export default {
   },
 
   computed: {
-    ...mapState("user", ["usersAdmin"])
+    ...mapGetters("user", {
+        usersAdmin: "getAllUsersAdmin",
+    })
   },
   methods: {
     ...mapActions("user", [ "fetchAllUsersAdminAction", "promoteUserAction", "demoteUserAction"]),

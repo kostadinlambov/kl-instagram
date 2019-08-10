@@ -5,7 +5,8 @@ import {
   FETCH_ALL_USERS_ADMIN,
   FETCH_ALL_USERS,
   PROMOTE_USER,
-  DEMOTE_USER
+  DEMOTE_USER,
+  RESET_STATE,
 } from "./mutationTypes";
 
 export const fetchAllUsersAdminAction = (context, payload) => {
@@ -100,3 +101,10 @@ export const demoteUserAction = (context, userToDemoteId) => {
       });
     });
 };
+
+export const resetState = (context) => {
+  context.commit({
+    type: RESET_STATE
+  })
+}
+

@@ -13,7 +13,7 @@ export const userService = {
         }
       } catch (err) {
         localStorage.clear();
-       
+
         this.$toast.open({
           message: "Unauthorized",
           type: "error"
@@ -69,6 +69,26 @@ export const userService = {
     }
   },
 
+  getLastName: () => {
+    const token = localStorage.getItem("token");
+    if (token !== null && token !== undefined) {
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      if (payload) {
+        return payload["lastName"];
+      }
+    }
+  },
+
+  getProfilePicUrl: () => {
+    const token = localStorage.getItem("token");
+    if (token !== null && token !== undefined) {
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      if (payload) {
+        return payload["profilePicUrl"];
+      }
+    }
+  },
+
   isAdminOrRoot: () => {
     const token = localStorage.getItem("token");
     if (token !== null && token !== undefined) {
@@ -83,5 +103,17 @@ export const userService = {
     }
   },
 
- 
+  getUserData() {
+    const userData = {
+      username: this.getUsername(),
+      id: this.getUserId(),
+      firstName: this.getFirstName(),
+      lastName: this.getLastName(),
+      role: this.getRole(),
+      getProfilePicUrl: this.getProfilePicUrl(),
+      isAdminOrRoot: this.isAdminOrRoot(),
+    };
+
+    return userData;
+  }
 };

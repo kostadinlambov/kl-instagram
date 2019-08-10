@@ -71,11 +71,17 @@
                       <i class="fas fa-heart"></i>
                     </router-link>
                   </li>
-                  <li class="nav-item">
+                  <!-- <li class="nav-item">
                     <router-link :to="getUserHomePageRoute()" class="nav-link">
                       <i class="fas fa-user-alt"></i>
                     </router-link>
+                  </li> -->
+                    <li class="nav-item">
+                    <router-link :to="{name:'single-user-page', params: {username: loggedInUserData.username}}" class="nav-link">
+                      <i class="fas fa-user-alt"></i>
+                    </router-link>
                   </li>
+                  
                   <!-- <li class="nav-item">
                     <router-link :to="link" class="nav-link" data-toggle="modal" data-target="#testleModalId">
                       <i class="fas fa-user-alt"></i>
@@ -103,7 +109,7 @@
 <script>
 import { userService } from "@/infrastructure/userService";
 import Modal from "@/components/user/Modal";
-import { mapState, mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Navbar",
@@ -115,7 +121,10 @@ export default {
     };
   },
   computed: {
-    ...mapState("auth", ["isLoggedIn"]),
+    ...mapGetters('auth', {
+      isLoggedIn: 'getIsLoggedIn', 
+      loggedInUserData: 'getLoggedInUserData'
+    })
   },
   methods: {
     ...mapActions("auth", ["logoutAction"]),
@@ -123,9 +132,6 @@ export default {
     logout() {
       this.logoutAction();
     },
-    getUserHomePageRoute() {
-      return "/user/" + userService.getUsername();
-    }
   },
 };
 </script>
