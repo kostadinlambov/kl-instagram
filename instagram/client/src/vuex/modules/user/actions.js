@@ -28,7 +28,7 @@ export const fetchAllUsersAdminAction = (context, payload) => {
 };
 
 export const fetchAllUsersAction = (context, payload) => {
-  const url = "users/all/" + payload.id;
+  const url = "users/notFollowers/" + payload.id;
   requester
     .get(url)
     .then(res => {

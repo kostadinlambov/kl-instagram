@@ -36,11 +36,12 @@ export default {
 
   methods: {
     ...mapActions('user', ['fetchAllUsersAction']),
+
     onFollowHandler(userId) {
       console.log("onFollowHandler userId: ", userId);
     },
+    
     addEventListeners() {
-      console.log("addEventListeners");
       this.$root.$on("on-follow", this.onFollowHandler);
     }
   },
