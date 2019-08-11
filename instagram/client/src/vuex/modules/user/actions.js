@@ -6,11 +6,12 @@ import {
   FETCH_ALL_USERS,
   PROMOTE_USER,
   DEMOTE_USER,
+  FOLLOW_USER_SUCCESS,
   RESET_STATE,
 } from "./mutationTypes";
 
 export const fetchAllUsersAdminAction = (context, payload) => {
-  const url = "users/admin/all/" + payload.id;
+  const url = "user/admin/all/" + payload.id;
   requester
     .get(url)
     .then(res => {
@@ -20,7 +21,7 @@ export const fetchAllUsersAdminAction = (context, payload) => {
       });
     })
     .catch(err => {
-      console.log(err)
+      console.log(err);
       Vue.$toast.open({
         message: err.body.message,
         type: "error"
@@ -29,7 +30,7 @@ export const fetchAllUsersAdminAction = (context, payload) => {
 };
 
 export const fetchAllUsersAction = (context, payload) => {
-  const url = "users/notFollowers/" + payload.id;
+  const url = "user/notFollowers/" + payload.id;
   requester
     .get(url)
     .then(res => {
@@ -47,7 +48,7 @@ export const fetchAllUsersAction = (context, payload) => {
 };
 
 export const promoteUserAction = (context, userToPromoteId) => {
-  const url = "users/promote?id=" + userToPromoteId;
+  const url = "user/promote?id=" + userToPromoteId;
   requester
     .post(url, {})
     .then(res => {
@@ -75,7 +76,7 @@ export const promoteUserAction = (context, userToPromoteId) => {
 };
 
 export const demoteUserAction = (context, userToDemoteId) => {
-  const url = "users/demote?id=" + userToDemoteId;
+  const url = "user/demote?id=" + userToDemoteId;
   requester
     .post(url, {})
     .then(res => {
@@ -102,9 +103,33 @@ export const demoteUserAction = (context, userToDemoteId) => {
     });
 };
 
-export const resetState = (context) => {
+export const followUserAction = (context, userToFollowId) => {
+  const url = "follower/follow";
+  const loggedInUserId = context.rootState.auth.loggedInUser.id;
+  const requestBody = { loggedInUserId, userToFollowId };
+
+  requester.post(url, requestBody)
+  .then(res => {
+    context.commit({
+      type: FOLLOW_USER_SUCCESS,
+      userToFollowId
+    })
+
+
+     Vue.$toast.open({
+        message: res.body.message,
+        type: "success"
+      });
+  }).catch(err => {
+    Vue.$toast.open({
+      message: err.body.message,
+      type: "error"
+    });
+  });
+};
+
+export const resetState = context => {
   context.commit({
     type: RESET_STATE
-  })
-}
-
+  });
+};

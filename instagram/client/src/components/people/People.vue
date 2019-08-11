@@ -17,7 +17,7 @@
 <script>
 import { userService } from "@/infrastructure/userService";
 import PeopleCard from "./PeopleCard";
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "people",
@@ -26,34 +26,40 @@ export default {
 
   data() {
     return {
-      loggedInUserId: userService.getUserId(),
+      loggedInUserId: userService.getUserId()
     };
   },
 
   computed: {
     ...mapGetters("user", {
-        users: "getAllUsers",
+      users: "getAllUsers"
     })
   },
 
   methods: {
-    ...mapActions('user', ['fetchAllUsersAction']),
+    ...mapActions("user", ["fetchAllUsersAction", "followUserAction"]),
 
     onFollowHandler(userId) {
+      debugger;
       console.log("onFollowHandler userId: ", userId);
+      this.followUserAction(userId);
     },
-    
+
     addEventListeners() {
       this.$root.$on("on-follow", this.onFollowHandler);
     }
   },
 
   created() {
-    this.fetchAllUsersAction({ id: this.loggedInUserId })
+    this.fetchAllUsersAction({ id: this.loggedInUserId });
   },
 
   mounted() {
     this.addEventListeners();
+  },
+
+  beforeDestroy() {
+    this.$root.$off('on-follow');
   }
 };
 </script>

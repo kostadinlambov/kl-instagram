@@ -9,6 +9,7 @@ import {
   PROMOTE_USER,
   DEMOTE_USER,
   RESET_STATE,
+  FOLLOW_USER_SUCCESS,
 } from "./mutationTypes";
 
 // initial state
@@ -34,11 +35,21 @@ const mutations = {
     changeUserRole(payload.userData.id, payload.userData.role, state);
   },
 
+  [FOLLOW_USER_SUCCESS] : (state, payload) => {
+    updateUsersArr(state, payload.userToFollowId);
+  },
+
   [RESET_STATE]: (state) => {
     for (let f in state) {
       Vue.set(state, f, initialState[f]);
     }
   },
+};
+
+const updateUsersArr = (state, userToFollowId) => {
+  const filteredUserArr = state.users.filter(user => user.id != userToFollowId)
+
+  state.users = [...filteredUserArr]
 };
 
 const changeUserRole = (userId, role, state) => {
