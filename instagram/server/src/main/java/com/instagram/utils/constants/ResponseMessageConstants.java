@@ -28,6 +28,10 @@ public final class ResponseMessageConstants {
     public static final String SUCCESSFUL_USER_PROFILE_EDIT_MESSAGE = "User Profile have been successfully edited.";
     public static final String SUCCESSFUL_USER_DELETE_MESSAGE = "User have been successfully deleted.";
 
+    // Follower Messages
+    public static final String FAILURE_FOLLOW_USER_MESSAGE = "You have been already following this user!";
+    public static final String SUCCESSFUL_FOLLOW_USER_REQUEST_MESSAGE = "You follow request was successful!";
+
     //Picture Messages
     public static final String SUCCESSFUL_PICTURE_ALL_MESSAGE = "All pictures successfully loaded.";
     public static final String SUCCESSFUL_PICTURE_UPLOAD_MESSAGE = "Successfully uploaded picture!";
@@ -64,4 +68,5 @@ public final class ResponseMessageConstants {
 
     // Like Messages
     public static final String SUCCESSFUL_LIKE_POST_MESSAGE = "You liked a post!";
+
 }

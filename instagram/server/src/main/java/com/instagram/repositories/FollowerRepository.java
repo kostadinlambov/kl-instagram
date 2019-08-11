@@ -11,7 +11,11 @@ import java.util.List;
 
 @Repository
 public interface FollowerRepository extends JpaRepository<Follower, String> {
+//    Follower findByFollowerAndUserAndActive(User follower, User user, boolean active);
+//    Follower findByUserAndFollowerAndActive( User user,User follower, boolean active);
+    Follower findByUserAndFollower( User user,User follower);
 
+    Follower findFirstByUserAndFollower(User user,User follower);
 
-
+//    Follower findRelationship(User loggedInUser, String userToFollowId);
 }

@@ -69,6 +69,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String id = user.getId();
         String profilePicUrl = user.getProfilePicUrl();
         String firstName = user.getFirstName();
+        String lastName = user.getLastName();
 
         String token = Jwts.builder()
                 .setSubject(user.getUsername())
@@ -77,6 +78,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .claim("id", id)
                 .claim("profilePicUrl", profilePicUrl)
                 .claim("firstName", firstName)
+                .claim("lastName", lastName)
                 .signWith(SignatureAlgorithm.HS256, "Secret".getBytes())
                 .compact();
 

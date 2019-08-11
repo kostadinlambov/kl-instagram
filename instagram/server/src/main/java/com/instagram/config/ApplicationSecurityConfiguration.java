@@ -61,8 +61,9 @@ public class ApplicationSecurityConfiguration
                         "/**/*.js"
                 ).permitAll()
                 .antMatchers(
-                        "/users/all/*",
-                        "/users/notFollowers/*"
+                        "/user/all/*",
+                        "/user/notFollowers/*",
+                        "/follower/follow"
 //                        "/users/details/*",
 //                        "/users/update/*",
 //                        "/relationship/friends/*",
@@ -87,9 +88,9 @@ public class ApplicationSecurityConfiguration
 //                        "/socket/**"
                 ).hasAnyAuthority("ADMIN", "ROOT", "USER")
                 .antMatchers(
-                        "/users/promote",
-                        "/users/demote",
-                        "/users/admin/all/*"
+                        "/user/promote",
+                        "/user/demote",
+                        "/user/admin/all/*"
 
 //                        "/users/details/username",
 //                        "/logs/all",

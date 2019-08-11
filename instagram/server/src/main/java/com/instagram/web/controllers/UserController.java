@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 import static com.instagram.utils.constants.ResponseMessageConstants.*;
 
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/user")
 public class UserController {
 
     private final UserService userService;
