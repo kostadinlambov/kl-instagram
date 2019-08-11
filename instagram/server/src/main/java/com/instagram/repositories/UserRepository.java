@@ -34,4 +34,14 @@ public interface UserRepository extends JpaRepository<User, String> {
             " and u.id <> :userId", nativeQuery = true)
     List<User> getAllNotFollowers(@Param("userId") String loggedInUserId);
 
+    @Query(value = "SELECT u.id, u.username, u.first_name, u.last_name, u.profile_pic_url, followers.is_active  FROM users as u " +
+            "LEFT JOIN " +
+            "(SELECT f.follower_id AS folllowerId, f.user_id AS f_user_id, f.is_active " +
+            "FROM users as u " +
+            "JOIN followers f on u.id = f.user_id " +
+            "where f.follower_id = :userId) as followers " +
+            "ON u.id = followers.f_user_id " +
+            "where u.id <> :userId " +
+            "order by followers.is_active asc ", nativeQuery = true)
+    List<Object[]> getAllUsersWithFollowersInfo(@Param("userId") String loggedInUserId);
 }

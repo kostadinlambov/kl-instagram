@@ -29,8 +29,10 @@ public final class ResponseMessageConstants {
     public static final String SUCCESSFUL_USER_DELETE_MESSAGE = "User have been successfully deleted.";
 
     // Follower Messages
-    public static final String FAILURE_FOLLOW_USER_MESSAGE = "You have been already following this user!";
     public static final String SUCCESSFUL_FOLLOW_USER_REQUEST_MESSAGE = "You follow request was successful!";
+    public static final String SUCCESSFUL_UNFOLLOW_USER_REQUEST_MESSAGE = "You don't follow this user anymore!";
+    public static final String FAILURE_FOLLOW_USER_MESSAGE = "You have been already following this user!";
+    public static final String FAILURE_UNFOLLOW_USER_MESSAGE = "You don't follow this user!";
 
     //Picture Messages
     public static final String SUCCESSFUL_PICTURE_ALL_MESSAGE = "All pictures successfully loaded.";

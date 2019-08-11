@@ -46,4 +46,20 @@ public class FollowerController {
 
         throw new CustomException(FAILURE_FOLLOW_USER_MESSAGE);
     }
+
+    @PostMapping(value = "/unFollow")
+    public ResponseEntity unFollowUser(@RequestBody Map<String, Object> body) throws Exception {
+        String loggedInUserId = (String) body.get("loggedInUserId");
+        String userToUnFollowId = (String) body.get("userToUnFollowId");
+
+        boolean result = this.followerService.unFollow(loggedInUserId, userToUnFollowId);
+
+        if(result){
+            SuccessResponse successResponse = new SuccessResponse(LocalDateTime.now(), SUCCESSFUL_UNFOLLOW_USER_REQUEST_MESSAGE, "", true);
+
+            return new ResponseEntity<>(this.objectMapper.writeValueAsString(successResponse), HttpStatus.OK);
+        }
+
+        throw new CustomException(FAILURE_UNFOLLOW_USER_MESSAGE);
+    }
 }

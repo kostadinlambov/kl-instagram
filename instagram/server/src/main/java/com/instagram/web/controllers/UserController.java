@@ -5,6 +5,7 @@ import com.instagram.domain.models.bindingModels.user.UserRegisterBindingModel;
 import com.instagram.domain.models.serviceModels.UserServiceModel;
 import com.instagram.domain.models.viewModels.user.UserAllViewModel;
 import com.instagram.domain.models.viewModels.user.UserCreateViewModel;
+import com.instagram.domain.models.viewModels.user.UserPeopleViewModel;
 import com.instagram.services.UserService;
 import com.instagram.utils.responseHandler.exceptions.BadRequestException;
 import com.instagram.utils.responseHandler.exceptions.CustomException;
@@ -75,17 +76,25 @@ public class UserController {
     }
 
     @GetMapping(value = "/notFollowers/{id}")
-    public List<UserAllViewModel> getAllUsersNotFollowers(@PathVariable(value = "id") String userId) throws Exception {
-        List<UserServiceModel> allUsers = this.userService.getAllUsersNotFollowers(userId);
+    public List<UserPeopleViewModel> getAllUsersNotFollowers(@PathVariable(value = "id") String userId) throws Exception {
+        List<UserPeopleViewModel> allUsers = this.userService.getAllUsersWithFollowersInfo(userId);
 
-        return allUsers.stream()
-                .map(x -> {
-                    UserAllViewModel userAllViewModel = this.modelMapper.map(x, UserAllViewModel.class);
-                    userAllViewModel.setRole(x.extractAuthority());
-                    return userAllViewModel;
-                })
-                .collect(Collectors.toList());
+        return allUsers;
     }
+
+
+//    @GetMapping(value = "/notFollowers/{id}")
+//    public List<UserAllViewModel> getAllUsersNotFollowers(@PathVariable(value = "id") String userId) throws Exception {
+//        List<UserPeopleViewModel> allUsers = this.userService.getAllUsersWithFollowersInfo(userId);
+//
+//        return allUsers.stream()
+//                .map(x -> {
+//                    UserAllViewModel userAllViewModel = this.modelMapper.map(x, UserAllViewModel.class);
+//                    userAllViewModel.setRole(x.extractAuthority());
+//                    return userAllViewModel;
+//                })
+//                .collect(Collectors.toList());
+//    }
 
     @GetMapping(value = "/all/{id}")
     public List<UserAllViewModel> getAllUsers(@PathVariable(value = "id") String userId) throws Exception {

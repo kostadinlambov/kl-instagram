@@ -12,8 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-import static com.instagram.utils.constants.ResponseMessageConstants.FAILURE_FOLLOW_USER_MESSAGE;
-import static com.instagram.utils.constants.ResponseMessageConstants.SERVER_ERROR_MESSAGE;
+import static com.instagram.utils.constants.ResponseMessageConstants.*;
 
 @Service
 public class FollowerServiceImpl implements FollowerService {
@@ -59,5 +58,29 @@ public class FollowerServiceImpl implements FollowerService {
         }
 
         throw new CustomException(FAILURE_FOLLOW_USER_MESSAGE);
+    }
+
+    @Override
+    public boolean unFollow(String loggedInUserId, String userToUnFollowId) throws Exception {
+        User loggedInUser = this.userRepository.findById(loggedInUserId)
+                .filter(userValidation::isValid)
+                .orElseThrow(Exception::new);
+
+
+        User toBeFollowedUser = this.userRepository.findById(userToUnFollowId)
+                .filter(userValidation::isValid)
+                .orElseThrow(Exception::new);
+
+
+        Follower followerFromDb = this.followerRepository.findFirstByUserAndFollower(toBeFollowedUser, loggedInUser);
+
+        if(followerFromDb != null && followerFromDb.isActive()) {
+            followerFromDb.setActive(false);
+            followerFromDb.setTime(LocalDateTime.now());
+
+            return this.followerRepository.save(followerFromDb) != null;
+        }
+
+        throw new CustomException(FAILURE_UNFOLLOW_USER_MESSAGE);
     }
 }

@@ -4,6 +4,7 @@ import com.instagram.domain.entities.User;
 import com.instagram.domain.entities.UserRole;
 import com.instagram.domain.models.serviceModels.UserServiceModel;
 import com.instagram.domain.models.viewModels.user.UserCreateViewModel;
+import com.instagram.domain.models.viewModels.user.UserPeopleViewModel;
 import com.instagram.repositories.RoleRepository;
 import com.instagram.repositories.UserRepository;
 import com.instagram.services.UserService;
@@ -16,10 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.instagram.utils.constants.ResponseMessageConstants.*;
@@ -88,16 +86,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserServiceModel> getAllUsersNotFollowers(String userId) throws Exception {
+    public List<UserPeopleViewModel> getAllUsersWithFollowersInfo(String userId) throws Exception {
         User userById = this.userRepository.findById(userId).orElse(null);
 
         if (!userValidation.isValid(userById)) {
             throw new Exception(SERVER_ERROR_MESSAGE);
         }
 
-        return this.userRepository.getAllNotFollowers(userId).stream()
-                .map(x -> this.modelMapper.map(x, UserServiceModel.class))
-                .collect(Collectors.toList());
+        List<Object[]> allUsers = this.userRepository.getAllUsersWithFollowersInfo(userId);
+        List<UserPeopleViewModel> userPeopleViewModels = new ArrayList<>();
+
+        for (Object[] currentUser : allUsers) {
+            UserPeopleViewModel userPeopleViewModel = new UserPeopleViewModel();
+            userPeopleViewModel.setId((String) currentUser[0]);
+            userPeopleViewModel.setUsername((String) currentUser[1]);
+            userPeopleViewModel.setFirstName((String) currentUser[2]);
+            userPeopleViewModel.setLastName((String) currentUser[3]);
+            userPeopleViewModel.setProfilePicUrl((String) currentUser[4]);
+            userPeopleViewModel.setActive((Boolean) currentUser[5]);
+
+            userPeopleViewModels.add(userPeopleViewModel);
+        }
+
+        return userPeopleViewModels;
+
+//        return allNotFollowers.stream()
+//                .map(x -> this.modelMapper.map(x, UserServiceModel.class))
+//                .collect(Collectors.toList());
     }
 
     @Override
