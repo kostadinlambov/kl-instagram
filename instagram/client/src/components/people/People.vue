@@ -37,16 +37,19 @@ export default {
   },
 
   methods: {
-    ...mapActions("user", ["fetchAllUsersAction", "followUserAction"]),
+    ...mapActions("user", ["fetchAllUsersAction", "followUserAction", "unFollowUserAction"]),
 
     onFollowHandler(userId) {
-      debugger;
-      console.log("onFollowHandler userId: ", userId);
       this.followUserAction(userId);
+    },
+
+    onUnFollowHandler(userId) {
+      this.unFollowUserAction(userId);
     },
 
     addEventListeners() {
       this.$root.$on("on-follow", this.onFollowHandler);
+      this.$root.$on("on-unfollow", this.onUnFollowHandler);
     }
   },
 
@@ -60,6 +63,7 @@ export default {
 
   beforeDestroy() {
     this.$root.$off('on-follow');
+    this.$root.$off('on-unfollow');
   }
 };
 </script>

@@ -7,6 +7,7 @@ import {
   PROMOTE_USER,
   DEMOTE_USER,
   FOLLOW_USER_SUCCESS,
+  UNFOLLOW_USER_SUCCESS,
   RESET_STATE,
 } from "./mutationTypes";
 
@@ -127,6 +128,32 @@ export const followUserAction = (context, userToFollowId) => {
     });
   });
 };
+
+export const unFollowUserAction = (context, userToUnFollowId) => {
+  const url = "follower/unFollow";
+  const loggedInUserId = context.rootState.auth.loggedInUser.id;
+  const requestBody = { loggedInUserId, userToUnFollowId };
+
+  requester.post(url, requestBody)
+  .then(res => {
+    context.commit({
+      type: UNFOLLOW_USER_SUCCESS,
+      userToUnFollowId
+    })
+
+
+     Vue.$toast.open({
+        message: res.body.message,
+        type: "success"
+      });
+  }).catch(err => {
+    Vue.$toast.open({
+      message: err.body.message,
+      type: "error"
+    });
+  });
+};
+
 
 export const resetState = context => {
   context.commit({

@@ -10,6 +10,7 @@ import {
   DEMOTE_USER,
   RESET_STATE,
   FOLLOW_USER_SUCCESS,
+  UNFOLLOW_USER_SUCCESS,
 } from "./mutationTypes";
 
 // initial state
@@ -21,9 +22,11 @@ const initialState = {
 
 const mutations = {
   [FETCH_ALL_USERS]: (state, payload) => {
+    console.log(payload.users)
     state.users = payload.users;
   },
   [FETCH_ALL_USERS_ADMIN]: (state, payload) => {
+    console.log(payload.users)
     state.usersAdmin = payload.users;
   },
 
@@ -36,7 +39,11 @@ const mutations = {
   },
 
   [FOLLOW_USER_SUCCESS] : (state, payload) => {
-    updateUsersArr(state, payload.userToFollowId);
+    updateUsersArr(state, payload.userToFollowId, true);
+  },
+
+  [UNFOLLOW_USER_SUCCESS] : (state, payload) => {
+    updateUsersArr(state, payload.userToUnFollowId, false);
   },
 
   [RESET_STATE]: (state) => {
@@ -46,11 +53,20 @@ const mutations = {
   },
 };
 
-const updateUsersArr = (state, userToFollowId) => {
-  const filteredUserArr = state.users.filter(user => user.id != userToFollowId)
+const updateUsersArr = (state, userId, active) => {
+  const newUserArr = state.users.map(user => {
+    if (user.id !== userId) {
+      return user;
+    }
 
-  state.users = [...filteredUserArr]
-};
+    return {
+      ...user,
+      active
+    };
+
+  })
+    state.users = [...newUserArr]
+}
 
 const changeUserRole = (userId, role, state) => {
   const newUserArr = state.usersAdmin.map(user => {

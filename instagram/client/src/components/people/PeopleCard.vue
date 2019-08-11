@@ -10,8 +10,14 @@
       </div>
     </div>
 
-    <div class="buttons-wrapper">
+    <div class="buttons-wrapper" v-if="!currentUser.active">
       <button class="btn app-button-primary btn-sm" v-on:click="follow(currentUser.id)">Follow</button>
+    </div>
+    <div class="buttons-wrapper" v-else>
+      <button
+        class="btn app-button-secondary btn-sm"
+        v-on:click="unfollow(currentUser.id)"
+      >Following</button>
     </div>
   </div>
 </template>
@@ -33,6 +39,9 @@ export default {
   methods: {
     follow(userId) {
       this.$root.$emit("on-follow", userId);
+    },
+    unfollow(userId) {
+      this.$root.$emit("on-unfollow", userId);
     }
   }
 };
@@ -134,6 +143,17 @@ export default {
   box-shadow: 0 0 14px 1px rgba(0, 0, 0, 0.3);
 }
 
+.app-button-secondary {
+  background: rgb(65, 184, 131);
+  color: white;
+}
+
+.app-button-secondary:hover {
+  background: rgb(53, 73, 94);
+  color: #fff;
+  border: 1px solid #fff;
+  box-shadow: 0 0 14px 1px rgba(0, 0, 0, 0.3);
+}
 @media screen and (max-width: 900px) {
 }
 
@@ -144,7 +164,6 @@ export default {
   .card-container {
     padding: 0.5rem 0.5rem;
     /* flex-direction: column; */
-    
   }
   .usernames-container {
     margin-left: 5px;
