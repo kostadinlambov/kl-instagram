@@ -149,7 +149,7 @@ export default {
 }
 
 .navbar-wrapper {
-  width: 80%;
+  width: 65%;
   margin: auto;
   /* display: flex;
   justify-content: space-between;
