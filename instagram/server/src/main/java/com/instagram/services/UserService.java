@@ -4,6 +4,7 @@ package com.instagram.services;
 import com.instagram.domain.entities.User;
 import com.instagram.domain.models.serviceModels.UserServiceModel;
 import com.instagram.domain.models.viewModels.user.UserCreateViewModel;
+import com.instagram.domain.models.viewModels.user.UserDetailsViewModel;
 import com.instagram.domain.models.viewModels.user.UserPeopleViewModel;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -25,4 +26,6 @@ public interface UserService extends UserDetailsService {
     boolean promoteUser(String id) throws Exception;
 
     List<UserPeopleViewModel> getAllUsersWithFollowersInfo(String userId) throws Exception;
+
+    UserDetailsViewModel getUserById(String id) throws Exception;
 }

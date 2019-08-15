@@ -2,8 +2,6 @@
   <main class="mt-5">
     <div class="container text-center col-md-9 pt-5">
       <header class="user-homepage-header">
-        <!-- <h1 class="text-center font-weight-bold mt-5">Hello {{username}}</h1>
-        <h2 class="text-center font-weight-bold mt-5">userId: {{userId}}</h2>-->
         <div class="card-container">
           <div class="content-wrapper">
             <div class="profile-pick-container">
@@ -11,8 +9,6 @@
             </div>
             <section class="user-info-wrapper">
               <div class="username-wrapper">
-                <!-- <div class="username">{{username}}</div>
-                <div class="names">firstName lastName</div>-->
                 <h1 class="username">{{username}}</h1>
                 <div>
                   <router-link class="btn home-page-btn" to="/accounts/edit">Edit Profile</router-link>
@@ -20,8 +16,6 @@
                 <div>
                   <router-link class="btn home-page-btn" to="/accounts/settings">Settings</router-link>
                 </div>
-
-                <!-- <div class="settings-button">Settings</div> -->
               </div>
               <ul class="follower-info">
                 <li>
@@ -63,52 +57,93 @@
       </div>
       <div class="gallery-container">
         <ul class="gallery-wrapper">
-          <router-link class="image-container" to="#">
-            <img class="gallery-img l" src="@/assets/images/Social_Media.jpg" alt />
+          <post-card 
+              v-for="post in posts" 
+              v-bind:key="post.id" 
+              v-bind:currentPost="post"
+          >
+          </post-card>
+
+          <!-- <router-link class="image-container" to="#">
+            <img class="gallery-img l" src="https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg" alt />
           </router-link>
           <router-link class="image-container" to="#">
-            <img class="gallery-img " src="@/assets/images/placeholder.png" alt />
+            <img class="gallery-img  l" src="https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg" alt />
           </router-link>
           <router-link class="image-container" to="#">
-            <img class="gallery-img " src="@/assets/images/placeholder.png" alt />
+            <img class="gallery-img" src="https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg" alt />
           </router-link>
           <router-link class="image-container" to="#">
-            <img class="gallery-img " src="@/assets/images/SoftUniFoundation_Logo.png" alt />
+            <img class="gallery-img  l" src="https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg" alt />
           </router-link>
           <router-link class="image-container" to="#">
-            <img class="gallery-img " src="@/assets/images/small_dog.jpg" alt />
+            <img class="gallery-img" src="https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg" alt />
           </router-link>
+          <router-link class="image-container" to="#">
+            <img class="gallery-img" src="https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg" alt />
+          </router-link>-->
         </ul>
       </div>
     </div>
   </main>
 </template>
-// <div class="gallery-row">
-//             <div class="post-wrapper">
-//               <router-link to="#">
-//                 <div class="image-wrapper profile-pick-container">
-//                   <img src="../../assets/images/default-background-image.jpg" alt />
-//                 </div>
-//               </router-link>
-//             </div>
-//           </div>
 <script>
 import { userService } from "../../infrastructure/userService";
+import PostCard from "./PostCard";
+import { mapGetters,  mapActions } from "vuex";
 
 export default {
   name: "user-home-page",
+  components: {
+    PostCard
+  },
+ computed: {
+    ...mapGetters("user", {
+        // loggedInUser: "getLoggedInUser",
+    })
+  },
+  methods: {
+    // ...mapActions(['fetchLoggedInUser'])
+  },
+
   data() {
     return {
       username: this.$route.params.username,
-      userId: userService.getUserId()
+      userId: userService.getUserId(),
+      posts: [
+        {
+          imageUrl:
+            "https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg",
+          id: 1
+        },
+        {
+          imageUrl:
+            "https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg",
+          id: 2
+        },
+        {
+          imageUrl:
+            "https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg",
+          id: 3
+        },
+        {
+          imageUrl:
+            "https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg",
+          id: 4
+        }
+        // {imageUrl: '../../assets/images/SoftUniFoundation_Logo.png', id: 5},
+        // {imageUrl: '../../assets/images/Social_Media.jpg', id: 6},
+      ]
     };
+  },
+  created(){
+    // this.fetchLoggedInUser({id: this.userId})
   }
 };
 </script>
 
 <style scoped>
-/*############ Header #######################*/
-
+/*############ HomePage Header #######################*/
 .user-homepage-header {
   margin-bottom: 44px;
 }
@@ -311,7 +346,7 @@ span.bio {
   border-top: 1px solid rgb(65, 184, 131);
 }
 
-.bookmark-icon-span{
+.bookmark-icon-span {
   margin-left: 5px;
 }
 
@@ -330,25 +365,21 @@ span.bio {
   gap: 1rem;
   justify-content: space-around;
   align-content: stretch;
-  /* justify-items: stretch;
-  align-items: stretch; */
 }
 
-.image-container {
-  /* width: 280px;
-  height: 280px; */
-   /* width: 280px; */
-  height: 100%;
-  width:100%;
+/* .image-container { */
+
+/* height: 100%;
+  width: 100%;
   overflow: hidden;
 
   margin: auto;
   position: relative;
-  
-  transition: transform 1.5s;
-}
 
-.image-container:after {
+  transition: transform 1.5s;
+} */
+
+/* .image-container:after {
   display: block;
   content: "";
   padding-top: 100%;
@@ -357,9 +388,9 @@ span.bio {
 .image-container:hover {
   transform: scale(1.1);
   box-shadow: 0px 0px 12px 2px rgba(65, 184, 131, 0.8);
-}
+} */
 
-img.gallery-img {
+/* img.gallery-img {
   display: block;
   position: absolute;
   width: 100%;
@@ -369,9 +400,9 @@ img.gallery-img {
   transform: translate(-50%, -50%);
 
   /* transition: transform 1.5s; */
-}
+/* } */
 
-.gallery-img.l {
+/* .gallery-img.l {
   position: absolute;
   display: block;
   width: auto;
@@ -379,97 +410,6 @@ img.gallery-img {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
-
-
-/*############ picture gallery grid #######################*/
-/* .gallery-container {
-  max-width: 935px;
-  width: 100%;
-  padding: 40px 0 0;
-  margin: auto;
-}
-
-.gallery-wrapper {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 30%);
-  gap: 1.5rem;
-  justify-items: stretch;
-  align-items: stretch;
-}
-
-.image-container {
-  width: 100%;
-  margin: auto;
-  position: relative;
-}
-
-.image-container:after {
-  display: block;
-  content: '';
-  padding-top: 100%;
-}
-
-.gallery-img {
-  width: 100%;
-  height: auto;
-  transition: transform 1.5s;
-}
-
-.gallery-img.l {
-  width: auto;
-  height: 100%;
-  transition: transform 1.5s;
-}
-
-.gallery-img:hover,
-.gallery-img.l:hover {
-  transform: scale(1.1);
-  box-shadow: 0px 0px 12px 2px rgba(65, 184, 131, 0.8);
-} */
-
-/*############ junk #######################*/
-
-/* .buttons-wrapper {
-  flex: 0 1 50%;
-  display: flex;
-  justify-content: flex-end;
-  margin-right: 5px;
-}
-
-.buttons-wrapper button {
-  margin-left: 10px;
-}
-
-.user-role {
-  margin-left: 10px;
-  margin: auto;
-} */
-
-/* .app-button-primary {
-  background-color: rgb(53, 73, 94);
-  color: white;
-}
-
-.app-button-primary:hover {
-  background: rgb(65, 184, 131);
-  color: #fff;
-  border: 1px solid #fff;
-  box-shadow: 0 0 14px 1px rgba(0, 0, 0, 0.3);
-}
-
-.app-button-secondary {
-  background: rgb(65, 184, 131);
-  color: white;
-}
-
-.app-button-secondary:hover {
-  background: rgb(53, 73, 94);
-  color: #fff;
-  border: 1px solid #fff;
-  box-shadow: 0 0 14px 1px rgba(0, 0, 0, 0.3);
 } */
 
 @media screen and (max-width: 900px) {

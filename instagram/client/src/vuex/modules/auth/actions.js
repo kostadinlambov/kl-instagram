@@ -4,10 +4,11 @@ import requester from "@/infrastructure/requester";
 
 import {
   CHANGE_IS_AUTHENTICATED,
-  SAVE_LOGGEDIN_USER_DATA,
-  AUTH_RESET_STATE
+  AUTH_RESET_STATE,
+  FETCH_LOGGEDIN_USER
 } from "./mutationTypes";
 import { RESET_STATE_GLOBAL } from "../../mutationTypes";
+import { userService } from '@/infrastructure/userService';
 
 export const registerAction = (context, payload) => {
   const url = "users/register";
@@ -43,14 +44,12 @@ export const loginAction = (context, payload) => {
     .then(res => {
       console.log("res => ", res);
 
+      const id = userService.getUserId();
+      context.dispatch('fetchLoggedInUser',{id});
+
       context.commit({
         type: CHANGE_IS_AUTHENTICATED,
         value: true
-      });
-
-      context.commit({
-        type: SAVE_LOGGEDIN_USER_DATA,
-        value: res
       });
 
       Vue.$toast.open({
@@ -96,3 +95,21 @@ export const resetState = context => {
     type: AUTH_RESET_STATE
   });
 };
+
+export const fetchLoggedInUser = (context, payload) => {
+  const url = "user/details/" + payload.id;
+  requester
+    .get(url)
+    .then(res => {
+      context.commit({
+        type: FETCH_LOGGEDIN_USER,
+        users: res.body
+      });
+    })
+    .catch(err => {
+      Vue.$toast.open({
+        message: err.body.message,
+        type: "error"
+      });
+    });
+}

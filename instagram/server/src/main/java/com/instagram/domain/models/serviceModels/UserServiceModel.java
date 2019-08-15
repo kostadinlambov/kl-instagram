@@ -13,6 +13,8 @@ public class UserServiceModel implements Serializable {
     private String firstName;
     private String lastName;
     private String profilePicUrl;
+    private String bio;
+    private String website;
     private boolean isDeleted;
     private boolean isOnline;
     private Set<UserRole> authorities;
@@ -135,6 +137,22 @@ public class UserServiceModel implements Serializable {
 
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
+    }
+
+    public String getBio() {
+        return this.bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getWebsite() {
+        return this.website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
     }
 
     public String extractAuthority() {

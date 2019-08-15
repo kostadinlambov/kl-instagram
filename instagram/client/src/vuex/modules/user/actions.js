@@ -141,7 +141,6 @@ export const unFollowUserAction = (context, userToUnFollowId) => {
       userToUnFollowId
     })
 
-
      Vue.$toast.open({
         message: res.body.message,
         type: "success"

@@ -4,6 +4,7 @@ import com.instagram.domain.entities.User;
 import com.instagram.domain.entities.UserRole;
 import com.instagram.domain.models.serviceModels.UserServiceModel;
 import com.instagram.domain.models.viewModels.user.UserCreateViewModel;
+import com.instagram.domain.models.viewModels.user.UserDetailsViewModel;
 import com.instagram.domain.models.viewModels.user.UserPeopleViewModel;
 import com.instagram.repositories.RoleRepository;
 import com.instagram.repositories.UserRepository;
@@ -113,6 +114,19 @@ public class UserServiceImpl implements UserService {
 //        return allNotFollowers.stream()
 //                .map(x -> this.modelMapper.map(x, UserServiceModel.class))
 //                .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDetailsViewModel getUserById(String id) throws Exception {
+        User user = this.userRepository.findById(id)
+                .filter(userValidation::isValid)
+                .orElseThrow(Exception::new);
+
+        String userAuthority = this.getUserAuthority(id);
+        UserDetailsViewModel userFromDb = this.modelMapper.map(user, UserDetailsViewModel.class);
+        userFromDb.setRole(userAuthority);
+
+        return userFromDb;
     }
 
     @Override

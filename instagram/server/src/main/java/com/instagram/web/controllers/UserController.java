@@ -5,13 +5,13 @@ import com.instagram.domain.models.bindingModels.user.UserRegisterBindingModel;
 import com.instagram.domain.models.serviceModels.UserServiceModel;
 import com.instagram.domain.models.viewModels.user.UserAllViewModel;
 import com.instagram.domain.models.viewModels.user.UserCreateViewModel;
+import com.instagram.domain.models.viewModels.user.UserDetailsViewModel;
 import com.instagram.domain.models.viewModels.user.UserPeopleViewModel;
 import com.instagram.services.UserService;
 import com.instagram.utils.responseHandler.exceptions.BadRequestException;
 import com.instagram.utils.responseHandler.exceptions.CustomException;
 import com.instagram.utils.responseHandler.successResponse.SuccessResponse;
 import com.instagram.validations.serviceValidation.services.UserValidationService;
-import org.apache.coyote.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -136,6 +136,13 @@ public class UserController {
             return new ResponseEntity<>(this.objectMapper.writeValueAsString(successResponse), HttpStatus.OK);
         }
         throw new CustomException(USER_FAILURE_DEMOTING_MESSAGE);
+    }
+
+    @GetMapping(value = "/details/{id}")
+    public ResponseEntity getDetails(@PathVariable String id) throws Exception {
+        UserDetailsViewModel user = this.userService.getUserById(id);
+        return new ResponseEntity<>(this.objectMapper.writeValueAsString(user), HttpStatus.OK);
+
     }
 
 }

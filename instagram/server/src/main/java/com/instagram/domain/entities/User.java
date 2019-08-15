@@ -16,6 +16,8 @@ public class User extends BaseEntity implements UserDetails {
     private String firstName;
     private String lastName;
     private String profilePicUrl;
+    private String bio;
+    private String website;
     private boolean isDeleted;
     private boolean isOnline;
     private Set<UserRole> authorities;
@@ -100,6 +102,24 @@ public class User extends BaseEntity implements UserDetails {
 
     public void setOnline(boolean online) {
         isOnline = online;
+    }
+
+    @Column(name = "bio", columnDefinition = "TEXT")
+    public String getBio() {
+        return this.bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    @Column(name = "website")
+    public String getWebsite() {
+        return this.website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
     }
 
     @Override

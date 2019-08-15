@@ -6,8 +6,8 @@ import Vue from 'vue';
 import {
   LOGIN_SUCCESS,
   CHANGE_IS_AUTHENTICATED,
-  SAVE_LOGGEDIN_USER_DATA,
   AUTH_RESET_STATE,
+  FETCH_LOGGEDIN_USER
 } from "./mutationTypes";
 
 // initial state
@@ -21,6 +21,8 @@ const initialState = {
     role: userService.getRole(),
     getProfilePicUrl: userService.getProfilePicUrl(),
     isAdminOrRoot: userService.isAdminOrRoot(),
+    bio: '',
+    website: '',
   }
 };
 
@@ -33,8 +35,13 @@ const mutations = {
     state.isLoggedIn = payload.value;
   },
 
-  [SAVE_LOGGEDIN_USER_DATA]: (state) => {
-    state.loggedInUser = {...userService.getUserData()};
+  // [SAVE_LOGGEDIN_USER_DATA]: (state, payload) => {
+  //   state.loggedInUser = {...userService.getUserData()};
+  // },
+
+  [FETCH_LOGGEDIN_USER]: (state, payload) => {
+    state.loggedInUser = {...payload.users};
+    state.loggedInUser.isAdminOrRoot = userService.isAdminOrRoot();
   },
 
   [AUTH_RESET_STATE]: (state) => {

@@ -17,16 +17,14 @@ import {
 const initialState = {
   usersAdmin: [],
   users: [],
-  
 };
 
 const mutations = {
   [FETCH_ALL_USERS]: (state, payload) => {
-    console.log(payload.users)
     state.users = payload.users;
   },
+  
   [FETCH_ALL_USERS_ADMIN]: (state, payload) => {
-    console.log(payload.users)
     state.usersAdmin = payload.users;
   },
 
