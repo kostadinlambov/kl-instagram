@@ -1,11 +1,16 @@
 package com.instagram.web.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.instagram.domain.models.viewModels.post.PostAllViewModel;
 import com.instagram.services.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/post")
@@ -19,5 +24,16 @@ public class PostController {
         this.postService = postService;
         this.modelMapper = modelMapper;
         this.objectMapper = objectMapper;
+    }
+
+
+    @GetMapping(value = "/all/{id}")
+    public List<PostAllViewModel> getAllPosts(@PathVariable(value = "id") String id) throws Exception {
+
+        List<PostAllViewModel> postAllViewModels = this.postService.getAll(id);
+
+        System.out.println();
+
+        return postAllViewModels;
     }
 }

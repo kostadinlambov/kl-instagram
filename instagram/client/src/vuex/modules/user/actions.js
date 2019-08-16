@@ -153,6 +153,24 @@ export const unFollowUserAction = (context, userToUnFollowId) => {
   });
 };
 
+export const fetchUserPosts = (context, userId) => {
+  const url = "post/all/" + payload.id;
+  requester
+    .get(url)
+    .then(res => {
+      context.commit({
+        type: FETCH_ALL_USERS,
+        users: res.body
+      });
+    })
+    .catch(err => {
+      Vue.$toast.open({
+        message: err.body.message,
+        type: "error"
+      });
+    });
+}
+
 
 export const resetState = context => {
   context.commit({

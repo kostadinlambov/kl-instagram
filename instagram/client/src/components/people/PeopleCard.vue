@@ -2,7 +2,7 @@
   <div class="card-container">
     <div class="content-wrapper">
       <div class="profile-pick-container">
-        <img src="@/assets/images/placeholder.png" alt="user-pic" />
+        <img :src="profilePicUrl" alt="user-pic" />
       </div>
       <div class="usernames-container">
         <div class="username">{{currentUser.username}}</div>
@@ -24,16 +24,25 @@
 
 <script>
 import defaultProfilePic from "@/assets/images/placeholder.png";
+import placeholderLink from "../../assets/images/placeholder.png";
+
 
 export default {
   name: "people-card",
   data() {
-    return {};
+    return {
+      placeholder: placeholderLink
+    };
   },
   props: {
     currentUser: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    profilePicUrl(){
+      return this.currentUser.profilePicUrl || this.placeholder;
     }
   },
   methods: {

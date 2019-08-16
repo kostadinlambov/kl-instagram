@@ -5,6 +5,7 @@ import * as Cookies from "js-cookie";
 
 import auth from "./modules/auth";
 import user from "./modules/user";
+import post from "./modules/post";
 import { RESET_STATE_GLOBAL } from "./mutationTypes";
 
 Vue.use(Vuex);
@@ -12,7 +13,8 @@ Vue.use(Vuex);
 // initial State
 let initialState = {
   auth: { ...auth.state },
-  user: { ...user.state }
+  user: { ...user.state },
+  post: { ...post.state },
 };
 
 export const store = new Vuex.Store({
@@ -34,6 +36,11 @@ export const store = new Vuex.Store({
       namespaced: true,
       state: user.state,
       ...user
+    },
+    post: {
+      namespaced: true,
+      state: post.state,
+      ...post
     }
   },
 

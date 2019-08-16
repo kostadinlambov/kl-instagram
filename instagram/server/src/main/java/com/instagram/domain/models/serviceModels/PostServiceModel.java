@@ -1,12 +1,14 @@
-package com.instagram.domain.entities;
+package com.instagram.domain.models.serviceModels;
 
-import javax.persistence.*;
+import com.instagram.domain.entities.Comment;
+import com.instagram.domain.entities.Like;
+import com.instagram.domain.entities.User;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
-@Table(name = "posts")
-public class Post extends BaseEntity {
+public class PostServiceModel {
+    private String id;
     private String content;
     private String imageUrl;
     private String location;
@@ -15,10 +17,17 @@ public class Post extends BaseEntity {
     private List<Like> likes;
     private List<Comment> comments;
 
-    public Post() {
+    public PostServiceModel() {
     }
 
-    @Column(name = "content", nullable = false, columnDefinition = "TEXT")
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getContent() {
         return this.content;
     }
@@ -27,7 +36,6 @@ public class Post extends BaseEntity {
         this.content = content;
     }
 
-    @Column(name = "image_url", nullable = false)
     public String getImageUrl() {
         return this.imageUrl;
     }
@@ -36,7 +44,6 @@ public class Post extends BaseEntity {
         this.imageUrl = imageUrl;
     }
 
-    @Column(name = "location")
     public String getLocation() {
         return this.location;
     }
@@ -45,7 +52,6 @@ public class Post extends BaseEntity {
         this.location = location;
     }
 
-    @Column(name = "time", nullable = false)
     public LocalDateTime getTime() {
         return this.time;
     }
@@ -54,8 +60,6 @@ public class Post extends BaseEntity {
         this.time = time;
     }
 
-    @ManyToOne(targetEntity = User.class, optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
     public User getUser() {
         return this.user;
     }
@@ -64,7 +68,6 @@ public class Post extends BaseEntity {
         this.user = user;
     }
 
-    @OneToMany(mappedBy = "post", targetEntity = Like.class, cascade = CascadeType.ALL)
     public List<Like> getLikes() {
         return this.likes;
     }
@@ -73,7 +76,6 @@ public class Post extends BaseEntity {
         this.likes = likes;
     }
 
-    @OneToMany(mappedBy = "post", targetEntity = Comment.class, cascade = CascadeType.ALL)
     public List<Comment> getComments() {
         return this.comments;
     }

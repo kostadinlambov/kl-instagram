@@ -63,25 +63,6 @@
               v-bind:currentPost="post"
           >
           </post-card>
-
-          <!-- <router-link class="image-container" to="#">
-            <img class="gallery-img l" src="https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg" alt />
-          </router-link>
-          <router-link class="image-container" to="#">
-            <img class="gallery-img  l" src="https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg" alt />
-          </router-link>
-          <router-link class="image-container" to="#">
-            <img class="gallery-img" src="https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg" alt />
-          </router-link>
-          <router-link class="image-container" to="#">
-            <img class="gallery-img  l" src="https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg" alt />
-          </router-link>
-          <router-link class="image-container" to="#">
-            <img class="gallery-img" src="https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg" alt />
-          </router-link>
-          <router-link class="image-container" to="#">
-            <img class="gallery-img" src="https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg" alt />
-          </router-link>-->
         </ul>
       </div>
     </div>
@@ -91,6 +72,7 @@
 import { userService } from "../../infrastructure/userService";
 import PostCard from "./PostCard";
 import { mapGetters,  mapActions } from "vuex";
+import { debuglog } from 'util';
 
 export default {
   name: "user-home-page",
@@ -98,51 +80,52 @@ export default {
     PostCard
   },
  computed: {
-    ...mapGetters("user", {
-        // loggedInUser: "getLoggedInUser",
+    ...mapGetters("post", {
+        posts: "getUserPosts",
     })
   },
   methods: {
-    // ...mapActions(['fetchLoggedInUser'])
+    ...mapActions("post", ['fetchUserPosts'])
   },
 
   data() {
     return {
       username: this.$route.params.username,
       userId: userService.getUserId(),
-      posts: [
-        {
-          imageUrl:
-            "https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg",
-          id: 1
-        },
-        {
-          imageUrl:
-            "https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg",
-          id: 2
-        },
-        {
-          imageUrl:
-            "https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg",
-          id: 3
-        },
-        {
-          imageUrl:
-            "https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg",
-          id: 4
-        }
-        // {imageUrl: '../../assets/images/SoftUniFoundation_Logo.png', id: 5},
-        // {imageUrl: '../../assets/images/Social_Media.jpg', id: 6},
-      ]
+      // posts: [
+      //   {
+      //     imageUrl:
+      //       "https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg",
+      //     id: 1
+      //   },
+      //   {
+      //     imageUrl:
+      //       "https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg",
+      //     id: 2
+      //   },
+      //   {
+      //     imageUrl:
+      //       "",
+      //     id: 3
+      //   },
+      //   {
+      //     imageUrl:
+      //       "https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg",
+      //     id: 4
+      //   }
+      //   // {imageUrl: '../../assets/images/SoftUniFoundation_Logo.png', id: 5},
+      //   // {imageUrl: '../../assets/images/Social_Media.jpg', id: 6},
+      // ]
     };
   },
   created(){
-    // this.fetchLoggedInUser({id: this.userId})
+    this.fetchUserPosts(this.userId)
   }
 };
 </script>
 
 <style scoped>
+
 /*############ HomePage Header #######################*/
 .user-homepage-header {
   margin-bottom: 44px;

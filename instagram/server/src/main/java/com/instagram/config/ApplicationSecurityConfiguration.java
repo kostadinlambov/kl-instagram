@@ -65,7 +65,8 @@ public class ApplicationSecurityConfiguration
                         "/user/notFollowers/*",
                         "/follower/follow",
                         "/follower/unFollow",
-                        "/users/details/*"
+                        "/users/details/*",
+                        "/post/all/*"
 //                        "/users/update/*",
 //                        "/relationship/friends/*",
 //                        "/relationship/findFriends/*",
@@ -82,7 +83,6 @@ public class ApplicationSecurityConfiguration
 //                        "/like/add",
 //                        "/comment/create",
 //                        "/comment/remove",
-//                        "/post/all/*",
 //                        "/message/create",
 //                        "/message/all/*",
 //                        "/message/friend",

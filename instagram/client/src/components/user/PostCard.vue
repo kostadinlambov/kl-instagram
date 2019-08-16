@@ -1,26 +1,29 @@
 <template>
   <router-link class="image-container" to="#">
-    <img class="gallery-img l" :src="currentPost.imageUrl" alt />
+    <img class="gallery-img l" :src="imageUrl" alt />
   </router-link>
 </template>  
 
 <script>
-import Img from "../../assets/images/placeholder.png";
+import placeholderLink from "../../assets/images/placeholder.png";
 
 export default {
   name: "post-card",
   data() {
     return {
-      posts: []
+      posts: [],
+      placeholder: placeholderLink
     };
   },
   props: {
     currentPost: {
       type: Object,
-      required: true,
-      // default: function() {
-      //   return { message: "hello" };
-      // }
+      required: true
+    }
+  },
+  computed: {
+    imageUrl() {
+      return this.currentPost.imageUrl || this.placeholder;
     }
   },
   methods: {
@@ -33,7 +36,6 @@ export default {
 </script>
 
 <style scoped>
-
 /*############ picture gallery grid #######################*/
 /* .gallery-container {
   max-width: 935px;
