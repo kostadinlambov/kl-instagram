@@ -1,11 +1,14 @@
 package com.instagram.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "posts")
+//@Table(name = "posts")
+@Table(name = "posts", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
 public class Post extends BaseEntity {
     private String content;
     private String imageUrl;
@@ -74,6 +77,7 @@ public class Post extends BaseEntity {
     }
 
     @OneToMany(mappedBy = "post", targetEntity = Comment.class, cascade = CascadeType.ALL)
+    @JsonManagedReference
     public List<Comment> getComments() {
         return this.comments;
     }

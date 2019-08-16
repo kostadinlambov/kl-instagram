@@ -1,15 +1,19 @@
 package com.instagram.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "comments")
+//@Table(name = "comments")
+@Table(name = "comments", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
 public class Comment extends BaseEntity{
     private Post post;
     private User creator;
-    private User receiver;
+//    private User receiver;
     private String content;
     private LocalDateTime time;
     private List<Like> likes;
@@ -37,6 +41,7 @@ public class Comment extends BaseEntity{
 
     @ManyToOne(optional = false, targetEntity = Post.class)
     @JoinColumn(name = "post_id", referencedColumnName = "id")
+    @JsonBackReference
     public Post getPost() {
         return this.post;
     }
@@ -55,17 +60,18 @@ public class Comment extends BaseEntity{
         this.creator = creator;
     }
 
-    @OneToOne(optional = false, targetEntity = User.class)
-    @JoinColumn(name = "receiver", referencedColumnName = "id")
-    public User getReceiver() {
-        return this.receiver;
-    }
-
-    public void setReceiver(User receiver) {
-        this.receiver = receiver;
-    }
+//    @OneToOne(optional = false, targetEntity = User.class)
+//    @JoinColumn(name = "receiver", referencedColumnName = "id")
+//    public User getReceiver() {
+//        return this.receiver;
+//    }
+//
+//    public void setReceiver(User receiver) {
+//        this.receiver = receiver;
+//    }
 
     @OneToMany(targetEntity = Like.class, mappedBy = "comment", cascade = CascadeType.ALL)
+    @JsonManagedReference
     public List<Like> getLikes() {
         return this.likes;
     }

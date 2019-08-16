@@ -15,7 +15,6 @@ public class UserDetailsViewModel {
     private String website;
     private String role;
 
-
 //    private Set<UserRole> authorities;
 
     public UserDetailsViewModel() {

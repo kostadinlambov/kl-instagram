@@ -5,11 +5,11 @@
         <div class="card-container">
           <div class="content-wrapper">
             <div class="profile-pick-container">
-              <img src="@/assets/images/placeholder.png" alt="user-pic" />
+              <img class="l" :src="profilePicUrl" alt="user-pic" />
             </div>
             <section class="user-info-wrapper">
               <div class="username-wrapper">
-                <h1 class="username">{{username}}</h1>
+                <h1 class="username">{{loggedInUser.username}}</h1>
                 <div>
                   <router-link class="btn home-page-btn" to="/accounts/edit">Edit Profile</router-link>
                 </div>
@@ -30,16 +30,14 @@
               </ul>
 
               <div class="bio-info">
-                <h2 class="names">Bender Rodrigez</h2>
-                <span
-                  class="bio"
-                >Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate sint aspernatur porro in tenetur aliquid non earum temporibus quam deleniti. Saepe, laudantium provident asperiores similique commodi possimus ratione cum fugit.</span>
+                <h2 class="names">{{loggedInUser.firstName}} {{loggedInUser.lastName}}</h2>
+                <span class="bio">{{loggedInUser.bio}}</span>
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
-                  href="//https//bender.com"
+                  :href="webpageUrl"
                   class="webpage-link"
-                >www.web.page</a>
+                >{{loggedInUser.website}}</a>
               </div>
             </section>
           </div>
@@ -57,12 +55,7 @@
       </div>
       <div class="gallery-container">
         <ul class="gallery-wrapper">
-          <post-card 
-              v-for="post in posts" 
-              v-bind:key="post.id" 
-              v-bind:currentPost="post"
-          >
-          </post-card>
+          <post-card v-for="post in posts" v-bind:key="post.id" v-bind:currentPost="post"></post-card>
         </ul>
       </div>
     </div>
@@ -71,61 +64,47 @@
 <script>
 import { userService } from "../../infrastructure/userService";
 import PostCard from "./PostCard";
-import { mapGetters,  mapActions } from "vuex";
-import { debuglog } from 'util';
+import { mapGetters, mapActions } from "vuex";
+import { debuglog } from "util";
+import placeholderLink from "../../assets/images/placeholder.png";
 
 export default {
   name: "user-home-page",
-  components: {
-    PostCard
-  },
- computed: {
-    ...mapGetters("post", {
-        posts: "getUserPosts",
-    })
-  },
-  methods: {
-    ...mapActions("post", ['fetchUserPosts'])
-  },
-
   data() {
     return {
       username: this.$route.params.username,
       userId: userService.getUserId(),
-      // posts: [
-      //   {
-      //     imageUrl:
-      //       "https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg",
-      //     id: 1
-      //   },
-      //   {
-      //     imageUrl:
-      //       "https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg",
-      //     id: 2
-      //   },
-      //   {
-      //     imageUrl:
-      //       "",
-      //     id: 3
-      //   },
-      //   {
-      //     imageUrl:
-      //       "https://igg-games.com/wp-content/uploads/2019/05/Total-War-THREE-KINGDOMS-Free-Download.jpg",
-      //     id: 4
-      //   }
-      //   // {imageUrl: '../../assets/images/SoftUniFoundation_Logo.png', id: 5},
-      //   // {imageUrl: '../../assets/images/Social_Media.jpg', id: 6},
-      // ]
+      placeholderLink
     };
   },
-  created(){
-    this.fetchUserPosts(this.userId)
+  components: {
+    PostCard
+  },
+  computed: {
+    ...mapGetters("auth", {
+      loggedInUser: "getLoggedInUserData"
+    }),
+    ...mapGetters("post", {
+      posts: "getUserPosts"
+    }),
+    webpageUrl() {
+      return "//" + this.loggedInUser.website;
+    },
+    profilePicUrl() {
+      return this.loggedInUser.profilePicUrl || this.placeholderLink;
+    }
+  },
+  methods: {
+    ...mapActions("post", ["fetchUserPosts"])
+  },
+
+  created() {
+    this.fetchUserPosts(this.userId);
   }
 };
 </script>
 
 <style scoped>
-
 /*############ HomePage Header #######################*/
 .user-homepage-header {
   margin-bottom: 44px;
@@ -146,7 +125,7 @@ export default {
   margin: 0 auto 30px;
   max-width: 935px;
   width: 100%;
-  padding: 40px 20px 0;
+  padding: 40px 20px;
 }
 
 .content-wrapper {
@@ -226,6 +205,7 @@ h1.username {
   background-color: transparent;
   border: 1px solid #dbdbdb;
   color: #262626;
+  white-space: nowrap;
 }
 
 .home-page-btn:hover {
@@ -254,6 +234,7 @@ span.post-count {
   font-weight: 400;
   line-height: 1.5;
   color: #212529;
+  white-space: nowrap;
 }
 
 .follower-link:hover {
@@ -278,6 +259,7 @@ span.post-count {
   font-weight: 600;
   padding: 0;
   margin: 0;
+  white-space: nowrap;
 }
 
 span.bio {

@@ -1,16 +1,20 @@
 package com.instagram.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "likes")
+//@Table(name = "likes")
+@Table(name = "likes", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
 public class Like extends BaseEntity {
     private User user;
     private boolean active;
     private LocalDateTime time;
     private Post post;
     private Comment comment;
+    private LikeType likeType = LikeType.POST;
 
     public Like() {
     }
@@ -45,6 +49,7 @@ public class Like extends BaseEntity {
 
     @ManyToOne(targetEntity = Post.class)
     @JoinColumn(name = "post_id", referencedColumnName = "id")
+    @JsonBackReference
     public Post getPost() {
         return this.post;
     }
@@ -55,11 +60,22 @@ public class Like extends BaseEntity {
 
     @ManyToOne(targetEntity = Comment.class)
     @JoinColumn(name = "comment_id", referencedColumnName = "id")
+    @JsonBackReference
     public Comment getComment() {
         return this.comment;
     }
 
     public void setComment(Comment comment) {
         this.comment = comment;
+    }
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "like_type", columnDefinition = "ENUM('POST','COMMENT') default 'POST'", nullable = false)
+    public LikeType getLikeType() {
+        return this.likeType;
+    }
+
+    public void setLikeType(LikeType likeType) {
+        this.likeType = likeType;
     }
 }

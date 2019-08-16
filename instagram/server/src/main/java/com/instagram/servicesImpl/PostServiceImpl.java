@@ -14,10 +14,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
@@ -61,7 +63,10 @@ public class PostServiceImpl implements PostService {
 
         List<PostAllViewModel> postAllViewModels = postServiceModels.stream().map(postServiceModel -> {
             PostAllViewModel postAllViewModel = this.modelMapper.map(postServiceModel, PostAllViewModel.class);
-            postAllViewModel.setLikeCount(postServiceModel.getLikes().size());
+            postAllViewModel.setLikeCount((int) postServiceModel
+                    .getLikes()
+                    .stream()
+                    .filter(like -> like.getLikeType().name().equals("POST")).count());
             return postAllViewModel;
         }).collect(Collectors.toList());
 

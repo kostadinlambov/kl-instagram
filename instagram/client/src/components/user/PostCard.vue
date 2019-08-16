@@ -1,6 +1,18 @@
 <template>
   <router-link class="image-container" to="#">
     <img class="gallery-img l" :src="imageUrl" alt />
+    <div class="img-details">
+      <div class="likes-and-comments">
+        <div class="likes">
+          <i class="fas fa-heart"></i>
+          <span>{{currentPost.likeCount}}</span>
+        </div>
+        <div class="comments">
+          <i class="fas fa-comments"></i>
+          <span>{{currentPost.comments.length}}</span>
+        </div>
+      </div>
+    </div>
   </router-link>
 </template>  
 
@@ -74,7 +86,7 @@ export default {
 }
 
 .image-container:hover {
-  transform: scale(1.1);
+  /* transform: scale(1.1); */
   box-shadow: 0px 0px 12px 2px rgba(65, 184, 131, 0.8);
 }
 
@@ -98,6 +110,33 @@ img.gallery-img {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.likes-and-comments {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  content: "";
+  background: rgba(65, 184, 131, 0.85);
+  /* background: rgba(64, 163, 244, 0.9); */
+  opacity: 0;
+  transition: all 0.4s ease-in;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.likes-and-comments:hover {
+  opacity: 1;
+  color: white;
+}
+
+.likes{
+	margin-right: 2rem;
+}
+
+.likes>span, .comments > span{
+	margin-left: 8px;
 }
 
 @media screen and (max-width: 900px) {

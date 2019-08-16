@@ -19,7 +19,7 @@ const initialState = {
     firstName: userService.getFirstName(),
     lastName: userService.getLastName(),
     role: userService.getRole(),
-    getProfilePicUrl: userService.getProfilePicUrl(),
+    profilePicUrl: userService.getProfilePicUrl(),
     isAdminOrRoot: userService.isAdminOrRoot(),
     bio: '',
     website: '',
