@@ -5,18 +5,25 @@
         <img v-bind:class="imageSizeClass" :src="profilePicUrl" alt="user-pic" />
       </div>
       <div class="usernames-container">
-        <div class="username">{{currentUser.username}}</div>
-        <div class="names">{{currentUser.firstName}} {{currentUser.lastName}}</div>
+        <div
+          class="username"
+        >{{currentUser.username || currentUser.followerUsername || currentUser.userUsername}}</div>
+        <div
+          class="names"
+        >{{currentUser.firstName || currentUser.followerFirstName || currentUser.userFirstName}} {{currentUser.lastName || currentUser.followerLastName || currentUser.userLastName}}</div>
       </div>
     </div>
 
     <div class="buttons-wrapper" v-if="!currentUser.active">
-      <button class="btn app-button-primary btn-sm" v-on:click="follow(currentUser.id)">Follow</button>
+      <button
+        class="btn app-button-primary btn-sm"
+        v-on:click="follow(currentUser.followerId || currentUser.userId || currentUser.id)"
+      >Follow</button>
     </div>
     <div class="buttons-wrapper" v-else>
       <button
         class="btn app-button-secondary btn-sm"
-        v-on:click="unfollow(currentUser.id)"
+        v-on:click="unfollow(currentUser.userId || currentUser.followerId || currentUser.id )"
       >Following</button>
     </div>
   </div>
@@ -24,7 +31,7 @@
 
 <script>
 import placeholderLink from "../../assets/images/placeholder.png";
-import { userService } from '../../infrastructure/userService';
+import { userService } from "../../infrastructure/userService";
 
 export default {
   name: "people-card",
@@ -40,11 +47,16 @@ export default {
     }
   },
   computed: {
-    profilePicUrl(){
-      return this.currentUser.profilePicUrl || this.placeholder;
+    profilePicUrl() {
+      return (
+        this.currentUser.profilePicUrl ||
+        this.currentUser.userProfilePicUrl ||
+        this.currentUser.followerProfilePicUrl ||
+        this.placeholder
+      );
     },
-    imageSizeClass(){
-      return userService.getImageSize(this.profilePicUrl)
+    imageSizeClass() {
+      return userService.getImageSize(this.profilePicUrl);
     }
   },
   methods: {
@@ -52,6 +64,7 @@ export default {
       this.$root.$emit("on-follow", userId);
     },
     unfollow(userId) {
+      debugger;
       this.$root.$emit("on-unfollow", userId);
     }
   }
@@ -123,7 +136,7 @@ export default {
 }
 
 .names {
-  color: rgb(181, 181, 181);
+  color: rgb(53, 73, 94);;
 }
 
 .buttons-wrapper {

@@ -3,6 +3,7 @@ package com.instagram.servicesImpl;
 import com.instagram.domain.entities.Follower;
 import com.instagram.domain.entities.User;
 import com.instagram.domain.models.viewModels.follower.FollowerViewModel;
+import com.instagram.domain.models.viewModels.follower.FollowingViewModel;
 import com.instagram.repositories.FollowerRepository;
 import com.instagram.repositories.UserRepository;
 import com.instagram.services.FollowerService;
@@ -100,6 +101,19 @@ public class FollowerServiceImpl implements FollowerService {
 
         return byUserId.stream()
                 .map(follower -> this.modelMapper.map(follower, FollowerViewModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<FollowingViewModel> getAllFollowing(String userId) throws Exception {
+        User user = this.userRepository.findById(userId)
+                .filter(userValidation::isValid)
+                .orElseThrow(Exception::new);
+
+        List<Follower> byUserId = this.followerRepository.findByFollowerIdAndActiveTrue(userId);
+
+        return byUserId.stream()
+                .map(follower -> this.modelMapper.map(follower, FollowingViewModel.class))
                 .collect(Collectors.toList());
     }
 }

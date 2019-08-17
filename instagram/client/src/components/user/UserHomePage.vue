@@ -26,7 +26,7 @@
                     class="follower-link"
                     data-toggle="modal"
                     data-target="#follower-modal"
-                    v-on:click="isFollowingModal(false)"
+                    v-on:click="isFollowerModal(true)"
                   >{{followersCount}} follower</div>
                   <!-- <router-link class="follower-link" to="/followers"  data-toggle="modal" data-target="#testleModalId">1 follower</router-link> -->
                 </li>
@@ -74,8 +74,7 @@
       <router-link to="#" class="nav-link" data-toggle="modal" data-target="#testleModalId">Modal</router-link>
     </li>-->
     
-    <FollowerModal />
-    <FollowerModal2 :followingModal="followingModal" />
+    <FollowerModal :followingModal="followingModal" :followerModal="followerModal"/>
   </main>
 </template>
 <script>
@@ -85,21 +84,20 @@ import { mapGetters, mapActions } from "vuex";
 import { debuglog } from "util";
 import placeholderLink from "../../assets/images/placeholder.png";
 import FollowerModal from "./FollowerModal";
-import FollowerModal2 from "./FollowerModal2";
 
 export default {
   name: "user-home-page",
   components: {
     PostCard,
     FollowerModal,
-    FollowerModal2
   },
   data() {
     return {
       username: this.$route.params.username,
       userId: userService.getUserId(),
       placeholderLink,
-      followingModal: true
+      followingModal: false,
+      followerModal: false,
     };
   },
   computed: {
@@ -126,16 +124,22 @@ export default {
   },
   methods: {
     ...mapActions("post", ["fetchUserPosts"]),
-    ...mapActions("user", ["getFollowers"]),
+    ...mapActions("user", ["fetchFollowers", "fetchFollowing"]),
 
     isFollowingModal(value) {
       this.followingModal = value;
+       this.followerModal = false;
+    },
+    isFollowerModal(value) {
+      this.followerModal = value;
+      this.followingModal = false;
     }
   },
 
   created() {
     this.fetchUserPosts(this.userId);
-    this.getFollowers(this.userId);
+    this.fetchFollowers(this.userId);
+    this.fetchFollowing(this.userId);
   }
 };
 </script>
@@ -272,6 +276,10 @@ span.post-count {
   color: #212529;
   white-space: nowrap;
   cursor: pointer;
+}
+
+span.post-count{
+  cursor: auto;
 }
 
 .follower-link:hover {

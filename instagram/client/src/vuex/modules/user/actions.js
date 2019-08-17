@@ -8,7 +8,8 @@ import {
   DEMOTE_USER,
   FOLLOW_USER_SUCCESS,
   UNFOLLOW_USER_SUCCESS,
-  GET_ALL_FOLLOWERS,
+  FETCH_ALL_FOLLOWERS,
+  FETCH_ALL_FOLLOWING,
   RESET_STATE,
 } from "./mutationTypes";
 
@@ -135,8 +136,11 @@ export const unFollowUserAction = (context, userToUnFollowId) => {
   const loggedInUserId = context.rootState.auth.loggedInUser.id;
   const requestBody = { loggedInUserId, userToUnFollowId };
 
+  debugger;
   requester.post(url, requestBody)
   .then(res => {
+
+    debugger;
     context.commit({
       type: UNFOLLOW_USER_SUCCESS,
       userToUnFollowId
@@ -147,6 +151,7 @@ export const unFollowUserAction = (context, userToUnFollowId) => {
         type: "success"
       });
   }).catch(err => {
+    debugger;
     Vue.$toast.open({
       message: err.body.message,
       type: "error"
@@ -172,14 +177,14 @@ export const fetchUserPosts = (context, userId) => {
     });
 }
 
-export const getFollowers = (context, userId) => {
+export const fetchFollowers = (context, userId) => {
   const url = "follower/getFollowers/" + userId;
   requester
     .get(url)
     .then(res => {
       console.log('followers: ', res)
       context.commit({
-        type: GET_ALL_FOLLOWERS,
+        type: FETCH_ALL_FOLLOWERS,
         followers: res.body
       });
     })
@@ -190,6 +195,27 @@ export const getFollowers = (context, userId) => {
       });
     });
 }
+
+export const fetchFollowing = (context, userId) => {
+  const url = "follower/getFollowing/" + userId;
+  requester
+    .get(url)
+    .then(res => {
+      console.log('following: ', res)
+      context.commit({
+        type: FETCH_ALL_FOLLOWING,
+        following: res.body
+      });
+    })
+    .catch(err => {
+      Vue.$toast.open({
+        message: err.body.message,
+        type: "error"
+      });
+    });
+}
+
+
 
 
 

@@ -1,21 +1,38 @@
 <template>
   <article class="people-article" v-bind:style="wrapperPeople">
+  
     <div class="container col-md-10 wrapper people-container" v-bind:style="wrapperPeople">
-      <div class="title-wrapper">
-        <div class="title">Suggested</div>
-      </div>
-      <section class="people-section" v-if="followingModal">
-        <div v-for="user in orderByFollowingAsc" :key="user.id">
-          <people-card v-bind:currentUser="user" v-if="user.id != loggedInUserId"></people-card>
-          <!-- <div>{{user.firstName}} - {{user.lastName}} - {{user.role}}</div> -->
+       <section class="people-section" v-if="followerModal">
+        <div v-for="user in followers" :key="user.followerId">
+          <people-card v-bind:currentUser="user" v-if="user.followerId != loggedInUserId"></people-card>
         </div>
       </section>
-      <section class="people-section" v-else>
+       <section class="people-section" v-if="followingModal">
+        <div v-for="user in following" :key="user.userId">
+          <people-card v-bind:currentUser="user" v-if="user.userId != loggedInUserId"></people-card>
+        </div>
+      </section>
+      <div class="title-wrapper">
+        <div class="title" v-if="followingCandidates.length && (followingModal ||  followerModal)" >Suggestions For You</div>
+      </div>
+      <section class="people-section" v-if="followingModal ||  followerModal">
+        <div v-for="user in followingCandidates" :key="user.id">
+          <people-card v-bind:currentUser="user" v-if="user.id != loggedInUserId"></people-card>
+        </div>
+      </section>
+      <div class="title-wrapper">
+        <div class="title" v-if="!followingModal &&  !followerModal" >Suggested</div>
+      </div>
+      <section class="people-section" v-if="!followingModal &&  !followerModal">
+        <div v-for="user in users" :key="user.id">
+          <people-card v-bind:currentUser="user" v-if="user.id != loggedInUserId"></people-card>
+        </div>
+      </section>
+      <!-- <section class="people-section" v-else>
         <div v-for="user in orderByFollowingDesc" :key="user.id">
           <people-card v-bind:currentUser="user" v-if="user.id != loggedInUserId"></people-card>
-          <!-- <div>{{user.firstName}} - {{user.lastName}} - {{user.role}}</div> -->
         </div>
-      </section>
+      </section> -->
     </div>
   </article>
 </template>
@@ -34,7 +51,7 @@ export default {
     return {
       loggedInUserId: userService.getUserId(),
       orderedByFollowingAscArr: [],
-      orderedByFollowingDescArr: []
+      orderedByFollowingDescArr: [],
     };
   },
   props: {
@@ -43,19 +60,25 @@ export default {
     },
     followingModal: {
       type: Boolean
+    },
+    followerModal:{
+      type: Boolean
     }
   },
 
   computed: {
     ...mapGetters("user", {
-      users: "getAllUsers"
+      users: "getAllUsers",
+      followers: "getFollowers",
+      following: "getFollowing",
+      followingCandidates: "getFollowingCandidates",
     }),
-    orderByFollowingAsc(){
-      return this.users.sort((firstUser, secondUser) => secondUser.active - firstUser.active)
-    },
-    orderByFollowingDesc(){
-      return this.users.sort((firstUser, secondUser) => firstUser.active - secondUser.active)
-    }
+    // orderByFollowingAsc(){
+    //   return this.users.sort((firstUser, secondUser) => secondUser.active - firstUser.active)
+    // },
+    // orderByFollowingDesc(){
+    //   return this.users.sort((firstUser, secondUser) => firstUser.active - secondUser.active)
+    // }
   },
 
   methods: {
@@ -70,19 +93,20 @@ export default {
     },
 
     onUnFollowHandler(userId) {
+      debugger;
       this.unFollowUserAction(userId);
     },
 
-    // orderByFollowingAsc() {
-    //   this.orderedByFollowingAscArr = this.users.sort(
-    //     (firstUser, secondUser) => secondUser.active - firstUser.active
-    //   );
-    // },
-    // orderByFollowingDesc() {
-    //   this.orderedByFollowingDescArr = this.users.sort(
-    //     (firstUser, secondUser) => firstUser.active - secondUser.active
-    //   );
-    // },
+    orderByFollowingAsc() {
+      this.orderedByFollowingAscArr = this.users.sort(
+        (firstUser, secondUser) => secondUser.active - firstUser.active
+      );
+    },
+    orderByFollowingDesc() {
+      this.orderedByFollowingDescArr = this.users.sort(
+        (firstUser, secondUser) => firstUser.active - secondUser.active
+      );
+    },
 
     addEventListeners() {
       this.$root.$on("on-follow", this.onFollowHandler);
@@ -90,15 +114,14 @@ export default {
     }
   },
 
-  created() {
-    this.fetchAllUsersAction({ id: this.loggedInUserId });
-    
-  },
+  // created() {
+  //   this.fetchAllUsersAction({ id: this.loggedInUserId });
+  // },
 
   mounted() {
     this.addEventListeners();
     // this.orderByFollowingAsc();
-    // this.orderByFollowingDesc();
+    this.orderByFollowingDesc();
   },
 
   beforeDestroy() {
@@ -143,6 +166,8 @@ export default {
   font-size: 16px;
   line-height: 24px;
   margin: -6px 0;
+  color: rgb(65, 184, 131);
+
 }
 
 .people-section {

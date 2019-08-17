@@ -63,13 +63,14 @@
 
 <script>
 import { userService } from "@/infrastructure/userService";
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: "landing-page",
   components: {},
   data() {
     return {
+       loggedInUserId: userService.getUserId(),
     };
   },
   computed: {
@@ -77,7 +78,18 @@ export default {
       isLoggedIn: 'getIsLoggedIn', 
       loggedInUserData: 'getLoggedInUserData'
     })
+   
   },
+  methods: {
+     ...mapActions("user", [
+      "fetchAllUsersAction",
+    ]),
+  },
+
+   created() {
+    this.fetchAllUsersAction({ id: this.loggedInUserId });
+  },
+
   
 };
 </script>

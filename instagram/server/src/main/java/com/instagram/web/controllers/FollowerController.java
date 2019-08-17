@@ -2,6 +2,7 @@ package com.instagram.web.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.instagram.domain.models.viewModels.follower.FollowerViewModel;
+import com.instagram.domain.models.viewModels.follower.FollowingViewModel;
 import com.instagram.domain.models.viewModels.user.UserPeopleViewModel;
 import com.instagram.services.FollowerService;
 import com.instagram.utils.responseHandler.exceptions.CustomException;
@@ -64,10 +65,17 @@ public class FollowerController {
     }
 
     @GetMapping(value = "/getFollowers/{id}")
-    public List<FollowerViewModel> getAllUsersNotFollowers(@PathVariable(value = "id") String userId) throws Exception {
+    public List<FollowerViewModel> getAllFollowers(@PathVariable(value = "id") String userId) throws Exception {
         List<FollowerViewModel> allFollowers = this.followerService.getAllFollowers(userId);
 
         return allFollowers;
+    }
+
+    @GetMapping(value = "/getFollowing/{id}")
+    public List<FollowingViewModel> getAllFollowing(@PathVariable(value = "id") String userId) throws Exception {
+        List<FollowingViewModel> allFollowing = this.followerService.getAllFollowing(userId);
+
+        return allFollowing;
     }
 
 

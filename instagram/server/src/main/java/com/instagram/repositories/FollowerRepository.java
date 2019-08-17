@@ -19,5 +19,7 @@ public interface FollowerRepository extends JpaRepository<Follower, String> {
 
     List<Follower> findByUserId( String userId);
 
+    List<Follower> findByFollowerIdAndActiveTrue( String userId);
+
 //    Follower findRelationship(User loggedInUser, String userToFollowId);
 }

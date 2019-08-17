@@ -102,19 +102,16 @@
         </div>
       </section>
     </header>
-    <Modal />
   </div>
 </template>
 
 <script>
 import { userService } from "@/infrastructure/userService";
-import Modal from "@/components/user/FollowerModal";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Navbar",
   components: {
-    Modal
   },
   data() {
     return {

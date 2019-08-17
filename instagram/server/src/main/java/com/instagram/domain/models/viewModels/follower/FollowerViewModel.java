@@ -1,7 +1,5 @@
 package com.instagram.domain.models.viewModels.follower;
 
-import com.instagram.domain.entities.User;
-
 import java.time.LocalDateTime;
 
 public class FollowerViewModel {

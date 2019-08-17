@@ -1,38 +1,92 @@
 <template>
-<div class="modal-test">
-    <div class="modal fade" id="testleModalId" tabindex="-1" role="dialog" aria-labelledby="testleModalIdTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
+  <div class="container">
+    <div class="col-md-12">
+      <div class="modal fade" id="follower-modal">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Following</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <div></div>
+              <h1 v-if="followingModal">Following</h1>
+              <h1 v-else>Followers</h1>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
-                </button>
+              </button>
             </div>
             <div class="modal-body">
-                ...
+              <People v-bind:wrapperPeople="wrapperClass" :followingModal="followingModal" :followerModal="followerModal" />
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-            </div>
+            <!-- <div class="modal-footer">
+              <input class="btn btn-default" data-dismiss="modal" value="Close" />
+            </div>-->
+          </div>
         </div>
-    </div>
-</div>
 
-<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-  Launch demo modal
-</button> -->
+        <!-- <a href="#" data-toggle="modal" data-target="#follower-modal">Open Modal</a> -->
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-export default {
-    name: 'follower-modal'
+import People from "../people/People";
 
-}
+export default {
+  name: "follower-modal",
+  components: {
+    People
+  },
+  props: {
+    followingModal: {
+      type: Boolean,
+    },
+     followerModal: {
+      type: Boolean,
+    }
+  },
+  data() {
+    return {
+      wrapperClass: {
+        padding: 0,
+        margin: 0
+      },
+      // followerModal: true
+    };
+  }
+};
 </script>
 
-<style>
+<style scoped>
+.modal-content {
+  min-height: 200px;
+  max-height: 400px;
+  border-radius: 10px;
+  /* overflow: auto; */
+}
 
+.modal-header {
+  padding: 1rem;
+}
+
+h1 {
+  padding: 0;
+  margin: 0 auto;
+  font-size: 1.5rem;
+}
+
+.modal-header .close {
+  padding: 1rem 1rem;
+  margin: -1rem -1rem -1rem;
+}
+
+.modal-body {
+  /* height: 200px; */
+  /* overflow: auto; */
+  min-height: 200px;
+  overflow-y: scroll;
+}
+
+.wrapper {
+  padding: 0;
+  margin: 0 !important;
+}
 </style>

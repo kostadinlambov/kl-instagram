@@ -66,6 +66,7 @@ public class ApplicationSecurityConfiguration
                         "/follower/follow",
                         "/follower/unFollow",
                         "/follower/getFollowers/*",
+                        "/follower/getFollowing/*",
                         "/users/details/*",
                         "/post/all/*"
 //                        "/users/update/*",
