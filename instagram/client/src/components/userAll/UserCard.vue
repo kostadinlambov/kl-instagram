@@ -2,7 +2,7 @@
   <div class="card-container">
     <div class="content-wrapper">
       <div class="profile-pick-container">
-        <img :src="profilePicUrl" alt="user-pic" />
+        <img :class="imageSizeClass" :src="profilePicUrl" alt="user-pic" />
       </div>
       <div class="usernames-container">
         <div class="username">{{currentUser.username}}</div>
@@ -40,6 +40,9 @@ export default {
   computed: {
     profilePicUrl(){
       return this.currentUser.profilePicUrl || this.placeholder;
+    },
+    imageSizeClass(){
+      return userService.getImageSize(this.profilePicUrl)
     }
   },
   methods: {

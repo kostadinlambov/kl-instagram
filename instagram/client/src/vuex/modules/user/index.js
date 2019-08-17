@@ -11,12 +11,14 @@ import {
   RESET_STATE,
   FOLLOW_USER_SUCCESS,
   UNFOLLOW_USER_SUCCESS,
+  GET_ALL_FOLLOWERS
 } from "./mutationTypes";
 
 // initial state
 const initialState = {
   usersAdmin: [],
   users: [],
+  followers: [],
 };
 
 const mutations = {
@@ -26,6 +28,10 @@ const mutations = {
   
   [FETCH_ALL_USERS_ADMIN]: (state, payload) => {
     state.usersAdmin = payload.users;
+  },
+
+  [GET_ALL_FOLLOWERS]: (state, payload) => {
+    state.followers = payload.followers;
   },
 
   [PROMOTE_USER]: (state, payload) => {

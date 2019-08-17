@@ -115,5 +115,16 @@ export const userService = {
     };
 
     return userData;
-  }
+  },
+
+  getImageSize(profilePicUrl) {
+    let img = new Image();
+    img.src = profilePicUrl;
+
+    if (img.width >= img.height) {
+        return 'l'
+    }
+
+    return '';
+}
 };

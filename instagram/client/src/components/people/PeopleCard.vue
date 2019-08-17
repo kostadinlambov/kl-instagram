@@ -2,7 +2,7 @@
   <div class="card-container">
     <div class="content-wrapper">
       <div class="profile-pick-container">
-        <img :src="profilePicUrl" alt="user-pic" />
+        <img v-bind:class="imageSizeClass" :src="profilePicUrl" alt="user-pic" />
       </div>
       <div class="usernames-container">
         <div class="username">{{currentUser.username}}</div>
@@ -23,9 +23,8 @@
 </template>
 
 <script>
-import defaultProfilePic from "@/assets/images/placeholder.png";
 import placeholderLink from "../../assets/images/placeholder.png";
-
+import { userService } from '../../infrastructure/userService';
 
 export default {
   name: "people-card",
@@ -43,6 +42,9 @@ export default {
   computed: {
     profilePicUrl(){
       return this.currentUser.profilePicUrl || this.placeholder;
+    },
+    imageSizeClass(){
+      return userService.getImageSize(this.profilePicUrl)
     }
   },
   methods: {

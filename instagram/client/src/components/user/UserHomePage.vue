@@ -5,7 +5,7 @@
         <div class="card-container">
           <div class="content-wrapper">
             <div class="profile-pick-container">
-              <img class="l" :src="profilePicUrl" alt="user-pic" />
+              <img :class="imageSizeClass" :src="profilePicUrl" alt="user-pic" />
             </div>
             <section class="user-info-wrapper">
               <div class="username-wrapper">
@@ -19,13 +19,24 @@
               </div>
               <ul class="follower-info">
                 <li>
-                  <span class="post-count">1 post</span>
+                  <span class="post-count">{{postCount}} post</span>
                 </li>
                 <li>
-                  <router-link class="follower-link" to="/followers">1 follower</router-link>
+                  <div
+                    class="follower-link"
+                    data-toggle="modal"
+                    data-target="#follower-modal"
+                    v-on:click="isFollowingModal(false)"
+                  >{{followersCount}} follower</div>
+                  <!-- <router-link class="follower-link" to="/followers"  data-toggle="modal" data-target="#testleModalId">1 follower</router-link> -->
                 </li>
                 <li>
-                  <router-link class="follower-link" to="/followers">8 following</router-link>
+                  <div
+                    class="follower-link"
+                    data-toggle="modal"
+                    data-target="#follower-modal"
+                    v-on:click="isFollowingModal(true)"
+                  >{{followingCount}} following</div>
                 </li>
               </ul>
 
@@ -59,6 +70,12 @@
         </ul>
       </div>
     </div>
+    <!-- <li class="nav-item">
+      <router-link to="#" class="nav-link" data-toggle="modal" data-target="#testleModalId">Modal</router-link>
+    </li>-->
+    
+    <FollowerModal />
+    <FollowerModal2 :followingModal="followingModal" />
   </main>
 </template>
 <script>
@@ -67,39 +84,58 @@ import PostCard from "./PostCard";
 import { mapGetters, mapActions } from "vuex";
 import { debuglog } from "util";
 import placeholderLink from "../../assets/images/placeholder.png";
+import FollowerModal from "./FollowerModal";
+import FollowerModal2 from "./FollowerModal2";
 
 export default {
   name: "user-home-page",
+  components: {
+    PostCard,
+    FollowerModal,
+    FollowerModal2
+  },
   data() {
     return {
       username: this.$route.params.username,
       userId: userService.getUserId(),
-      placeholderLink
+      placeholderLink,
+      followingModal: true
     };
-  },
-  components: {
-    PostCard
   },
   computed: {
     ...mapGetters("auth", {
       loggedInUser: "getLoggedInUserData"
     }),
+    ...mapGetters("user", {
+      followingCount: "getFollowingCount",
+      followersCount: "getFollowersCount",
+    }),
     ...mapGetters("post", {
-      posts: "getUserPosts"
+      posts: "getUserPosts",
+      postCount: "getPostCount",
     }),
     webpageUrl() {
       return "//" + this.loggedInUser.website;
     },
     profilePicUrl() {
       return this.loggedInUser.profilePicUrl || this.placeholderLink;
+    },
+    imageSizeClass() {
+      return userService.getImageSize(this.profilePicUrl);
     }
   },
   methods: {
-    ...mapActions("post", ["fetchUserPosts"])
+    ...mapActions("post", ["fetchUserPosts"]),
+    ...mapActions("user", ["getFollowers"]),
+
+    isFollowingModal(value) {
+      this.followingModal = value;
+    }
   },
 
   created() {
     this.fetchUserPosts(this.userId);
+    this.getFollowers(this.userId);
   }
 };
 </script>
@@ -235,6 +271,7 @@ span.post-count {
   line-height: 1.5;
   color: #212529;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .follower-link:hover {

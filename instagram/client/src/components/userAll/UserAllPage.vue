@@ -20,9 +20,7 @@ import { mapGetters,  mapActions } from "vuex";
 
 export default {
   name: "user-all",
-
   components: { UserCard },
-
   data() {
     return {
       userId: userService.getUserId(),

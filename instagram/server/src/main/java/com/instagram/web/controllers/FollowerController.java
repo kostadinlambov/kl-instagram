@@ -1,18 +1,18 @@
 package com.instagram.web.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.instagram.domain.models.viewModels.follower.FollowerViewModel;
+import com.instagram.domain.models.viewModels.user.UserPeopleViewModel;
 import com.instagram.services.FollowerService;
 import com.instagram.utils.responseHandler.exceptions.CustomException;
 import com.instagram.utils.responseHandler.successResponse.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 import static com.instagram.utils.constants.ResponseMessageConstants.*;
@@ -62,4 +62,13 @@ public class FollowerController {
 
         throw new CustomException(FAILURE_UNFOLLOW_USER_MESSAGE);
     }
+
+    @GetMapping(value = "/getFollowers/{id}")
+    public List<FollowerViewModel> getAllUsersNotFollowers(@PathVariable(value = "id") String userId) throws Exception {
+        List<FollowerViewModel> allFollowers = this.followerService.getAllFollowers(userId);
+
+        return allFollowers;
+    }
+
+
 }

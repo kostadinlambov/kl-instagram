@@ -8,6 +8,7 @@ import {
   DEMOTE_USER,
   FOLLOW_USER_SUCCESS,
   UNFOLLOW_USER_SUCCESS,
+  GET_ALL_FOLLOWERS,
   RESET_STATE,
 } from "./mutationTypes";
 
@@ -154,7 +155,7 @@ export const unFollowUserAction = (context, userToUnFollowId) => {
 };
 
 export const fetchUserPosts = (context, userId) => {
-  const url = "post/all/" + payload.id;
+  const url = "post/all/" + userId;
   requester
     .get(url)
     .then(res => {
@@ -170,6 +171,26 @@ export const fetchUserPosts = (context, userId) => {
       });
     });
 }
+
+export const getFollowers = (context, userId) => {
+  const url = "follower/getFollowers/" + userId;
+  requester
+    .get(url)
+    .then(res => {
+      console.log('followers: ', res)
+      context.commit({
+        type: GET_ALL_FOLLOWERS,
+        followers: res.body
+      });
+    })
+    .catch(err => {
+      Vue.$toast.open({
+        message: err.body.message,
+        type: "error"
+      });
+    });
+}
+
 
 
 export const resetState = context => {

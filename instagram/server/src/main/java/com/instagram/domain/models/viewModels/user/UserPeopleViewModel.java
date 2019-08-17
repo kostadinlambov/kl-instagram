@@ -51,11 +51,16 @@ public class UserPeopleViewModel {
         this.profilePicUrl = profilePicUrl;
     }
 
-    public Boolean isActive() {
+    public Boolean getActive() {
         return this.isActive;
     }
 
     public void setActive(Boolean active) {
         isActive = active;
     }
+
+//    public Boolean isActive() {
+//        return this.isActive;
+//    }
+
 }

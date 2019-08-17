@@ -83,10 +83,10 @@
                   </li>
                   
                   <!-- <li class="nav-item">
-                    <router-link :to="link" class="nav-link" data-toggle="modal" data-target="#testleModalId">
-                      <i class="fas fa-user-alt"></i>
+                    <router-link to="#" class="nav-link" data-toggle="modal" data-target="#testleModalId">
+                      Modal
                     </router-link>
-                  </li>-->
+                  </li> -->
                   <!-- <li class="nav-item" >
                     <router-link to="/user/profile" class="nav-link">
                       <i class="fas fa-user-alt"></i>
@@ -108,7 +108,7 @@
 
 <script>
 import { userService } from "@/infrastructure/userService";
-import Modal from "@/components/user/Modal";
+import Modal from "@/components/user/FollowerModal";
 import { mapGetters, mapActions } from "vuex";
 
 export default {

@@ -1,6 +1,6 @@
 <template>
   <router-link class="image-container" to="#">
-    <img class="gallery-img l" :src="imageUrl" alt />
+    <img :class="['gallery-img', 'imageSizeClass']" :src="imageUrl" alt />
     <div class="img-details">
       <div class="likes-and-comments">
         <div class="likes">
@@ -36,6 +36,9 @@ export default {
   computed: {
     imageUrl() {
       return this.currentPost.imageUrl || this.placeholder;
+	},
+	 imageSizeClass(){
+      return userService.getImageSize(this.profilePicUrl)
     }
   },
   methods: {
@@ -90,7 +93,7 @@ export default {
   box-shadow: 0px 0px 12px 2px rgba(65, 184, 131, 0.8);
 }
 
-img.gallery-img {
+img.gallery-img.l  {
   display: block;
   position: absolute;
   width: 100%;
@@ -102,7 +105,7 @@ img.gallery-img {
   /* transition: transform 1.5s; */
 }
 
-.gallery-img.l {
+.gallery-img{
   position: absolute;
   display: block;
   width: auto;
@@ -120,7 +123,7 @@ img.gallery-img {
   background: rgba(65, 184, 131, 0.85);
   /* background: rgba(64, 163, 244, 0.9); */
   opacity: 0;
-  transition: all 0.4s ease-in;
+  transition: all 0.3s ease-in;
   display: flex;
   justify-content: center;
   align-items: center;
