@@ -65,7 +65,7 @@ export default new Router({
           next();
         }
       },
-      component: () => import("./components/user/UserFeedPage.vue"),
+      component: () => import("./components/userFeed/UserFeedPage.vue"),
     },
     {
       path: "/people",
@@ -84,7 +84,7 @@ export default new Router({
     {
       path: "/explore",
       name: "explore",
-      component: () => import("./components/user/Explore.vue"),
+      component: () => import("./components/explore/Explore.vue"),
       beforeEnter: (to, from, next) => {
         const isAuth = userService.isAuth();
 
@@ -122,8 +122,13 @@ export default new Router({
         } else {
           next();
         }
-      }
+      },
+      // children: [
+      //   { path: 'all',   component: () => import("./components/user/FollowerModal.vue")}
+      //  ]
     },
+    
+   
     {
       path: "/account/activity",
       name: "activity",
@@ -138,16 +143,32 @@ export default new Router({
         }
       }
     },
+
+    {
+      path: "/post/create",
+      name: "post-create",
+      component: () => import("./components/post/CreatePostPage.vue"),
+      beforeEnter: (to, from, next) => {
+        const isAuth = userService.isAuth();
+
+        if (!isAuth) {
+          next("/");
+        } else {
+          next();
+        }
+      }
+    },
+
     {
       path: "*",
       name: "error-page",
       component: ErrorPage
-    }
-    
+    },
+
     // {
     //   path: "/user",
     //   name: "user-page",
-    //   component: UserPage,
+    //   component: ErrorPage,
     //   beforeEnter: (to, from, next) => {
     //     const isAuth = userService.isAuth();
 
@@ -158,9 +179,10 @@ export default new Router({
     //     }
     //   },
     //   children: [
-    //    { path: 'all',   component: () => import("./components/user/UserAllPage.vue")}
+    //    { path: 'all',   component: () => import("./components/userAll/UserAllPage.vue")}
     //   ]
      
     // },
+    
   ]
 });

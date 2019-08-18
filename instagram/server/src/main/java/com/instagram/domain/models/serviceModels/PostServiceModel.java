@@ -9,7 +9,7 @@ import java.util.List;
 
 public class PostServiceModel {
     private String id;
-    private String content;
+    private String caption;
     private String imageUrl;
     private String location;
     private LocalDateTime time;
@@ -28,12 +28,12 @@ public class PostServiceModel {
         this.id = id;
     }
 
-    public String getContent() {
-        return this.content;
+    public String getCaption() {
+        return this.caption;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setCaption(String caption) {
+        this.caption = caption;
     }
 
     public String getImageUrl() {

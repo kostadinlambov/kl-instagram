@@ -1,6 +1,5 @@
 <template>
   <article class="people-article" v-bind:style="wrapperPeople">
-  
     <div class="container col-md-10 wrapper people-container" v-bind:style="wrapperPeople">
        <section class="people-section" v-if="followerModal">
         <div v-for="user in followers" :key="user.followerId">
@@ -93,7 +92,6 @@ export default {
     },
 
     onUnFollowHandler(userId) {
-      debugger;
       this.unFollowUserAction(userId);
     },
 

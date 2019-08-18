@@ -7,16 +7,24 @@ import com.instagram.domain.models.serviceModels.PostServiceModel;
 import com.instagram.domain.models.viewModels.post.PostAllViewModel;
 import com.instagram.repositories.PostRepository;
 import com.instagram.repositories.UserRepository;
+import com.instagram.services.CloudinaryService;
 import com.instagram.services.PostService;
+import com.instagram.validations.serviceValidation.services.CloudinaryValidationService;
 import com.instagram.validations.serviceValidation.services.PostValidationService;
 import com.instagram.validations.serviceValidation.services.UserValidationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static com.instagram.utils.constants.ResponseMessageConstants.SERVER_ERROR_MESSAGE;
 
 @Service
 @Transactional
@@ -26,14 +34,18 @@ public class PostServiceImpl implements PostService {
     private final ModelMapper modelMapper;
     private final PostValidationService postValidation;
     private final UserValidationService userValidation;
+    private final CloudinaryService cloudinaryService;
+    private final CloudinaryValidationService cloudinaryValidation;
 
     @Autowired
-    public PostServiceImpl(PostRepository postRepository, UserRepository userRepository, ModelMapper modelMapper, PostValidationService postValidation, UserValidationService userValidation) {
+    public PostServiceImpl(PostRepository postRepository, UserRepository userRepository, ModelMapper modelMapper, PostValidationService postValidation, UserValidationService userValidation, CloudinaryService cloudinaryService, CloudinaryValidationService cloudinaryValidation) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.postValidation = postValidation;
         this.userValidation = userValidation;
+        this.cloudinaryService = cloudinaryService;
+        this.cloudinaryValidation = cloudinaryValidation;
     }
 
 
@@ -59,7 +71,7 @@ public class PostServiceImpl implements PostService {
                             }).collect(Collectors.toList());
                     postServiceModel.setComments(commentList);
                 })
-                . collect(Collectors.toList());
+                .collect(Collectors.toList());
 
         List<PostAllViewModel> postAllViewModels = postServiceModels.stream().map(postServiceModel -> {
             PostAllViewModel postAllViewModel = this.modelMapper.map(postServiceModel, PostAllViewModel.class);
@@ -71,5 +83,35 @@ public class PostServiceImpl implements PostService {
         }).collect(Collectors.toList());
 
         return postAllViewModels;
+    }
+
+
+    @Override
+    public boolean createPost(MultipartFile file, String loggedInUserId, String location, String caption) throws Exception {
+        User user = this.userRepository.findById(loggedInUserId).orElse(null);
+
+        if (!userValidation.isValid(user)) {
+            throw new Exception(SERVER_ERROR_MESSAGE);
+        }
+
+
+        String cloudinaryPublicId = UUID.randomUUID().toString();
+        Map uploadMap = this.cloudinaryService.uploadImage(file, cloudinaryPublicId);
+
+        if (!cloudinaryValidation.isValid(uploadMap)) {
+            throw new Exception(SERVER_ERROR_MESSAGE);
+        }
+
+        Post post = new Post();
+
+        post.setImageUrl(uploadMap.get("url").toString());
+        post.setCloudinaryPublicId(uploadMap.get("public_id").toString());
+        post.setUser(user);
+        post.setTime(LocalDateTime.now());
+        post.setCaption(caption);
+        post.setLocation(location);
+
+        return this.postRepository.save(post) != null;
+
     }
 }

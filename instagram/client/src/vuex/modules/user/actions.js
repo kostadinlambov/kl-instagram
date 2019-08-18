@@ -136,11 +136,8 @@ export const unFollowUserAction = (context, userToUnFollowId) => {
   const loggedInUserId = context.rootState.auth.loggedInUser.id;
   const requestBody = { loggedInUserId, userToUnFollowId };
 
-  debugger;
   requester.post(url, requestBody)
   .then(res => {
-
-    debugger;
     context.commit({
       type: UNFOLLOW_USER_SUCCESS,
       userToUnFollowId
@@ -214,10 +211,6 @@ export const fetchFollowing = (context, userId) => {
       });
     });
 }
-
-
-
-
 
 export const resetState = context => {
   context.commit({

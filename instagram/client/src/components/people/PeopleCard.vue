@@ -64,7 +64,6 @@ export default {
       this.$root.$emit("on-follow", userId);
     },
     unfollow(userId) {
-      debugger;
       this.$root.$emit("on-unfollow", userId);
     }
   }

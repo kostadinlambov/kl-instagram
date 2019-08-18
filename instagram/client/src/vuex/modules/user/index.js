@@ -27,7 +27,6 @@ const initialState = {
 const mutations = {
   [FETCH_ALL_USERS]: (state, payload) => {
     state.users = payload.users;
-    debugger;
     setFollowingCandidates(state);
   },
 

@@ -45,7 +45,7 @@
             <router-link class="btn app-button-primary btn-lg m-3" to="/people" role="button">People</router-link>
             <router-link
               class="btn app-button-primary btn-lg m-3"
-              :to="{name:'single-user-page', params: {username: loggedInUserData.username}}"
+              :to="{name:'single-user-page', params: {'username': loggedInUserData.username}}"
               role="button"
             >Profile</router-link>
             <router-link

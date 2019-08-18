@@ -18,6 +18,7 @@
 
 <script>
 import placeholderLink from "../../assets/images/placeholder.png";
+import { userService } from "@/infrastructure/userService";
 
 export default {
   name: "post-card",
@@ -36,9 +37,9 @@ export default {
   computed: {
     imageUrl() {
       return this.currentPost.imageUrl || this.placeholder;
-	},
-	 imageSizeClass(){
-      return userService.getImageSize(this.profilePicUrl)
+    },
+    imageSizeClass() {
+      return userService.getImageSize(this.imageUrl);
     }
   },
   methods: {
@@ -93,7 +94,7 @@ export default {
   box-shadow: 0px 0px 12px 2px rgba(65, 184, 131, 0.8);
 }
 
-img.gallery-img.l  {
+img.gallery-img.l {
   display: block;
   position: absolute;
   width: 100%;
@@ -105,7 +106,7 @@ img.gallery-img.l  {
   /* transition: transform 1.5s; */
 }
 
-.gallery-img{
+.gallery-img {
   position: absolute;
   display: block;
   width: auto;
@@ -134,12 +135,13 @@ img.gallery-img.l  {
   color: white;
 }
 
-.likes{
-	margin-right: 2rem;
+.likes {
+  margin-right: 2rem;
 }
 
-.likes>span, .comments > span{
-	margin-left: 8px;
+.likes > span,
+.comments > span {
+  margin-left: 8px;
 }
 
 @media screen and (max-width: 900px) {

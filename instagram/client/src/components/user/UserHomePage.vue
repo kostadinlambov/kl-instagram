@@ -11,6 +11,9 @@
               <div class="username-wrapper">
                 <h1 class="username">{{loggedInUser.username}}</h1>
                 <div>
+                  <router-link class="btn home-page-btn" to="/post/create">Create Post</router-link>
+                </div>
+                <div>
                   <router-link class="btn home-page-btn" to="/accounts/edit">Edit Profile</router-link>
                 </div>
                 <div>

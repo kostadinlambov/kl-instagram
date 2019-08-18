@@ -68,7 +68,8 @@ public class ApplicationSecurityConfiguration
                         "/follower/getFollowers/*",
                         "/follower/getFollowing/*",
                         "/users/details/*",
-                        "/post/all/*"
+                        "/post/all/*",
+                        "/post/create"
 //                        "/users/update/*",
 //                        "/relationship/friends/*",
 //                        "/relationship/findFriends/*",
@@ -80,7 +81,6 @@ public class ApplicationSecurityConfiguration
 //                        "/pictures/all/*",
 //                        "/pictures/add",
 //                        "/pictures/remove",
-//                        "/post/create",
 //                        "/post/remove",
 //                        "/like/add",
 //                        "/comment/create",

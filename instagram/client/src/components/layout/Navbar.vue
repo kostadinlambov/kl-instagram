@@ -77,7 +77,7 @@
                     </router-link>
                   </li> -->
                     <li class="nav-item">
-                    <router-link :to="{name:'single-user-page', params: {username: loggedInUserData.username}}" class="nav-link">
+                    <router-link :to="{name:'single-user-page', params: {'username': loggedInUserData.username}}" class="nav-link">
                       <i class="fas fa-user-alt"></i>
                     </router-link>
                   </li>

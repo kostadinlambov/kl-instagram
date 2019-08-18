@@ -10,25 +10,27 @@ import java.util.List;
 //@Table(name = "posts")
 @Table(name = "posts", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
 public class Post extends BaseEntity {
-    private String content;
+    private String caption;
     private String imageUrl;
     private String location;
     private LocalDateTime time;
     private User user;
+    private String cloudinaryPublicId;
     private List<Like> likes;
     private List<Comment> comments;
 
     public Post() {
     }
 
-    @Column(name = "content", nullable = false, columnDefinition = "TEXT")
-    public String getContent() {
-        return this.content;
+    @Column(name = "caption", nullable = false, columnDefinition = "TEXT")
+    public String getCaption() {
+        return this.caption;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setCaption(String caption) {
+        this.caption = caption;
     }
+
 
     @Column(name = "image_url", nullable = false)
     public String getImageUrl() {
@@ -84,5 +86,14 @@ public class Post extends BaseEntity {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    @Column(name = "cloudinary_public_id")
+    public String getCloudinaryPublicId() {
+        return this.cloudinaryPublicId;
+    }
+
+    public void setCloudinaryPublicId(String cloudinaryPublicId) {
+        this.cloudinaryPublicId = cloudinaryPublicId;
     }
 }
