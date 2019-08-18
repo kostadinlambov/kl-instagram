@@ -46,6 +46,7 @@ export const loginAction = (context, payload) => {
 
       const id = userService.getUserId();
       context.dispatch('fetchLoggedInUser',{id});
+      context.dispatch('user/fetchAllUsersAction', {id} , {root: true});
 
       context.commit({
         type: CHANGE_IS_AUTHENTICATED,

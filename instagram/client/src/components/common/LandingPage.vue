@@ -10,8 +10,8 @@
           <div class="hr-styles"></div>
           <p class="lead message">
             Please
-            <router-link class="text-info" to="/login">Login</router-link> or
-            <router-link class="text-info" to="/register">Register</router-link> if you don't have an account.
+            <router-link class="text-info" to="/login">Login</router-link>or
+            <router-link class="text-info" to="/register">Register</router-link>if you don't have an account.
           </p>
           <hr class="hr-styles" />
           <p class="lead">
@@ -63,34 +63,31 @@
 
 <script>
 import { userService } from "@/infrastructure/userService";
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "landing-page",
   components: {},
   data() {
     return {
-       loggedInUserId: userService.getUserId(),
+      loggedInUserId: userService.getUserId()
     };
   },
   computed: {
-    ...mapGetters('auth', {
-      isLoggedIn: 'getIsLoggedIn', 
-      loggedInUserData: 'getLoggedInUserData'
+    ...mapGetters("auth", {
+      isLoggedIn: "getIsLoggedIn",
+      loggedInUserData: "getLoggedInUserData"
     })
-   
   },
   methods: {
-     ...mapActions("user", [
-      "fetchAllUsersAction",
-    ]),
+    ...mapActions("user", ["fetchAllUsersAction"])
   },
 
-   created() {
-    this.fetchAllUsersAction({ id: this.loggedInUserId });
-  },
-
-  
+  created() {
+    if (this.getIsLoggedIn) {
+      this.fetchAllUsersAction({ id: this.loggedInUserId });
+    }
+  }
 };
 </script>
 

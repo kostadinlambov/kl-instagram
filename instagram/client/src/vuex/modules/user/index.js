@@ -37,6 +37,7 @@ const mutations = {
   [FETCH_ALL_FOLLOWERS]: (state, payload) => {
     state.followers = payload.followers;
     setIsActiveProperty(state);
+    // setFollowingCandidates(state):
   },
 
   [FETCH_ALL_FOLLOWING]: (state, payload) => {
@@ -76,6 +77,24 @@ const setFollowingCandidates = state => {
   const newArr = state.users.filter(user => !user.active);
 
   state.followingCandidates = [...newArr];
+  // debugger;
+  // const newArr = [];
+  // state.users.map(candidate => {
+  //   debugger;
+  //   state.followers.forEach(follower => {
+  //     debugger;
+  //     if (follower.followerId === candidate.id || candidate.active) {
+  //       return;
+  //     }
+
+  //     newArr.push({...candidate})
+
+  //     debugger;
+  //     // return { ...candidate };
+  //   });
+  // });
+
+  // state.followingCandidates = [...newArr];
 };
 
 const updateFollowingCandidates = (state, userId, active) => {

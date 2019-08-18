@@ -14,10 +14,10 @@
                   <router-link class="btn home-page-btn" to="/post/create">Create Post</router-link>
                 </div>
                 <div>
-                  <router-link class="btn home-page-btn" to="/accounts/edit">Edit Profile</router-link>
+                  <router-link class="btn home-page-btn" to="/account/edit">Edit Profile</router-link>
                 </div>
                 <div>
-                  <router-link class="btn home-page-btn" to="/accounts/settings">Settings</router-link>
+                  <router-link class="btn home-page-btn" to="/account/settings">Settings</router-link>
                 </div>
               </div>
               <ul class="follower-info">
@@ -380,50 +380,6 @@ span.bio {
   align-content: stretch;
 }
 
-/* .image-container { */
-
-/* height: 100%;
-  width: 100%;
-  overflow: hidden;
-
-  margin: auto;
-  position: relative;
-
-  transition: transform 1.5s;
-} */
-
-/* .image-container:after {
-  display: block;
-  content: "";
-  padding-top: 100%;
-}
-
-.image-container:hover {
-  transform: scale(1.1);
-  box-shadow: 0px 0px 12px 2px rgba(65, 184, 131, 0.8);
-} */
-
-/* img.gallery-img {
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: auto;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  /* transition: transform 1.5s; */
-/* } */
-
-/* .gallery-img.l {
-  position: absolute;
-  display: block;
-  width: auto;
-  height: 100%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-} */
 
 @media screen and (max-width: 900px) {
 }

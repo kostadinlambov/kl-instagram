@@ -127,12 +127,39 @@ export default new Router({
       //   { path: 'all',   component: () => import("./components/user/FollowerModal.vue")}
       //  ]
     },
-    
-   
     {
       path: "/account/activity",
       name: "activity",
       component: () => import("./components/account/Activity.vue"),
+      beforeEnter: (to, from, next) => {
+        const isAuth = userService.isAuth();
+
+        if (!isAuth) {
+          next("/");
+        } else {
+          next();
+        }
+      }
+    },
+
+    {
+      path: "/account/edit",
+      name: "edit-profile",
+      component: () => import("./components/account/EditProfilePage.vue"),
+      beforeEnter: (to, from, next) => {
+        const isAuth = userService.isAuth();
+
+        if (!isAuth) {
+          next("/");
+        } else {
+          next();
+        }
+      }
+    },
+    {
+      path: "/account/delete/:id",
+      name: "delete-user",
+      component: () => import("./components/account/DeleteUserPage.vue"),
       beforeEnter: (to, from, next) => {
         const isAuth = userService.isAuth();
 

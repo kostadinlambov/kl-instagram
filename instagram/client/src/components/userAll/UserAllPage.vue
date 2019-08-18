@@ -100,4 +100,13 @@ export default {
   border-radius: 5px;
   background: rgb(255, 255, 255);
 }
+
+@media screen and (max-width: 400px) {
+  .people-section {
+    padding: 10px 20px;
+    /* padding-top: 60px;
+    padding-bottom: 60px; */
+  }
+
+}
 </style>

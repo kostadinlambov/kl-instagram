@@ -43,12 +43,7 @@
 
             <!-- <img :src="defaultImg" alt="post-image" :style="styleImg" class="post-image" /> -->
             <div class="image-container">
-              <img
-                class="gallery-img post-image"
-                :style="styleImg"
-                :src="defaultImg"
-                alt
-              />
+              <img class="gallery-img post-image" :style="styleImg" :src="defaultImg" alt />
             </div>
 
             <input
@@ -102,7 +97,7 @@ export default {
         // width: "250px",
         // height: "200px"
       },
-      defaultImg,
+      defaultImg
     };
   },
   computed: {
@@ -122,7 +117,7 @@ export default {
     }
   },
   methods: {
-...mapActions("post", ["createPost"]),
+    ...mapActions("post", ["createPost"]),
 
     onFileSelected(event) {
       this.postImage = event.target.files[0];
@@ -230,7 +225,7 @@ img {
   /* box-shadow: 0px 0px 12px 2px rgba(65, 184, 131, 0.8); */
 }
 
-img.gallery-img{
+img.gallery-img {
   display: block;
   position: absolute;
   width: 100%;
@@ -242,7 +237,7 @@ img.gallery-img{
   /* transition: transform 1.5s; */
 }
 
-img.gallery-img.l  {
+img.gallery-img.l {
   position: absolute;
   display: block;
   width: auto;
@@ -280,5 +275,29 @@ img.gallery-img.l  {
   color: #fff;
   border: 1px solid #fff;
   box-shadow: 0 0 14px 1px rgba(0, 0, 0, 0.3);
+}
+
+@media screen and (max-width: 400px) {
+  .post-wrapper {
+    margin-top: 4rem;
+    width: 100%;
+    margin: 5rem auto 0;
+    border-radius: 5px;
+    padding: 2rem 0;
+    /* .username-wrapper {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+  } */
+  }
+
+  .image-container {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media screen and (max-width: 350px) {
 }
 </style>
