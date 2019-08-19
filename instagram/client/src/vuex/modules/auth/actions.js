@@ -5,7 +5,9 @@ import requester from "@/infrastructure/requester";
 import {
   CHANGE_IS_AUTHENTICATED,
   AUTH_RESET_STATE,
-  FETCH_LOGGEDIN_USER
+  FETCH_LOGGEDIN_USER,
+  FETCH_TIMELINE_USER,
+  UPDATE_TIMELINE_USER,
 } from "./mutationTypes";
 import { RESET_STATE_GLOBAL } from "../../mutationTypes";
 import { userService } from '@/infrastructure/userService';
@@ -98,13 +100,13 @@ export const resetState = context => {
 };
 
 export const fetchLoggedInUser = (context, payload) => {
-  const url = "user/details/" + payload.id;
+  const url = "user/details/id/" + payload.id;
   requester
     .get(url)
     .then(res => {
       context.commit({
         type: FETCH_LOGGEDIN_USER,
-        users: res.body
+        user: res.body
       });
     })
     .catch(err => {
@@ -113,5 +115,49 @@ export const fetchLoggedInUser = (context, payload) => {
         type: "error"
       });
     });
+}
+
+export const fetchTimeLineUser = (context, payload) => {
+  const url = "user/details/username/" + payload.username;
+  requester
+    .get(url)
+    .then(res => {
+      context.commit({
+        type: FETCH_TIMELINE_USER,
+        user: res.body
+      });
+    })
+    .catch(err => {
+      Vue.$toast.open({
+        message: err.body.message,
+        type: "error"
+      });
+    });
+}
+
+export const updateUser = (context, data) => {
+  const loggedInUserId = context.rootState.auth.loggedInUser.id;
+  const username = context.state.timeLineUser.username;
+  const url = "user/update/"+ loggedInUserId;
+
+  requester.put(url, data)
+  .then(res => {
+    context.commit({
+      type: UPDATE_TIMELINE_USER,
+      user: res.body
+    })
+
+    router.push("/user/" + username);
+
+     Vue.$toast.open({
+        message: res.body.message,
+        type: "success"
+      });
+  }).catch(err => {
+    Vue.$toast.open({
+      message: err.body.message,
+      type: "error"
+    });
+  });
 }
 

@@ -28,4 +28,10 @@ public interface UserService extends UserDetailsService {
     List<UserPeopleViewModel> getAllUsersWithFollowersInfo(String userId) throws Exception;
 
     UserDetailsViewModel getUserById(String id) throws Exception;
+
+    UserDetailsViewModel getUserByUsername(String username) throws Exception;
+
+    boolean updateUser(UserServiceModel userServiceModel, String loggedInUserId) throws Exception;
+
+    boolean deleteUserById(String id) throws Exception;
 }

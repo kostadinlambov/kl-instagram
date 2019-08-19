@@ -12,7 +12,8 @@ import {
   FOLLOW_USER_SUCCESS,
   UNFOLLOW_USER_SUCCESS,
   FETCH_ALL_FOLLOWERS,
-  FETCH_ALL_FOLLOWING
+  FETCH_ALL_FOLLOWING,
+  DELETE_USER_SUCCESS,
 } from "./mutationTypes";
 
 // initial state
@@ -32,6 +33,14 @@ const mutations = {
 
   [FETCH_ALL_USERS_ADMIN]: (state, payload) => {
     state.usersAdmin = payload.users;
+  },
+
+  [DELETE_USER_SUCCESS]: (state, payload) => {
+    const userId = payload.userId;
+    debugger;
+    state.usersAdmin = state.usersAdmin.filter(user => user.id !== userId);
+    state.users = state.users.filter(user => user.id !== userId);
+    debugger;
   },
 
   [FETCH_ALL_FOLLOWERS]: (state, payload) => {

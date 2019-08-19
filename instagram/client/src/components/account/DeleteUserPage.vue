@@ -1,9 +1,9 @@
 <template>
   <main class="mt-5 pb-5">
-    <div class="container text-center post-wrapper col-md-9 mt-5">
+    <div class="container text-center col-md-8 mt-5">
       <!-- <h1>Delete User</h1> -->
       <h1
-        class="text-center font-weight-bold alert alert-danger delete-user-header col-md-10"
+        class="text-center font-weight-bold alert alert-danger delete-user-header col-md-9"
       >Are you sure you want to delete this User?</h1>
 
       <div class="section-wrapper">
@@ -12,7 +12,7 @@
             <li>
               <router-link
                 class="aside-links"
-                :to="{name:'edit-profile', params: {'id': loggedInUser.id}}"
+                :to="{name:'edit-profile', params: {'id': timeLineUser.id}}"
               >Edit Profile</router-link>
             </li>
             <li>
@@ -141,7 +141,7 @@
             </div>
 
             <div class="button-wrapper">
-              <button type="submit" class="btn app-button-primary btn-lg m-3">Delete</button>
+              <button  type="submit" class="btn app-button-primary btn-lg m-3">Delete</button>
             </div>
           </form>
         </section>
@@ -166,7 +166,8 @@ export default {
   },
   computed: {
     ...mapGetters("auth", {
-      loggedInUser: "getLoggedInUserData"
+      loggedInUser: "getLoggedInUserData",
+      timeLineUser: "getTimeLineUserData",
     })
   },
   validations: {
@@ -200,17 +201,20 @@ export default {
     }
   },
   methods: {
+     ...mapActions("user", {
+      deleteUser: "deleteUser",
+    }),
     onSubmitHandler() {
-      if (this.$v.$invalid) {
-        return;
-      }
 
       console.log("user: ", this.user);
       debugger;
+
+      this.deleteUser(this.timeLineUser.id)
+
     }
   },
   created() {
-    this.user = { ...this.loggedInUser };
+    this.user = { ...this.timeLineUser };
   }
 };
 </script>
@@ -251,11 +255,15 @@ export default {
 }
 
 label {
-  white-space: nowrap;
+    white-space: nowrap;
   flex: 0 0 20%;
-  padding-right: 2rem;
+  padding-right: 0.8rem;
   margin-bottom: 0;
-  padding-top: 0.3rem;
+  padding-top: 0.5rem;
+  color: #262626;
+  /* font-size: 16px; */
+  font-weight: 600;
+  line-height: 18px;
 }
 
 li {
@@ -297,5 +305,6 @@ a.active {
 
 h1.delete-user-header {
   margin: 1rem auto;
+  font-size: 1.8rem;
 }
 </style>

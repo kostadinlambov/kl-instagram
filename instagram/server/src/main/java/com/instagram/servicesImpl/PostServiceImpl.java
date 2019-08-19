@@ -50,13 +50,13 @@ public class PostServiceImpl implements PostService {
 
 
     @Override
-    public List<PostAllViewModel> getAll(String id) throws Exception {
-        User user = this.userRepository.findById(id)
+    public List<PostAllViewModel> getAll(String username) throws Exception {
+        User user = this.userRepository.findByUsername(username)
                 .filter(userValidation::isValid)
                 .orElseThrow(Exception::new);
 
 
-        List<Post> posts = this.postRepository.findAllByUserIdOrderByTimeDesc(id);
+        List<Post> posts = this.postRepository.findAllByUserIdOrderByTimeDesc(user.getId());
 
         List<PostServiceModel> postServiceModels = posts.stream().map(post -> this.modelMapper.map(post, PostServiceModel.class))
                 .peek(postServiceModel -> {

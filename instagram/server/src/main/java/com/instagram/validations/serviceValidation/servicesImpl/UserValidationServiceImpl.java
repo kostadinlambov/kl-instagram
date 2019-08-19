@@ -3,6 +3,7 @@ package com.instagram.validations.serviceValidation.servicesImpl;
 
 import com.instagram.domain.entities.User;
 import com.instagram.domain.models.bindingModels.user.UserRegisterBindingModel;
+import com.instagram.domain.models.bindingModels.user.UserUpdateBindingModel;
 import com.instagram.domain.models.serviceModels.UserServiceModel;
 import com.instagram.validations.serviceValidation.services.UserValidationService;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,10 +32,10 @@ public class UserValidationServiceImpl implements UserValidationService {
         return firstParam.equals(secondParam);
     }
 
-//    @Override
-//    public boolean isValid(UserUpdateBindingModel userUpdateBindingModel) {
-//        return userUpdateBindingModel != null;
-//    }
+    @Override
+    public boolean isValid(UserUpdateBindingModel userUpdateBindingModel) {
+        return userUpdateBindingModel != null;
+    }
 
     @Override
     public boolean isValid(UserDetails userData) {

@@ -92,12 +92,12 @@ public class FollowerServiceImpl implements FollowerService {
     }
 
     @Override
-    public List<FollowerViewModel> getAllFollowers(String userId) throws Exception {
-        User user = this.userRepository.findById(userId)
+    public List<FollowerViewModel> getAllFollowers(String username) throws Exception {
+        User user = this.userRepository.findByUsername(username)
                 .filter(userValidation::isValid)
                 .orElseThrow(Exception::new);
 
-        List<Follower> byUserId = this.followerRepository.findByUserId(userId);
+        List<Follower> byUserId = this.followerRepository.findByUserId(user.getId());
 
         return byUserId.stream()
                 .map(follower -> this.modelMapper.map(follower, FollowerViewModel.class))
@@ -105,12 +105,12 @@ public class FollowerServiceImpl implements FollowerService {
     }
 
     @Override
-    public List<FollowingViewModel> getAllFollowing(String userId) throws Exception {
-        User user = this.userRepository.findById(userId)
+    public List<FollowingViewModel> getAllFollowing(String username) throws Exception {
+        User user = this.userRepository.findByUsername(username)
                 .filter(userValidation::isValid)
                 .orElseThrow(Exception::new);
 
-        List<Follower> byUserId = this.followerRepository.findByFollowerIdAndActiveTrue(userId);
+        List<Follower> byUserId = this.followerRepository.findByFollowerIdAndActiveTrue(user.getId());
 
         return byUserId.stream()
                 .map(follower -> this.modelMapper.map(follower, FollowingViewModel.class))

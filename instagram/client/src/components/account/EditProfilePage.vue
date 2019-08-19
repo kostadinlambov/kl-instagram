@@ -1,7 +1,7 @@
 <template>
-  <main class="mt-5 pb-5">
-    <div class="container text-center post-wrapper col-md-9 mt-5">
-      <h1>Edit Profile</h1>
+  <main class="mt-5 pb-5 ">
+    <div class="container text-center edit-form-wrapper  col-md-8 ">
+      <!-- <h1>Edit Profile</h1> -->
 
       <div class="section-wrapper">
         <section class="aside-section">
@@ -12,13 +12,13 @@
             <li>
               <router-link
                 class="aside-links"
-                :to="{name:'delete-user', params: {'id': loggedInUser.id}}"
+                :to="{name:'delete-user', params: {'id': timeLineUser.id}}"
               >Delete User</router-link>
             </li>
             <li>
               <router-link
                 class="aside-links"
-                :to="{name:'single-user-page', params: {'username': loggedInUser.username}}"
+                :to="{name:'single-user-page', params: {'username': timeLineUser.username}}"
               >
                 Cancel
                 <!-- <a class="aside-links cancel" @click="$router.go(-1)">Cancel</a> -->
@@ -166,7 +166,8 @@ export default {
   },
   computed: {
     ...mapGetters("auth", {
-      loggedInUser: "getLoggedInUserData"
+      loggedInUser: "getLoggedInUserData",
+      timeLineUser: "getTimeLineUserData",
     })
   },
   validations: {
@@ -200,6 +201,8 @@ export default {
     }
   },
   methods: {
+    ...mapActions("auth", ["updateUser"]),
+
     onSubmitHandler() {
       if (this.$v.$invalid) {
         return;
@@ -207,15 +210,37 @@ export default {
 
       console.log("user: ", this.user);
       debugger;
+
+      const data = {
+        username: this.user.username,
+        email: this.user.email,
+        id: this.user.id,
+        firstName: this.user.firstName,
+        lastName: this.user.lastName,
+        profilePicUrl: this.user.profilePicUrl,
+        bio: this.user.bio,
+        website: this.user.website,
+      };
+
+      this.updateUser(data);
     }
   },
   created() {
-    this.user = { ...this.loggedInUser };
+    this.user = { ...this.timeLineUser };
   }
 };
 </script>
 
 <style scoped>
+
+.edit-form-wrapper {
+	margin-top: 7.8rem;
+	/* display:flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh; */
+}
+
 .section-wrapper {
   display: flex;
   justify-content: center;
@@ -253,9 +278,13 @@ export default {
 label {
   white-space: nowrap;
   flex: 0 0 20%;
-  padding-right: 2rem;
+  padding-right: 0.8rem;
   margin-bottom: 0;
-  padding-top: 0.3rem;
+  padding-top: 0.5rem;
+  color: #262626;
+  /* font-size: 16px; */
+  font-weight: 600;
+  line-height: 18px;
 }
 
 li {
@@ -291,7 +320,7 @@ a.active {
   border-left: 2px solid transparent;
   border-left-color: #262626;
   font-weight: 600;
-   pointer-events: none;
+  pointer-events: none;
   cursor: default;
 }
 

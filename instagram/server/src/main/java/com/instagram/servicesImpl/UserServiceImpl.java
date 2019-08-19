@@ -18,12 +18,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.instagram.utils.constants.ResponseMessageConstants.*;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserValidationService userValidation;
@@ -127,6 +129,70 @@ public class UserServiceImpl implements UserService {
         userFromDb.setRole(userAuthority);
 
         return userFromDb;
+    }
+
+    @Override
+    public UserDetailsViewModel getUserByUsername(String username) throws Exception {
+        User user = this.userRepository.findByUsername(username)
+                .filter(userValidation::isValid)
+                .orElseThrow(Exception::new);
+
+        String userAuthority = this.getUserAuthority(user.getId());
+        UserDetailsViewModel userFromDb = this.modelMapper.map(user, UserDetailsViewModel.class);
+        userFromDb.setRole(userAuthority);
+
+        return userFromDb;
+    }
+
+    @Override
+    public boolean updateUser(UserServiceModel userServiceModel, String loggedInUserId) throws Exception {
+        if (!userValidation.isValid(userServiceModel)) {
+            throw new Exception(SERVER_ERROR_MESSAGE);
+        }
+
+        User userToEdit = this.userRepository.findById(userServiceModel.getId()).orElse(null);
+        User loggedInUser = this.userRepository.findById(loggedInUserId).orElse(null);
+
+        if (!userValidation.isValid(userToEdit) || !userValidation.isValid(loggedInUser)) {
+            throw new Exception(SERVER_ERROR_MESSAGE);
+        }
+
+        if (!userServiceModel.getId().equals(loggedInUserId)) {
+            String userAuthority = this.getUserAuthority(loggedInUserId);
+            if (!("ROOT").equals(userAuthority) && !("ADMIN").equals(userAuthority)) {
+                throw new CustomException(UNAUTHORIZED_SERVER_ERROR_MESSAGE);
+            }
+        }
+
+        User userEntity = this.modelMapper.map(userServiceModel, User.class);
+        userEntity.setPassword(userToEdit.getPassword());
+        userEntity.setAuthorities(userToEdit.getAuthorities());
+
+        return this.userRepository.save(userEntity) != null;
+    }
+
+    @Override
+    public boolean deleteUserById(String id) throws Exception {
+//        User user = this.userRepository.findById(loggedInUserId)
+//                .filter(userValidation::isValid)
+//                .orElseThrow(Exception::new);
+//
+//        String userAuthority = this.getUserAuthority(user.getId());
+//
+//        if("ROOT".equals(userAuthority) ){
+//            throw new Exception(SERVER_ERROR_MESSAGE);
+//        }
+
+        this.userRepository.findById(id)
+                .filter(userValidation::isValid)
+                .orElseThrow(Exception::new);
+
+        try {
+            this.userRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            throw new Exception(SERVER_ERROR_MESSAGE);
+        }
     }
 
     @Override

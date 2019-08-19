@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface PostService {
-    List<PostAllViewModel> getAll(String id) throws Exception;
+    List<PostAllViewModel> getAll(String username) throws Exception;
 
     boolean createPost(MultipartFile file, String loggedInUserId, String location, String caption) throws Exception;
 }

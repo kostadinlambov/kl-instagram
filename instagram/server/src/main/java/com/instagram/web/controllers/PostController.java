@@ -33,10 +33,10 @@ public class PostController {
     }
 
 
-    @GetMapping(value = "/all/{id}")
-    public List<PostAllViewModel> getAllPosts(@PathVariable(value = "id") String id) throws Exception {
+    @GetMapping(value = "/all/{username}")
+    public List<PostAllViewModel> getAllPosts(@PathVariable(value = "username") String username) throws Exception {
 
-        List<PostAllViewModel> postAllViewModels = this.postService.getAll(id);
+        List<PostAllViewModel> postAllViewModels = this.postService.getAll(username);
 
         System.out.println();
 

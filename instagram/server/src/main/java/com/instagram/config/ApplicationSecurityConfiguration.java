@@ -67,10 +67,11 @@ public class ApplicationSecurityConfiguration
                         "/follower/unFollow",
                         "/follower/getFollowers/*",
                         "/follower/getFollowing/*",
-                        "/users/details/*",
+                        "/users/details/id/*",
+                        "/users/details/username/*",
                         "/post/all/*",
-                        "/post/create"
-//                        "/users/update/*",
+                        "/post/create",
+                        "/user/update/*"
 //                        "/relationship/friends/*",
 //                        "/relationship/findFriends/*",
 //                        "/relationship/addFriend",
@@ -100,7 +101,7 @@ public class ApplicationSecurityConfiguration
 //                        "/logs/findByUserName/*"
                 ).hasAnyAuthority("ADMIN", "ROOT")
                 .antMatchers(
-//                        "/users/delete/*",
+                        "/user/delete/*"
 //                        "/logs/clear",
 //                        "/logs/clearByName/*"
                 ).hasAuthority("ROOT")

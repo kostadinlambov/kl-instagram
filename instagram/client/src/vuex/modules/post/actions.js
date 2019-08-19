@@ -9,8 +9,8 @@ import {
   POST_CREATE_SUCCESS
 } from "./mutationTypes";
 
-export const fetchUserPosts = (context, userId) => {
-  const url = "post/all/" + userId;
+export const fetchUserPosts = (context, username) => {
+  const url = "post/all/" + username;
   requester
     .get(url)
     .then(res => {

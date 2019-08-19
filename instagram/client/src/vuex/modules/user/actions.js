@@ -10,7 +10,8 @@ import {
   UNFOLLOW_USER_SUCCESS,
   FETCH_ALL_FOLLOWERS,
   FETCH_ALL_FOLLOWING,
-  RESET_STATE,
+  DELETE_USER_SUCCESS,
+  RESET_STATE
 } from "./mutationTypes";
 
 export const fetchAllUsersAdminAction = (context, payload) => {
@@ -24,7 +25,6 @@ export const fetchAllUsersAdminAction = (context, payload) => {
       });
     })
     .catch(err => {
-      console.log(err);
       Vue.$toast.open({
         message: err.body.message,
         type: "error"
@@ -111,24 +111,25 @@ export const followUserAction = (context, userToFollowId) => {
   const loggedInUserId = context.rootState.auth.loggedInUser.id;
   const requestBody = { loggedInUserId, userToFollowId };
 
-  requester.post(url, requestBody)
-  .then(res => {
-    context.commit({
-      type: FOLLOW_USER_SUCCESS,
-      userToFollowId
-    })
+  requester
+    .post(url, requestBody)
+    .then(res => {
+      context.commit({
+        type: FOLLOW_USER_SUCCESS,
+        userToFollowId
+      });
 
-
-     Vue.$toast.open({
+      Vue.$toast.open({
         message: res.body.message,
         type: "success"
       });
-  }).catch(err => {
-    Vue.$toast.open({
-      message: err.body.message,
-      type: "error"
+    })
+    .catch(err => {
+      Vue.$toast.open({
+        message: err.body.message,
+        type: "error"
+      });
     });
-  });
 };
 
 export const unFollowUserAction = (context, userToUnFollowId) => {
@@ -136,24 +137,25 @@ export const unFollowUserAction = (context, userToUnFollowId) => {
   const loggedInUserId = context.rootState.auth.loggedInUser.id;
   const requestBody = { loggedInUserId, userToUnFollowId };
 
-  requester.post(url, requestBody)
-  .then(res => {
-    context.commit({
-      type: UNFOLLOW_USER_SUCCESS,
-      userToUnFollowId
-    })
+  requester
+    .post(url, requestBody)
+    .then(res => {
+      context.commit({
+        type: UNFOLLOW_USER_SUCCESS,
+        userToUnFollowId
+      });
 
-     Vue.$toast.open({
+      Vue.$toast.open({
         message: res.body.message,
         type: "success"
       });
-  }).catch(err => {
-    debugger;
-    Vue.$toast.open({
-      message: err.body.message,
-      type: "error"
+    })
+    .catch(err => {
+      Vue.$toast.open({
+        message: err.body.message,
+        type: "error"
+      });
     });
-  });
 };
 
 export const fetchUserPosts = (context, userId) => {
@@ -172,14 +174,13 @@ export const fetchUserPosts = (context, userId) => {
         type: "error"
       });
     });
-}
+};
 
-export const fetchFollowers = (context, userId) => {
-  const url = "follower/getFollowers/" + userId;
+export const fetchFollowers = (context, username) => {
+  const url = "follower/getFollowers/" + username;
   requester
     .get(url)
     .then(res => {
-      console.log('followers: ', res)
       context.commit({
         type: FETCH_ALL_FOLLOWERS,
         followers: res.body
@@ -191,14 +192,13 @@ export const fetchFollowers = (context, userId) => {
         type: "error"
       });
     });
-}
+};
 
-export const fetchFollowing = (context, userId) => {
-  const url = "follower/getFollowing/" + userId;
+export const fetchFollowing = (context, username) => {
+  const url = "follower/getFollowing/" + username;
   requester
     .get(url)
     .then(res => {
-      console.log('following: ', res)
       context.commit({
         type: FETCH_ALL_FOLLOWING,
         following: res.body
@@ -210,7 +210,37 @@ export const fetchFollowing = (context, userId) => {
         type: "error"
       });
     });
-}
+};
+
+export const deleteUser = (context, userId) => {
+  const loggedInUserId = context.rootState.auth.loggedInUser.id;
+  const url = "user/delete/" + userId;
+  debugger;
+
+  requester
+    .delete(url, { })
+    .then(res => {
+      debugger;
+      context.commit({
+        type: DELETE_USER_SUCCESS,
+        userId
+      });
+
+      debugger;
+      router.push("/");
+
+      Vue.$toast.open({
+        message: res.body.message,
+        type: "success"
+      });
+    })
+    .catch(err => {
+      Vue.$toast.open({
+        message: err.body.message,
+        type: "error"
+      });
+    });
+};
 
 export const resetState = context => {
   context.commit({

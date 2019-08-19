@@ -7,7 +7,9 @@ import {
   LOGIN_SUCCESS,
   CHANGE_IS_AUTHENTICATED,
   AUTH_RESET_STATE,
-  FETCH_LOGGEDIN_USER
+  FETCH_LOGGEDIN_USER,
+  FETCH_TIMELINE_USER,
+  UPDATE_TIMELINE_USER,
 } from "./mutationTypes";
 
 // initial state
@@ -21,6 +23,17 @@ const initialState = {
     role: userService.getRole(),
     profilePicUrl: userService.getProfilePicUrl(),
     isAdminOrRoot: userService.isAdminOrRoot(),
+    bio: '',
+    website: '',
+  },
+  timeLineUser: {
+    username: '',
+    id: '',
+    firstName:'',
+    lastName: '',
+    role: '',
+    profilePicUrl: '',
+    isAdminOrRoot: '',
     bio: '',
     website: '',
   }
@@ -40,8 +53,18 @@ const mutations = {
   // },
 
   [FETCH_LOGGEDIN_USER]: (state, payload) => {
-    state.loggedInUser = {...payload.users};
+    state.loggedInUser = {...payload.user};
     state.loggedInUser.isAdminOrRoot = userService.isAdminOrRoot();
+  },
+
+  [FETCH_TIMELINE_USER]: (state, payload) => {
+    state.timeLineUser = {...payload.user};
+    state.timeLineUser.isAdminOrRoot = payload.user.role === 'ROOT' || payload.user.role === 'ADMIN';
+  },
+
+  [UPDATE_TIMELINE_USER]: (state, payload) => {
+    state.timeLineUser = {...payload.user};
+    state.timeLineUser.isAdminOrRoot = payload.user.role === 'ROOT' || payload.user.role === 'ADMIN';
   },
 
   [AUTH_RESET_STATE]: (state) => {

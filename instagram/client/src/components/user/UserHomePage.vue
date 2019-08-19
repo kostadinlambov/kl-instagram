@@ -9,14 +9,14 @@
             </div>
             <section class="user-info-wrapper">
               <div class="username-wrapper">
-                <h1 class="username">{{loggedInUser.username}}</h1>
-                <div>
+                <h1 class="username">{{getTimeLineUser.username}}</h1>
+                <div v-if="getTimeLineUser.id === loggedInUser.id">
                   <router-link class="btn home-page-btn" to="/post/create">Create Post</router-link>
                 </div>
-                <div>
+                <div v-if="getTimeLineUser.id === loggedInUser.id || loggedInUser.isAdminOrRoot">
                   <router-link class="btn home-page-btn" to="/account/edit">Edit Profile</router-link>
                 </div>
-                <div>
+                <div v-if="getTimeLineUser.id === loggedInUser.id">
                   <router-link class="btn home-page-btn" to="/account/settings">Settings</router-link>
                 </div>
               </div>
@@ -44,14 +44,14 @@
               </ul>
 
               <div class="bio-info">
-                <h2 class="names">{{loggedInUser.firstName}} {{loggedInUser.lastName}}</h2>
-                <span class="bio">{{loggedInUser.bio}}</span>
+                <h2 class="names">{{getTimeLineUser.firstName}} {{getTimeLineUser.lastName}}</h2>
+                <span class="bio">{{getTimeLineUser.bio}}</span>
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
                   :href="webpageUrl"
                   class="webpage-link"
-                >{{loggedInUser.website}}</a>
+                >{{getTimeLineUser.website}}</a>
               </div>
             </section>
           </div>
@@ -76,8 +76,8 @@
     <!-- <li class="nav-item">
       <router-link to="#" class="nav-link" data-toggle="modal" data-target="#testleModalId">Modal</router-link>
     </li>-->
-    
-    <FollowerModal :followingModal="followingModal" :followerModal="followerModal"/>
+
+    <FollowerModal :followingModal="followingModal" :followerModal="followerModal" />
   </main>
 </template>
 <script>
@@ -92,7 +92,7 @@ export default {
   name: "user-home-page",
   components: {
     PostCard,
-    FollowerModal,
+    FollowerModal
   },
   data() {
     return {
@@ -100,26 +100,27 @@ export default {
       userId: userService.getUserId(),
       placeholderLink,
       followingModal: false,
-      followerModal: false,
+      followerModal: false
     };
   },
   computed: {
     ...mapGetters("auth", {
-      loggedInUser: "getLoggedInUserData"
+      loggedInUser: "getLoggedInUserData",
+      getTimeLineUser: "getTimeLineUserData"
     }),
     ...mapGetters("user", {
       followingCount: "getFollowingCount",
-      followersCount: "getFollowersCount",
+      followersCount: "getFollowersCount"
     }),
     ...mapGetters("post", {
       posts: "getUserPosts",
-      postCount: "getPostCount",
+      postCount: "getPostCount"
     }),
     webpageUrl() {
-      return "//" + this.loggedInUser.website;
+      return "//" + this.getTimeLineUser.website;
     },
     profilePicUrl() {
-      return this.loggedInUser.profilePicUrl || this.placeholderLink;
+      return this.getTimeLineUser.profilePicUrl || this.placeholderLink;
     },
     imageSizeClass() {
       return userService.getImageSize(this.profilePicUrl);
@@ -128,21 +129,31 @@ export default {
   methods: {
     ...mapActions("post", ["fetchUserPosts"]),
     ...mapActions("user", ["fetchFollowers", "fetchFollowing"]),
+    ...mapActions("auth", ["fetchTimeLineUser"]),
 
     isFollowingModal(value) {
       this.followingModal = value;
-       this.followerModal = false;
+      this.followerModal = false;
     },
     isFollowerModal(value) {
       this.followerModal = value;
       this.followingModal = false;
     }
   },
-
   created() {
-    this.fetchUserPosts(this.userId);
-    this.fetchFollowers(this.userId);
-    this.fetchFollowing(this.userId);
+    this.fetchUserPosts(this.username);
+    this.fetchFollowers(this.username);
+    this.fetchFollowing(this.username);
+    this.fetchTimeLineUser({ username: this.username });
+  },
+  watch: {
+    $route(to, from) {
+      const username = to.params.username;
+      this.fetchTimeLineUser({ username });
+      this.fetchUserPosts(username);
+      this.fetchFollowers(username);
+      this.fetchFollowing(username);
+    }
   }
 };
 </script>
@@ -281,7 +292,7 @@ span.post-count {
   cursor: pointer;
 }
 
-span.post-count{
+span.post-count {
   cursor: auto;
 }
 
@@ -379,7 +390,6 @@ span.bio {
   justify-content: space-around;
   align-content: stretch;
 }
-
 
 @media screen and (max-width: 900px) {
 }

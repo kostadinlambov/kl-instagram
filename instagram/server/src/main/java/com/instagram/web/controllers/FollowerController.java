@@ -64,16 +64,16 @@ public class FollowerController {
         throw new CustomException(FAILURE_UNFOLLOW_USER_MESSAGE);
     }
 
-    @GetMapping(value = "/getFollowers/{id}")
-    public List<FollowerViewModel> getAllFollowers(@PathVariable(value = "id") String userId) throws Exception {
-        List<FollowerViewModel> allFollowers = this.followerService.getAllFollowers(userId);
+    @GetMapping(value = "/getFollowers/{username}")
+    public List<FollowerViewModel> getAllFollowers(@PathVariable(value = "username") String username) throws Exception {
+        List<FollowerViewModel> allFollowers = this.followerService.getAllFollowers(username);
 
         return allFollowers;
     }
 
-    @GetMapping(value = "/getFollowing/{id}")
-    public List<FollowingViewModel> getAllFollowing(@PathVariable(value = "id") String userId) throws Exception {
-        List<FollowingViewModel> allFollowing = this.followerService.getAllFollowing(userId);
+    @GetMapping(value = "/getFollowing/{username}")
+    public List<FollowingViewModel> getAllFollowing(@PathVariable(value = "username") String username) throws Exception {
+        List<FollowingViewModel> allFollowing = this.followerService.getAllFollowing(username);
 
         return allFollowing;
     }

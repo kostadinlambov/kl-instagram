@@ -10,7 +10,7 @@ public interface FollowerService {
 
     boolean unFollow(String loggedInUserId, String userToUnFollowId) throws Exception;
 
-    List<FollowerViewModel> getAllFollowers(String userId) throws Exception;
+    List<FollowerViewModel> getAllFollowers(String username) throws Exception;
 
-    List<FollowingViewModel> getAllFollowing(String userId) throws Exception;
+    List<FollowingViewModel> getAllFollowing(String username) throws Exception;
 }
