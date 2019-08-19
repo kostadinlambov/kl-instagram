@@ -13,7 +13,7 @@ import java.util.List;
 public class Comment extends BaseEntity{
     private Post post;
     private User creator;
-//    private User receiver;
+    private User timelineUser;
     private String content;
     private LocalDateTime time;
     private List<Like> likes;
@@ -60,7 +60,17 @@ public class Comment extends BaseEntity{
         this.creator = creator;
     }
 
-//    @OneToOne(optional = false, targetEntity = User.class)
+    @ManyToOne(optional = false, targetEntity = User.class)
+    @JoinColumn(name = "timeline_user_id", referencedColumnName = "id")
+    public User getTimelineUser() {
+        return this.timelineUser;
+    }
+
+    public void setTimelineUser(User timelineUser) {
+        this.timelineUser = timelineUser;
+    }
+
+    //    @OneToOne(optional = false, targetEntity = User.class)
 //    @JoinColumn(name = "receiver", referencedColumnName = "id")
 //    public User getReceiver() {
 //        return this.receiver;

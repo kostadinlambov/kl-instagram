@@ -56,7 +56,7 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(Exception::new);
 
 
-        List<Post> posts = this.postRepository.findAllByUserIdOrderByTimeDesc(user.getId());
+        List<Post> posts = this.postRepository.findAllByCreatorIdOrderByTimeDesc(user.getId());
 
         List<PostServiceModel> postServiceModels = posts.stream().map(post -> this.modelMapper.map(post, PostServiceModel.class))
                 .peek(postServiceModel -> {
@@ -106,7 +106,7 @@ public class PostServiceImpl implements PostService {
 
         post.setImageUrl(uploadMap.get("url").toString());
         post.setCloudinaryPublicId(uploadMap.get("public_id").toString());
-        post.setUser(user);
+        post.setCreator(user);
         post.setTime(LocalDateTime.now());
         post.setCaption(caption);
         post.setLocation(location);

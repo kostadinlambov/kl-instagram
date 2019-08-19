@@ -27,8 +27,82 @@ public class User extends BaseEntity implements UserDetails {
     private boolean isCredentialsNonExpired;
     private boolean isEnabled;
 
+    private List<Post> userPostList;
+    private List<Post> userTimelineAllPosts;
+
+    private List<Comment> createdCommentsList;
+    private List<Comment> userTimelineAllComments;
+
+    private List<Like> likeList;
+
+    private List<Follower> followedUserList;
+    private List<Follower> followerList;
+
     public User() {
         this.authorities = new HashSet<>();
+    }
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    public List<Follower> getFollowedUserList() {
+        return this.followedUserList;
+    }
+
+    public void setFollowedUserList(List<Follower> followedUserList) {
+        this.followedUserList = followedUserList;
+    }
+
+    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL)
+    public List<Follower> getFollowerList() {
+        return this.followerList;
+    }
+
+    public void setFollowerList(List<Follower> followerList) {
+        this.followerList = followerList;
+    }
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    public List<Like> getLikeList() {
+        return this.likeList;
+    }
+
+    public void setLikeList(List<Like> likeList) {
+        this.likeList = likeList;
+    }
+
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
+    public List<Post> getUserPostList() {
+        return this.userPostList;
+    }
+
+    public void setUserPostList(List<Post> userPostList) {
+        this.userPostList = userPostList;
+    }
+
+    @OneToMany(mappedBy = "timelineUser", cascade = CascadeType.ALL)
+    public List<Post> getUserTimelineAllPosts() {
+        return this.userTimelineAllPosts;
+    }
+
+    public void setUserTimelineAllPosts(List<Post> userTimelineAllPosts) {
+        this.userTimelineAllPosts = userTimelineAllPosts;
+    }
+
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
+    public List<Comment> getCreatedCommentsList() {
+        return this.createdCommentsList;
+    }
+
+    public void setCreatedCommentsList(List<Comment> createdCommentsList) {
+        this.createdCommentsList = createdCommentsList;
+    }
+
+    @OneToMany(mappedBy = "timelineUser", cascade = CascadeType.ALL)
+    public List<Comment> getUserTimelineAllComments() {
+        return this.userTimelineAllComments;
+    }
+
+    public void setUserTimelineAllComments(List<Comment> userTimelineAllComments) {
+        this.userTimelineAllComments = userTimelineAllComments;
     }
 
     @Override

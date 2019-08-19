@@ -49,7 +49,7 @@ public class ApplicationSecurityConfiguration
                 .disable()
                 .authorizeRequests()
                 .antMatchers(
-                        "/users/register",
+                        "/user/register",
 //                        "/**",
                         "/favicon.ico",
                         "/**/*.png",
@@ -67,8 +67,8 @@ public class ApplicationSecurityConfiguration
                         "/follower/unFollow",
                         "/follower/getFollowers/*",
                         "/follower/getFollowing/*",
-                        "/users/details/id/*",
-                        "/users/details/username/*",
+                        "/user/details/id/*",
+                        "/user/details/username/*",
                         "/post/all/*",
                         "/post/create",
                         "/user/update/*"
