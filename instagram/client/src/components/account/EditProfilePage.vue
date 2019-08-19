@@ -1,6 +1,6 @@
 <template>
-  <main class="mt-5 pb-5 ">
-    <div class="container text-center edit-form-wrapper  col-md-8 ">
+  <main class="mt-5 pb-5">
+    <div class="container text-center edit-form-wrapper col-md-8">
       <!-- <h1>Edit Profile</h1> -->
 
       <div class="section-wrapper">
@@ -18,7 +18,7 @@
             <li>
               <router-link
                 class="aside-links"
-                :to="{name:'single-user-page', params: {'username': timeLineUser.username}}"
+                :to="{'name':'single-user-page', 'params': {'username': timeLineUser.username}}"
               >
                 Cancel
                 <!-- <a class="aside-links cancel" @click="$router.go(-1)">Cancel</a> -->
@@ -31,111 +31,122 @@
           <form @submit.prevent="onSubmitHandler" class="form-container">
             <div class="form-group text-right">
               <label for="firstName">First Name</label>
-              <input
-                type="text"
-                id="firstName"
-                v-model.trim="$v.user.firstName.$model"
-                v-bind:class="['form-control', {'error': $v.user.firstName.error}]"
-              />
-              <small
-                v-if="!$v.user.firstName.required && $v.user.firstName.$dirty"
-                id="firstNameHelp"
-                class="form-text alert alert-danger"
-              >Firstname is required!</small>
-              <small
-                v-else-if="$v.user.firstName.$error"
-                id="firstNameHelp"
-                class="form-text alert alert-danger"
-              >First Name must start with a capital letter and contain only letters!</small>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="firstName"
+                  v-model.trim="$v.user.firstName.$model"
+                  v-bind:class="['form-control', {'error': $v.user.firstName.$error}]"
+                />
+                <small
+                  v-if="!$v.user.firstName.required && $v.user.firstName.$dirty"
+                  id="firstNameHelp"
+                  class="form-text alert alert-danger"
+                >Firstname is required!</small>
+                <small
+                  v-else-if="$v.user.firstName.$error"
+                  id="firstNameHelp"
+                  class="form-text alert alert-danger"
+                >First Name must start with a capital letter and contain only letters!</small>
+              </div>
             </div>
 
             <div class="form-group text-right">
               <label for="lastName">Last Name</label>
-              <input
-                type="text"
-                id="lastName"
-                v-model.trim="$v.user.lastName.$model"
-                v-bind:class="['form-control', {'error': $v.user.lastName.error}]"
-              />
-              <small
-                v-if="!$v.user.lastName.required && $v.user.lastName.$dirty"
-                id="lastNameHelp"
-                class="form-text alert alert-danger"
-              >LastNameis required!</small>
-              <small
-                v-else-if="$v.user.lastName.$error"
-                id="lastNameHelp"
-                class="form-text alert alert-danger"
-              >First Name must start with a capital letter and contain only letters!</small>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="lastName"
+                  v-model.trim="$v.user.lastName.$model"
+                  v-bind:class="['form-control', {'error': $v.user.lastName.$error}]"
+                />
+                <small
+                  v-if="!$v.user.lastName.required && $v.user.lastName.$dirty"
+                  id="lastNameHelp"
+                  class="form-text alert alert-danger"
+                >LastNameis required!</small>
+                <small
+                  v-else-if="$v.user.lastName.$error"
+                  id="lastNameHelp"
+                  class="form-text alert alert-danger"
+                >Last Name must start with a capital letter and contain only letters!</small>
+              </div>
             </div>
 
             <div class="form-group text-right">
               <label for="website">Website</label>
-              <input
-                type="text"
-                id="website"
-                v-model.trim="$v.user.website.$model"
-                v-bind:class="['form-control', {'error': $v.user.website.error}]"
-              />
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="website"
+                  v-model.trim="$v.user.website.$model"
+                  v-bind:class="['form-control', {'error': $v.user.website.$error}]"
+                />
+                <small
+                  v-if="$v.user.website.$error"
+                  id="firstNameHelp"
+                  class="form-text alert alert-danger"
+                >Website address must be less than 250 characters!</small>
+              </div>
             </div>
-            <small
-              v-if="$v.user.website.$error"
-              id="firstNameHelp"
-              class="form-text alert alert-danger"
-            >Website address must be less than 250 characters!</small>
 
             <div class="form-group text-right">
               <label for="bio">Bio</label>
-              <textarea
-                rows="3"
-                id="bio"
-                v-model.trim="$v.user.bio.$model"
-                v-bind:class="['form-control', {'error': $v.user.bio.error}]"
-              />
-              <small
-                v-if="$v.user.bio.$error"
-                id="firstNameHelp"
-                class="form-text alert alert-danger"
-              >Bio must be less than 1500 characters!</small>
+              <div class="input-wrapper">
+                <textarea
+                  rows="3"
+                  id="bio"
+                  v-model.trim="$v.user.bio.$model"
+                  v-bind:class="['form-control', {'error': $v.user.bio.$error}]"
+                />
+                <small
+                  v-if="$v.user.bio.$error"
+                  id="firstNameHelp"
+                  class="form-text alert alert-danger"
+                >Bio must be less than 1500 characters!</small>
+              </div>
             </div>
 
             <div class="form-group text-right">
               <label for="email">Email Address</label>
-              <input
-                type="email"
-                v-model.trim="$v.user.email.$model"
-                v-bind:class="['form-control', {'error': $v.user.email.$error}]"
-                id="email"
-                aria-describedby="emailHelp"
-                placeholder="Enter email"
-              />
-              <small
-                v-if="!$v.user.email.required && $v.user.email.$dirty"
-                id="emailHelp"
-                class="form-text alert alert-danger"
-              >Emai is required!</small>
-              <small
-                v-else-if="$v.user.email.$error"
-                id="emailHelp"
-                class="form-text alert alert-danger"
-              >Invalid e-mail address!</small>
+              <div class="input-wrapper">
+                <input
+                  type="email"
+                  v-model.trim="$v.user.email.$model"
+                  v-bind:class="['form-control', {'error': $v.user.email.$error}]"
+                  id="email"
+                  aria-describedby="emailHelp"
+                  placeholder="Enter email"
+                />
+                <small
+                  v-if="!$v.user.email.required && $v.user.email.$dirty"
+                  id="emailHelp"
+                  class="form-text alert alert-danger"
+                >Emai is required!</small>
+                <small
+                  v-else-if="$v.user.email.$error"
+                  id="emailHelp"
+                  class="form-text alert alert-danger"
+                >Invalid e-mail address!</small>
+              </div>
             </div>
 
             <div class="form-group text-right">
               <label for="profilePicUrl">Profile Pic Url</label>
-              <input
-                type="text"
-                id="profilePicUrl"
-                v-model.trim="$v.user.profilePicUrl.$model"
-                v-bind:class="['form-control', {'error': $v.user.profilePicUrl.error}]"
-              />
-              <small
-                v-if="!$v.user.profilePicUrl.required && $v.user.profilePicUrl.$dirty"
-                id="profilePicUrlHelp"
-                class="form-text alert alert-danger"
-              >ProfilePicUrl is required!</small>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="profilePicUrl"
+                  v-model.trim="$v.user.profilePicUrl.$model"
+                  v-bind:class="['form-control', {'error': $v.user.profilePicUrl.$error}]"
+                />
+                <small
+                  v-if="!$v.user.profilePicUrl.required && $v.user.profilePicUrl.$dirty"
+                  id="profilePicUrlHelp"
+                  class="form-text alert alert-danger"
+                >ProfilePicUrl is required!</small>
+              </div>
             </div>
-
             <div class="button-wrapper">
               <button
                 :disabled="$v.$invalid"
@@ -167,7 +178,7 @@ export default {
   computed: {
     ...mapGetters("auth", {
       loggedInUser: "getLoggedInUserData",
-      timeLineUser: "getTimeLineUserData",
+      timeLineUser: "getTimeLineUserData"
     })
   },
   validations: {
@@ -219,7 +230,7 @@ export default {
         lastName: this.user.lastName,
         profilePicUrl: this.user.profilePicUrl,
         bio: this.user.bio,
-        website: this.user.website,
+        website: this.user.website
       };
 
       this.updateUser(data);
@@ -232,13 +243,22 @@ export default {
 </script>
 
 <style scoped>
-
 .edit-form-wrapper {
-	margin-top: 7.8rem;
-	/* display:flex;
+  margin-top: 7.8rem;
+  /* display:flex;
 	justify-content: center;
 	align-items: center;
 	height: 100vh; */
+}
+
+.edit-form-wrapper input,
+textarea {
+  background: #eee;
+}
+
+.edit-form-wrapper input:focus,
+textarea:focus {
+  background: white;
 }
 
 .section-wrapper {
@@ -271,8 +291,21 @@ export default {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
+  position: relative;
+  margin-bottom: 2.8rem;
+  /* flex-wrap: nowrap; */
 
   /* margin-bottom: 0; */
+}
+
+.input-wrapper {
+  width: 100%;
+  text-align: left;
+}
+
+.form-text {
+    display: block;
+    margin-top: .25rem;
 }
 
 label {
@@ -323,6 +356,24 @@ a.active {
   pointer-events: none;
   cursor: default;
 }
+
+input.error:focus, textarea.error:focus {
+  border-color: rgba(229, 103, 23, 0.8);
+  box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset,
+    0 0 10px rgba(229, 103, 23, 0.8);
+  outline: 0 none;
+}
+
+input.error, textarea.error {
+  border: 1px solid red;
+}
+
+.alert {
+  position: absolute;
+  width: 80%;
+  padding: 0.5rem 0.75rem;
+}
+
 
 .app-button-primary {
 }

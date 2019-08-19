@@ -38,8 +38,11 @@ const mutations = {
   [DELETE_USER_SUCCESS]: (state, payload) => {
     const userId = payload.userId;
     debugger;
-    state.usersAdmin = state.usersAdmin.filter(user => user.id !== userId);
-    state.users = state.users.filter(user => user.id !== userId);
+    const newUsersAdminArr = state.usersAdmin.filter(user => user.id !== userId);
+    const newUsersArr = state.users.filter(user => user.id !== userId);
+
+    state.usersAdmin = newUsersAdminArr;
+    state.users = newUsersArr;
     debugger;
   },
 

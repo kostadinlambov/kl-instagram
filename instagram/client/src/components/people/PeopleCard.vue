@@ -5,25 +5,27 @@
         <img v-bind:class="imageSizeClass" :src="profilePicUrl" alt="user-pic" />
       </div>
       <div class="usernames-container">
-        <div
-          class="username"
-        >{{currentUser.username || currentUser.followerUsername || currentUser.userUsername}}</div>
+        <router-link 
+          :to="{'name':'single-user-page', 'params': {'username': username}}"
+          class="username">
+             {{username}}
+        </router-link>
         <div
           class="names"
-        >{{currentUser.firstName || currentUser.followerFirstName || currentUser.userFirstName}} {{currentUser.lastName || currentUser.followerLastName || currentUser.userLastName}}</div>
+        >{{firstName}} {{lastName}}</div>
       </div>
     </div>
 
     <div class="buttons-wrapper" v-if="!currentUser.active">
       <button
         class="btn app-button-primary btn-sm"
-        v-on:click="follow(currentUser.followerId || currentUser.userId || currentUser.id)"
+        v-on:click="follow(userId)"
       >Follow</button>
     </div>
     <div class="buttons-wrapper" v-else>
       <button
         class="btn app-button-secondary btn-sm"
-        v-on:click="unfollow(currentUser.userId || currentUser.followerId || currentUser.id )"
+        v-on:click="unfollow(userId )"
       >Following</button>
     </div>
   </div>
@@ -37,7 +39,7 @@ export default {
   name: "people-card",
   data() {
     return {
-      placeholder: placeholderLink
+      placeholder: placeholderLink,
     };
   },
   props: {
@@ -47,6 +49,18 @@ export default {
     }
   },
   computed: {
+    userId(){
+      return (this.currentUser.followerId || this.currentUser.userId || this.currentUser.id);
+    },
+    username(){
+      return (this.currentUser.username || this.currentUser.followerUsername || this.currentUser.userUsername);
+    },
+    firstName(){
+      return (this.currentUser.firstName || this.currentUser.followerFirstName || this.currentUser.userFirstName);
+    },
+    lastName(){
+      return (this.currentUser.lastName || this.currentUser.lastName || this.currentUser.lastName);
+    },
     profilePicUrl() {
       return (
         this.currentUser.profilePicUrl ||
@@ -130,9 +144,16 @@ export default {
   text-align: left;
 }
 
-.username {
+a.username {
   font-weight: 600;
+  color: #262626;
+  text-decoration: none;
 }
+
+a.username:hover{
+  color: rgb(65, 184, 131);
+}
+
 
 .names {
   color: rgb(53, 73, 94);;

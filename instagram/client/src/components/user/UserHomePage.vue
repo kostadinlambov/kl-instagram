@@ -319,6 +319,7 @@ span.post-count {
   padding: 0;
   margin: 0;
   white-space: nowrap;
+  color:#262626
 }
 
 span.bio {

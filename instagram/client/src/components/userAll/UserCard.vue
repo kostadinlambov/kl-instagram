@@ -5,7 +5,12 @@
         <img :class="imageSizeClass" :src="profilePicUrl" alt="user-pic" />
       </div>
       <div class="usernames-container">
-        <div class="username">{{currentUser.username}}</div>
+        <!-- <div class="username">{{currentUser.username}}</div> -->
+        <router-link 
+          :to="{'name':'single-user-page', 'params': {'username': currentUser.username}}"
+          class="username">
+             {{currentUser.username}}
+        </router-link>
       </div>
     </div>
 
@@ -125,6 +130,16 @@ export default {
 
 .username {
   font-weight: 600;
+}
+
+a.username {
+  font-weight: 600;
+  color: #262626;
+  text-decoration: none;
+}
+
+a.username:hover{
+  color: rgb(65, 184, 131);
 }
 
 .names {

@@ -1,5 +1,7 @@
 import Vue from "vue";
 import requester from "@/infrastructure/requester";
+import router from "@/router";
+
 
 import {
   FETCH_ALL_USERS_ADMIN,
@@ -226,9 +228,9 @@ export const deleteUser = (context, userId) => {
         userId
       });
 
-      debugger;
+     
       router.push("/");
-
+      debugger;
       Vue.$toast.open({
         message: res.body.message,
         type: "success"

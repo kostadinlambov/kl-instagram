@@ -15,7 +15,7 @@ public class Post extends BaseEntity {
     private String location;
     private LocalDateTime time;
     private User creator;
-    private User timelineUser;
+//    private User timelineUser;
     private String cloudinaryPublicId;
     private List<Like> likes;
     private List<Comment> comments;
@@ -70,15 +70,15 @@ public class Post extends BaseEntity {
         this.creator = creator;
     }
 
-    @ManyToOne(targetEntity = User.class, optional = false)
-    @JoinColumn(name = "timeline_user_id", referencedColumnName = "id")
-    public User getTimelineUser() {
-        return this.timelineUser;
-    }
-
-    public void setTimelineUser(User timelineUser) {
-        this.timelineUser = timelineUser;
-    }
+//    @ManyToOne(targetEntity = User.class, optional = false)
+//    @JoinColumn(name = "timeline_user_id", referencedColumnName = "id")
+//    public User getTimelineUser() {
+//        return this.timelineUser;
+//    }
+//
+//    public void setTimelineUser(User timelineUser) {
+//        this.timelineUser = timelineUser;
+//    }
 
     @OneToMany(mappedBy = "post", targetEntity = Like.class, cascade = CascadeType.ALL)
     public List<Like> getLikes() {

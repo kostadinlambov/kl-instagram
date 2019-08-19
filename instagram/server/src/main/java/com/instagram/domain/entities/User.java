@@ -28,7 +28,7 @@ public class User extends BaseEntity implements UserDetails {
     private boolean isEnabled;
 
     private List<Post> userPostList;
-    private List<Post> userTimelineAllPosts;
+//    private List<Post> userTimelineAllPosts;
 
     private List<Comment> createdCommentsList;
     private List<Comment> userTimelineAllComments;
@@ -78,14 +78,14 @@ public class User extends BaseEntity implements UserDetails {
         this.userPostList = userPostList;
     }
 
-    @OneToMany(mappedBy = "timelineUser", cascade = CascadeType.ALL)
-    public List<Post> getUserTimelineAllPosts() {
-        return this.userTimelineAllPosts;
-    }
-
-    public void setUserTimelineAllPosts(List<Post> userTimelineAllPosts) {
-        this.userTimelineAllPosts = userTimelineAllPosts;
-    }
+//    @OneToMany(mappedBy = "timelineUser", cascade = CascadeType.ALL)
+//    public List<Post> getUserTimelineAllPosts() {
+//        return this.userTimelineAllPosts;
+//    }
+//
+//    public void setUserTimelineAllPosts(List<Post> userTimelineAllPosts) {
+//        this.userTimelineAllPosts = userTimelineAllPosts;
+//    }
 
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     public List<Comment> getCreatedCommentsList() {

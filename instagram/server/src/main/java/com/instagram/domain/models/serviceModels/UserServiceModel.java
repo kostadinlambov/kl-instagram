@@ -1,8 +1,9 @@
 package com.instagram.domain.models.serviceModels;
 
-import com.instagram.domain.entities.UserRole;
+import com.instagram.domain.entities.*;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 public class UserServiceModel implements Serializable {
@@ -23,6 +24,17 @@ public class UserServiceModel implements Serializable {
     private boolean isAccountNonLocked;
     private boolean isCredentialsNonExpired;
     private boolean isEnabled;
+
+    private List<Post> userPostList;
+//    private List<Post> userTimelineAllPosts;
+
+    private List<Comment> createdCommentsList;
+    private List<Comment> userTimelineAllComments;
+
+    private List<Like> likeList;
+
+    private List<Follower> followedUserList;
+    private List<Follower> followerList;
 
     public UserServiceModel() {
     }
@@ -153,6 +165,54 @@ public class UserServiceModel implements Serializable {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public List<Post> getUserPostList() {
+        return this.userPostList;
+    }
+
+    public void setUserPostList(List<Post> userPostList) {
+        this.userPostList = userPostList;
+    }
+
+    public List<Comment> getCreatedCommentsList() {
+        return this.createdCommentsList;
+    }
+
+    public void setCreatedCommentsList(List<Comment> createdCommentsList) {
+        this.createdCommentsList = createdCommentsList;
+    }
+
+    public List<Comment> getUserTimelineAllComments() {
+        return this.userTimelineAllComments;
+    }
+
+    public void setUserTimelineAllComments(List<Comment> userTimelineAllComments) {
+        this.userTimelineAllComments = userTimelineAllComments;
+    }
+
+    public List<Like> getLikeList() {
+        return this.likeList;
+    }
+
+    public void setLikeList(List<Like> likeList) {
+        this.likeList = likeList;
+    }
+
+    public List<Follower> getFollowedUserList() {
+        return this.followedUserList;
+    }
+
+    public void setFollowedUserList(List<Follower> followedUserList) {
+        this.followedUserList = followedUserList;
+    }
+
+    public List<Follower> getFollowerList() {
+        return this.followerList;
+    }
+
+    public void setFollowerList(List<Follower> followerList) {
+        this.followerList = followerList;
     }
 
     public String extractAuthority() {

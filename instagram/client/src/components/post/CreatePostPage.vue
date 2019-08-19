@@ -102,7 +102,7 @@ export default {
   },
   computed: {
     ...mapGetters("auth", {
-      loggedInUser: "getLoggedInUserData"
+      loggedInUser: "getLoggedInUserData",
     })
   },
   validations: {
@@ -175,6 +175,14 @@ export default {
   box-shadow: 0 0 14px 1px rgba(0, 0, 0, 0.3);
   background: white;
   padding: 2rem 1rem;
+}
+
+.post-wrapper input, textarea {
+  background: #eee;
+}
+
+.post-wrapper input:focus, textarea:focus {
+  background: white;
 }
 
 .form-group {

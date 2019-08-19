@@ -13,7 +13,7 @@ import { RESET_STATE_GLOBAL } from "../../mutationTypes";
 import { userService } from '@/infrastructure/userService';
 
 export const registerAction = (context, payload) => {
-  const url = "users/register";
+  const url = "user/register";
 
   requester
     .post(url, payload)

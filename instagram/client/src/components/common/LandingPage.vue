@@ -48,6 +48,7 @@
               :to="{name:'single-user-page', params: {'username': loggedInUserData.username}}"
               role="button"
             >Profile</router-link>
+            
             <router-link
               v-if="loggedInUserData.isAdminOrRoot"
               class="btn app-button-primary btn-lg m-3"
