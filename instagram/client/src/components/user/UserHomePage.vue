@@ -5,7 +5,7 @@
         <div class="card-container">
           <div class="content-wrapper">
             <div class="profile-pick-container">
-              <img :class="imageSizeClass" :src="profilePicUrl" alt="user-pic" />
+              <img :class="getTimeLineUser.imageClass" :src="profilePicUrl" alt="user-pic" />
             </div>
             <section class="user-info-wrapper">
               <div class="username-wrapper">
@@ -67,11 +67,13 @@
           <span class="bookmark-icon-span">SAVED</span>
         </router-link>
       </div>
-      <div class="gallery-container">
+      <!-- <div class="gallery-container">
         <ul class="gallery-wrapper">
           <post-card v-for="post in posts" v-bind:key="post.id" v-bind:currentPost="post"></post-card>
         </ul>
-      </div>
+      </div> -->
+
+      <PostGallery :posts="posts" />
     </div>
     <!-- <li class="nav-item">
       <router-link to="#" class="nav-link" data-toggle="modal" data-target="#testleModalId">Modal</router-link>
@@ -82,17 +84,17 @@
 </template>
 <script>
 import { userService } from "../../infrastructure/userService";
-import PostCard from "./PostCard";
 import { mapGetters, mapActions } from "vuex";
 import { debuglog } from "util";
 import placeholderLink from "../../assets/images/placeholder.png";
 import FollowerModal from "./FollowerModal";
+import PostGallery from "../postGallery/PostGallery"
 
 export default {
   name: "user-home-page",
   components: {
-    PostCard,
-    FollowerModal
+    FollowerModal,
+    PostGallery
   },
   data() {
     return {
@@ -123,7 +125,7 @@ export default {
       return this.getTimeLineUser.profilePicUrl || this.placeholderLink;
     },
     imageSizeClass() {
-      return userService.getImageSize(this.profilePicUrl);
+      return this.getTimeLineUser.imageClass || '';
     }
   },
   methods: {
@@ -205,7 +207,7 @@ export default {
   padding-top: 100%;
 }
 
-.profile-pick-container img {
+.profile-pick-container img{
   display: block;
   position: absolute;
   width: 100%;
@@ -215,7 +217,7 @@ export default {
   transform: translate(-50%, -50%);
 }
 
-.profile-pick-container img.l {
+.profile-pick-container img.l  {
   display: block;
   position: absolute;
   width: auto;

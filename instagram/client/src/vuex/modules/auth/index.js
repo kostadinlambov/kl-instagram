@@ -10,6 +10,7 @@ import {
   FETCH_LOGGEDIN_USER,
   FETCH_TIMELINE_USER,
   UPDATE_TIMELINE_USER,
+  UPDATE_USER_IMAGE_CLASS,
 } from "./mutationTypes";
 
 // initial state
@@ -25,6 +26,7 @@ const initialState = {
     isAdminOrRoot: userService.isAdminOrRoot(),
     bio: '',
     website: '',
+    imageClass: '',
   },
   timeLineUser: {
     username: '',
@@ -36,6 +38,7 @@ const initialState = {
     isAdminOrRoot: '',
     bio: '',
     website: '',
+    imageClass: '',
   }
 };
 
@@ -63,8 +66,13 @@ const mutations = {
   },
 
   [UPDATE_TIMELINE_USER]: (state, payload) => {
-    state.timeLineUser = {...payload.user};
+    state.timeLineUser = {...state.timeLineUser,...payload.user};
+    // state.timeLineUser = {...state.timeLineUser,...payload.user};
     state.timeLineUser.isAdminOrRoot = payload.user.role === 'ROOT' || payload.user.role === 'ADMIN';
+  },
+
+  [UPDATE_USER_IMAGE_CLASS]: (state, { id, imageClass, userType }) => {
+    updateUserImageClass(state, id, imageClass, userType);
   },
 
   [AUTH_RESET_STATE]: (state) => {
@@ -84,6 +92,19 @@ const mutations = {
   //   })
   // }
 };
+
+const updateUserImageClass = (state, id, imageClass, userType) => {
+  switch (userType) {
+    case "loggedInUser":
+      state.loggedInUser ={ ...state.loggedInUser, imageClass};
+      break;
+    case "timeLineUser":
+      state.timeLineUser = {...state.timeLineUser, imageClass};
+      break;
+    default:
+      break;
+  }
+}
 
 export default {
     state: {...initialState},

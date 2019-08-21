@@ -111,20 +111,34 @@ export const userService = {
       lastName: this.getLastName(),
       role: this.getRole(),
       getProfilePicUrl: this.getProfilePicUrl(),
-      isAdminOrRoot: this.isAdminOrRoot(),
+      isAdminOrRoot: this.isAdminOrRoot()
     };
 
     return userData;
   },
 
-  getImageSize(profilePicUrl) {
-    let img = new Image();
-    img.src = profilePicUrl;
+  async getImageClass(imageUrl) {
+    let img = await this.getMeta(imageUrl);
 
-    if (img.width >= img.height) {
-        return 'l'
+    let w = img.width;
+    let h = img.height;
+    // console.log("w", w);
+    // console.log("h", h);
+    // alert(w + " " + h);
+    if (w >= h) {
+      return "l";
     }
 
-    return '';
-}
+    return "";
+  },
+
+  getMeta(url) {
+    return new Promise((resolve, reject) => {
+      let img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = url;
+    });
+  },
+
 };

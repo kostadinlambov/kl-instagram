@@ -219,8 +219,7 @@ export default {
         return;
       }
 
-      console.log("user: ", this.user);
-      debugger;
+      // console.log("user: ", this.user);
 
       const data = {
         username: this.user.username,

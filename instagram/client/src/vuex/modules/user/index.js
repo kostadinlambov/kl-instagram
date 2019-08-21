@@ -14,6 +14,7 @@ import {
   FETCH_ALL_FOLLOWERS,
   FETCH_ALL_FOLLOWING,
   DELETE_USER_SUCCESS,
+  UPDATE_USER_IMAGE_CLASS
 } from "./mutationTypes";
 
 // initial state
@@ -37,13 +38,14 @@ const mutations = {
 
   [DELETE_USER_SUCCESS]: (state, payload) => {
     const userId = payload.userId;
-    debugger;
-    const newUsersAdminArr = state.usersAdmin.filter(user => user.id !== userId);
+
+    const newUsersAdminArr = state.usersAdmin.filter(
+      user => user.id !== userId
+    );
     const newUsersArr = state.users.filter(user => user.id !== userId);
 
     state.usersAdmin = newUsersAdminArr;
     state.users = newUsersArr;
-    debugger;
   },
 
   [FETCH_ALL_FOLLOWERS]: (state, payload) => {
@@ -54,6 +56,10 @@ const mutations = {
 
   [FETCH_ALL_FOLLOWING]: (state, payload) => {
     state.following = payload.following;
+  },
+
+  [UPDATE_USER_IMAGE_CLASS]: (state, { id, imageClass, arrType }) => {
+    updateUserImageClass(state, id, imageClass, arrType);
   },
 
   [PROMOTE_USER]: (state, payload) => {
@@ -83,6 +89,48 @@ const mutations = {
       Vue.set(state, f, initialState[f]);
     }
   }
+};
+
+const updateUserImageClass = (state, id, imageClass, arrType) => {
+  let newUserArr = [];
+
+  switch (arrType) {
+    case "allUsersAdmin":
+      newUserArr = updateArr(state.usersAdmin, id, imageClass);
+      state.usersAdmin = [...newUserArr];
+      break;
+    case "allUsers":
+      newUserArr = updateArr(state.users, id, imageClass);
+      state.users = [...newUserArr];
+      break;
+    case "followers":
+      newUserArr = updateArr(state.followers, id, imageClass);
+      state.followers = [...newUserArr];
+      break;
+    case "following":
+      newUserArr = updateArr(state.following, id, imageClass);
+      state.following = [...newUserArr];
+      break;
+    case "followingCandidates":
+      newUserArr = updateArr(state.followingCandidates, id, imageClass);
+      state.followingCandidates = [...newUserArr];
+      break;
+    default:
+      break;
+  }
+};
+
+const updateArr = (newUserArr, id, imageClass) => {
+  return newUserArr.map(user => {
+    if (user.id !== id) {
+      return user;
+    }
+
+    return {
+      ...user,
+      imageClass
+    };
+  });
 };
 
 const setFollowingCandidates = state => {

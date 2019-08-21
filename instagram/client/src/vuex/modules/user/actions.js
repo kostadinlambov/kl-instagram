@@ -1,7 +1,7 @@
 import Vue from "vue";
 import requester from "@/infrastructure/requester";
 import router from "@/router";
-
+import { userService } from "@/infrastructure/userService";
 
 import {
   FETCH_ALL_USERS_ADMIN,
@@ -13,7 +13,8 @@ import {
   FETCH_ALL_FOLLOWERS,
   FETCH_ALL_FOLLOWING,
   DELETE_USER_SUCCESS,
-  RESET_STATE
+  RESET_STATE,
+  UPDATE_USER_IMAGE_CLASS,
 } from "./mutationTypes";
 
 export const fetchAllUsersAdminAction = (context, payload) => {
@@ -25,6 +26,8 @@ export const fetchAllUsersAdminAction = (context, payload) => {
         type: FETCH_ALL_USERS_ADMIN,
         users: res.body
       });
+
+      context.dispatch("updateUserImageClass", {users:res.body, arrType: 'allUsersAdmin'});
     })
     .catch(err => {
       Vue.$toast.open({
@@ -43,6 +46,13 @@ export const fetchAllUsersAction = (context, payload) => {
         type: FETCH_ALL_USERS,
         users: res.body
       });
+
+      context.dispatch("updateUserImageClass", {users:res.body, arrType: 'allUsers'});
+
+
+      const followingCandidates = context.state.followingCandidates;
+      context.dispatch("updateUserImageClass", {users:followingCandidates, arrType: 'followingCandidates'});
+
     })
     .catch(err => {
       Vue.$toast.open({
@@ -187,6 +197,9 @@ export const fetchFollowers = (context, username) => {
         type: FETCH_ALL_FOLLOWERS,
         followers: res.body
       });
+
+
+      context.dispatch("updateUserImageClass", {users:res.body, arrType: 'followers'});
     })
     .catch(err => {
       Vue.$toast.open({
@@ -205,6 +218,8 @@ export const fetchFollowing = (context, username) => {
         type: FETCH_ALL_FOLLOWING,
         following: res.body
       });
+
+      context.dispatch("updateUserImageClass", {users:res.body, arrType: 'following'});
     })
     .catch(err => {
       Vue.$toast.open({
@@ -212,6 +227,33 @@ export const fetchFollowing = (context, username) => {
         type: "error"
       });
     });
+};
+
+export const updateUserImageClass = (context, {users, arrType}) => {
+  users.forEach(user => {
+
+    const profilePicUrl = user.profilePicUrl || user.userProfilePicUrl || user.followerProfilePicUrl;
+    const id = user.id || user.userId || user.followerId;
+
+    userService.getImageClass(profilePicUrl).then(res => {
+      context.commit({
+        type: UPDATE_USER_IMAGE_CLASS,
+        imageClass: res,
+        id: id,
+        arrType
+      });
+
+      Vue.$toast.open({
+        message: "User Image Class updated!",
+        type: "success"
+      });
+    }).catch(error => {
+      Vue.$toast.open({
+        message: 'Update User Image Class Error!  => ' + arrType,
+        type: "error"
+      });
+    });
+  });
 };
 
 export const deleteUser = (context, userId) => {

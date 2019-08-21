@@ -8,9 +8,10 @@ import {
   FETCH_LOGGEDIN_USER,
   FETCH_TIMELINE_USER,
   UPDATE_TIMELINE_USER,
+  UPDATE_USER_IMAGE_CLASS,
 } from "./mutationTypes";
 import { RESET_STATE_GLOBAL } from "../../mutationTypes";
-import { userService } from '@/infrastructure/userService';
+import { userService } from "@/infrastructure/userService";
 
 export const registerAction = (context, payload) => {
   const url = "user/register";
@@ -47,8 +48,8 @@ export const loginAction = (context, payload) => {
       console.log("res => ", res);
 
       const id = userService.getUserId();
-      context.dispatch('fetchLoggedInUser',{id});
-      context.dispatch('user/fetchAllUsersAction', {id} , {root: true});
+      context.dispatch("fetchLoggedInUser", { id });
+      context.dispatch("user/fetchAllUsersAction", { id }, { root: true });
 
       context.commit({
         type: CHANGE_IS_AUTHENTICATED,
@@ -108,6 +109,8 @@ export const fetchLoggedInUser = (context, payload) => {
         type: FETCH_LOGGEDIN_USER,
         user: res.body
       });
+
+      context.dispatch("updateUserImageClass", { user: res.body, userType: "loggedInUser"});
     })
     .catch(err => {
       Vue.$toast.open({
@@ -115,7 +118,7 @@ export const fetchLoggedInUser = (context, payload) => {
         type: "error"
       });
     });
-}
+};
 
 export const fetchTimeLineUser = (context, payload) => {
   const url = "user/details/username/" + payload.username;
@@ -126,6 +129,7 @@ export const fetchTimeLineUser = (context, payload) => {
         type: FETCH_TIMELINE_USER,
         user: res.body
       });
+      context.dispatch("updateUserImageClass", { user: res.body, userType: "timeLineUser"});
     })
     .catch(err => {
       Vue.$toast.open({
@@ -133,31 +137,58 @@ export const fetchTimeLineUser = (context, payload) => {
         type: "error"
       });
     });
-}
+};
+
+export const updateUserImageClass = (context, { user, userType }) => {
+  userService
+    .getImageClass(user.profilePicUrl)
+    .then(res => {
+      context.commit({
+        type: UPDATE_USER_IMAGE_CLASS,
+        imageClass: res,
+        id: user.id,
+        userType
+      });
+
+      Vue.$toast.open({
+        message: "LoggedIn/TimeLine User Image Class updated!",
+        type: "success"
+      });
+    })
+    .catch(error => {
+      Vue.$toast.open({
+        message: "Update LoggedIn/TimeLine User Image Class Error!",
+        type: "error"
+      });
+    });
+};
 
 export const updateUser = (context, data) => {
   const loggedInUserId = context.rootState.auth.loggedInUser.id;
   const username = context.state.timeLineUser.username;
-  const url = "user/update/"+ loggedInUserId;
+  const url = "user/update/" + loggedInUserId;
 
-  requester.put(url, data)
-  .then(res => {
-    context.commit({
-      type: UPDATE_TIMELINE_USER,
-      user: res.body
-    })
+  requester
+    .put(url, data)
+    .then(res => {
 
-    router.push("/user/" + username);
+      // context.commit({
+      //   type: UPDATE_TIMELINE_USER,
+      //   user: res.body
+      // });
 
-     Vue.$toast.open({
+      // context.dispatch("fetchTimeLineUser", { username });
+      router.push("/user/" + username);
+
+      Vue.$toast.open({
         message: res.body.message,
         type: "success"
       });
-  }).catch(err => {
-    Vue.$toast.open({
-      message: err.body.message,
-      type: "error"
+    })
+    .catch(err => {
+      Vue.$toast.open({
+        message: err.body.message,
+        type: "error"
+      });
     });
-  });
-}
-
+};

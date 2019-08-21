@@ -43,7 +43,12 @@
 
             <!-- <img :src="defaultImg" alt="post-image" :style="styleImg" class="post-image" /> -->
             <div class="image-container">
-              <img class="gallery-img post-image" :style="styleImg" :src="defaultImg" alt />
+              <img
+                :class="['gallery-img', 'post-image', imageClass ]"
+                :style="styleImg"
+                :src="defaultImg"
+                alt
+              />
             </div>
 
             <input
@@ -97,13 +102,14 @@ export default {
         // width: "250px",
         // height: "200px"
       },
-      defaultImg
+      defaultImg,
+      imageClass: ""
     };
   },
   computed: {
     ...mapGetters("auth", {
-      loggedInUser: "getLoggedInUserData",
-    })
+      loggedInUser: "getLoggedInUserData"
+    }),
   },
   validations: {
     caption: {
@@ -120,7 +126,9 @@ export default {
     ...mapActions("post", ["createPost"]),
 
     onFileSelected(event) {
-      this.postImage = event.target.files[0];
+	  this.postImage = event.target.files[0];
+	  
+      this.getImageSizeClass(this.postImage);
 
       const reader = new FileReader();
       reader.onload = event1 => {
@@ -128,6 +136,19 @@ export default {
       };
 
       reader.readAsDataURL(this.postImage);
+    },
+
+    getImageSizeClass(file) {
+      const URL = window.URL || window.webkitURL;
+      const img = new Image();
+
+      let that = this;
+      img.src = URL.createObjectURL(file);
+      img.onload = function() {
+        if (this.width >= this.height) {
+          that.imageClass = "l";
+        }
+      };
     },
 
     onSubmitHandler() {
@@ -162,7 +183,7 @@ export default {
 
       this.createPost(data);
     }
-  }
+  },
 };
 </script>
 
@@ -177,11 +198,13 @@ export default {
   padding: 2rem 1rem;
 }
 
-.post-wrapper input, textarea {
+.post-wrapper input,
+textarea {
   background: #eee;
 }
 
-.post-wrapper input:focus, textarea:focus {
+.post-wrapper input:focus,
+textarea:focus {
   background: white;
 }
 

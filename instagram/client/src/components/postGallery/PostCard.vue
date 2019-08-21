@@ -1,11 +1,12 @@
 <template>
   <router-link class="image-container" to="#">
-    <img :class="['gallery-img', 'imageSizeClass']" :src="imageUrl" alt />
+    <img :class="['gallery-img', currentPost.imageClass ]" :src="imageUrl" alt />
     <div class="img-details">
       <div class="likes-and-comments">
         <div class="likes">
           <i class="fas fa-heart"></i>
           <span>{{currentPost.likeCount}}</span>
+          {{currentPost.imageClass}}
         </div>
         <div class="comments">
           <i class="fas fa-comments"></i>
@@ -25,7 +26,9 @@ export default {
   data() {
     return {
       posts: [],
-      placeholder: placeholderLink
+      placeholder: placeholderLink,
+      // imageUrl: this.currentPost.imageUrl || this.placeholder,
+      imageClass: ""
     };
   },
   props: {
@@ -37,16 +40,40 @@ export default {
   computed: {
     imageUrl() {
       return this.currentPost.imageUrl || this.placeholder;
-    },
-    imageSizeClass() {
-      return userService.getImageSize(this.imageUrl);
     }
   },
   methods: {
-    getImgUrl(picUrl) {
-      console.log(picUrl);
-      return require(picUrl);
-    }
+    // imageSizeClass(imageUrl) {
+    //   console.log("imageUrl:", imageUrl);
+    //   let img = new Image();
+    //   img.src = imageUrl;
+    //   console.log("img.width:", img.width);
+    //   console.log("img.height:", img.height);
+    //   debugger;
+    //   const imageClass = userService.getImageSize(imageUrl);
+    //   console.log(imageClass);
+    //   console.log(this.currentPost.imageUrl);
+    //   return userService.getImageSize(imageUrl);
+    // },
+    // getImgUrl(picUrl) {
+    //   console.log(picUrl);
+    //   return require(picUrl);
+    // }
+  },
+  created() {
+    // userService.getImageClass(this.imageUrl).then(res => {
+    //   debugger;
+    //   this.imageClass = res;
+    //   console.log("res", res);
+    // });
+  },
+  watch: {
+    // currentPost(from, to) {
+    //   console.log("this.currentPost: ", this.currentPost);
+    //   console.log("from: ", from);
+    //   console.log("to: ", to);
+    //   debugger;
+    // }
   }
 };
 </script>
@@ -76,6 +103,7 @@ export default {
   height: 100%;
   width: 100%;
   overflow: hidden;
+  box-shadow: 0px 0px 12px 2px rgba(65, 184, 131, 0.3);
 
   margin: auto;
   position: relative;
@@ -94,7 +122,7 @@ export default {
   box-shadow: 0px 0px 12px 2px rgba(65, 184, 131, 0.8);
 }
 
-img.gallery-img.l {
+img.gallery-img {
   display: block;
   position: absolute;
   width: 100%;
@@ -106,7 +134,7 @@ img.gallery-img.l {
   /* transition: transform 1.5s; */
 }
 
-.gallery-img {
+.gallery-img.l {
   position: absolute;
   display: block;
   width: auto;

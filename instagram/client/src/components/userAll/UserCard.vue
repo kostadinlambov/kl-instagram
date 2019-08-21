@@ -47,7 +47,8 @@ export default {
       return this.currentUser.profilePicUrl || this.placeholder;
     },
     imageSizeClass(){
-      return userService.getImageSize(this.profilePicUrl)
+      return this.currentUser.imageClass || '';
+      // return userService.getImageSize(this.profilePicUrl)
     }
   },
   methods: {
