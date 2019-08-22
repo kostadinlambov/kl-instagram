@@ -2,6 +2,8 @@ export const getAllUsersAdmin = state => state.usersAdmin;
 
 export const getAllUsers = state => state.users;
 
+export const getFirstFiveUsers = state => state.users.slice(0, 5);
+
 export const getFollowers = state => state.followers;
 
 export const getFollowersCount = state => state.followers.length;

@@ -200,7 +200,6 @@ export default {
     },
 
     bottom(bottom) {
-      debugger;
       if (bottom && !this.loading && this.pagesCount > this.currentPage + 1) {
         this.scroll();
       }
@@ -208,7 +207,6 @@ export default {
   },
   
   beforeDestroy() {
-    debugger;
     this.resetUserPostState();
   }
 };
@@ -394,7 +392,8 @@ span.bio {
   text-overflow: ellipsis;
   white-space: nowrap;
 
-  color: #1e6cb9b6;
+  /* color: #1e6cb9b6; */
+   color: rgb(65, 184, 131);
   text-decoration: none;
 }
 

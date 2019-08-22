@@ -1,6 +1,7 @@
 import Vue from "vue";
 import router from "@/router";
 import requester from "@/infrastructure/requester";
+import placeholderLink from "../../../assets/images/placeholder.png";
 
 import {
   CHANGE_IS_AUTHENTICATED,
@@ -145,8 +146,9 @@ export const fetchTimeLineUser = (context, payload) => {
 };
 
 export const updateUserImageClass = (context, { user, userType }) => {
+  const profilePicUrl = user.profilePicUrl || placeholderLink;
   userService
-    .getImageClass(user.profilePicUrl)
+    .getImageClass(profilePicUrl)
     .then(res => {
       context.commit({
         type: UPDATE_USER_IMAGE_CLASS,

@@ -1,15 +1,13 @@
 <template>
   <main class="mt-5 pb-5">
     <div class="container text-center edit-form-wrapper col-md-8">
-      <!-- <h1>Edit Profile</h1> -->
-
       <div class="section-wrapper">
         <section class="aside-section">
           <ul>
             <li>
               <router-link class="aside-links active" to="#">Edit Profile</router-link>
             </li>
-            <li>
+            <li v-if="hasDeletePermision">
               <router-link
                 class="aside-links"
                 :to="{name:'delete-user', params: {'id': timeLineUser.id}}"
@@ -179,7 +177,10 @@ export default {
     ...mapGetters("auth", {
       loggedInUser: "getLoggedInUserData",
       timeLineUser: "getTimeLineUserData"
-    })
+    }),
+    hasDeletePermision(){
+      return (this.loggedInUser.role === 'ROOT') && (this.loggedInUser.id != this.timeLineUser.id);
+    }
   },
   validations: {
     user: {

@@ -2,6 +2,7 @@ import Vue from "vue";
 import requester from "@/infrastructure/requester";
 import router from "@/router";
 import { userService } from "@/infrastructure/userService";
+import placeholderLink from "../../../assets/images/placeholder.png";
 
 import {
   FETCH_ALL_USERS_ADMIN,
@@ -232,7 +233,7 @@ export const fetchFollowing = (context, username) => {
 export const updateUserImageClass = (context, {users, arrType}) => {
   users.forEach(user => {
 
-    const profilePicUrl = user.profilePicUrl || user.userProfilePicUrl || user.followerProfilePicUrl;
+    const profilePicUrl = user.profilePicUrl || user.userProfilePicUrl || user.followerProfilePicUrl || placeholderLink ;
     const id = user.id || user.userId || user.followerId;
 
     userService.getImageClass(profilePicUrl).then(res => {

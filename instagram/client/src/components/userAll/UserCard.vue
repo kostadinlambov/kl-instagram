@@ -48,7 +48,6 @@ export default {
     },
     imageSizeClass(){
       return this.currentUser.imageClass || '';
-      // return userService.getImageSize(this.profilePicUrl)
     }
   },
   methods: {

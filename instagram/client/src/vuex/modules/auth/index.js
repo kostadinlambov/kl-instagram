@@ -2,6 +2,7 @@ import * as actions from "./actions";
 import * as getters from "./getters";
 import { userService } from "@/infrastructure/userService";
 import Vue from "vue";
+import placeholderLink from "@/assets/images/placeholder.png";
 
 import {
   LOGIN_SUCCESS,
@@ -23,7 +24,7 @@ const initialState = {
     firstName: userService.getFirstName(),
     lastName: userService.getLastName(),
     role: userService.getRole(),
-    profilePicUrl: userService.getProfilePicUrl(),
+    profilePicUrl: userService.getProfilePicUrl() || placeholderLink,
     isAdminOrRoot: userService.isAdminOrRoot(),
     bio: "",
     website: "",
@@ -35,7 +36,7 @@ const initialState = {
     firstName: "",
     lastName: "",
     role: "",
-    profilePicUrl: "",
+    profilePicUrl: placeholderLink,
     isAdminOrRoot: "",
     bio: "",
     website: "",

@@ -99,6 +99,8 @@ const mutations = {
 const updateUserImageClass = (state, id, imageClass, arrType) => {
   let newUserArr = [];
 
+  // debugger;
+
   switch (arrType) {
     case "allUsersAdmin":
       newUserArr = updateArr(state.usersAdmin, id, imageClass);

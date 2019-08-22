@@ -20,11 +20,6 @@ import PostCard from "./PostCard";
 export default {
   name: "post-gallery",
   components: { PostCard },
-  data: function() {
-    return {
-      pageNumber: 0
-    };
-  },
   props: {
       posts: {
           type: Array,

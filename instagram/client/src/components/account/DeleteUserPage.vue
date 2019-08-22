@@ -15,7 +15,7 @@
                 :to="{name:'edit-profile', params: {'id': timeLineUser.id}}"
               >Edit Profile</router-link>
             </li>
-            <li>
+            <li v-if="hasDeletePermision">
               <router-link class="aside-links active" to="#">Delete User</router-link>
             </li>
             <li>
@@ -168,7 +168,10 @@ export default {
     ...mapGetters("auth", {
       loggedInUser: "getLoggedInUserData",
       timeLineUser: "getTimeLineUserData",
-    })
+    }),
+    hasDeletePermision(){
+      return (this.loggedInUser.role === 'ROOT') && (this.loggedInUser.id != this.timeLineUser.id);
+    }
   },
   validations: {
     user: {
