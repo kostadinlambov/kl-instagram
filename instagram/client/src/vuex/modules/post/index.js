@@ -8,23 +8,39 @@ import {
   POST_CREATE_BEGIN,
   POST_CREATE_SUCCESS,
   FETCH_ALL_FOREIGN_POSTS,
-  UPDATE_POSTIMAGE_CLASS
+  UPDATE_POSTIMAGE_CLASS,
+  RESET_FOREIGN_POSTS_STATE,
+  LOADING_FOREIGN_POSTS,
+  LOADING_USER_POSTS,
+  RESET_POST_STATE,
+  RESET_USER_POSTS_STATE
 } from "./mutationTypes";
 
 // initial state
 const initialState = {
   posts: [],
   foreignPosts: [],
-  loading: false
+  loadingForeignPosts: false,
+  loadingUserPosts: false,
 };
 
 const mutations = {
   [FETCH_ALL_POSTS]: (state, payload) => {
-    state.posts = payload.posts;
+    // state.posts = payload.posts;
+    state.posts.push(...payload.posts);
+  },
+
+  [LOADING_USER_POSTS]: (state, payload) => {
+    state.loadingUserPosts = payload.loading;
   },
 
   [FETCH_ALL_FOREIGN_POSTS]: (state, payload) => {
-    state.foreignPosts = payload.posts;
+    // state.foreignPosts = payload.posts;
+    state.foreignPosts.push(...payload.posts);
+  },
+
+  [LOADING_FOREIGN_POSTS]: (state, payload) => {
+    state.loadingForeignPosts = payload.loading;
   },
 
   [UPDATE_POSTIMAGE_CLASS]: (state, { postId, imageClass, arrType }) => {
@@ -37,55 +53,36 @@ const mutations = {
 
   [POST_CREATE_SUCCESS]: state => {
     state.loading = true;
+  },
+
+  [RESET_FOREIGN_POSTS_STATE]: state => {
+    state.foreignPosts = [];
+  },
+
+  [RESET_USER_POSTS_STATE]: state => {
+    state.posts = [];
+  },
+
+  [RESET_POST_STATE]: state => {
+    state.posts = [];
+    state.foreignPosts = [];
+    state.loadingForeignPosts = false;
+    // for (let f in state) {
+    //   Vue.set(state, f, initialState[f]);
+    // }
   }
-
-  // [RESET_STATE]: (state) => {
-  //   for (let f in state) {
-  //     Vue.set(state, f, initialState[f]);
-  //   }
-  // },
 };
-
-// const updatePostImageClass = (state, postId, imageClass, arrType) => {
-//   if (arrType === "userPosts") {
-//     const newPostArr = state.posts.map(post => {
-//       if (post.id !== postId) {
-//         return post;
-//       }
-
-//       return {
-//         ...post,
-//         imageClass
-//       };
-//     });
-
-//     state.posts = [...newPostArr];
-//   } else if (arrType === "foreignPosts") {
-//     const newPostArr = state.foreignPosts.map(post => {
-//       if (post.id !== postId) {
-//         return post;
-//       }
-
-//       return {
-//         ...post,
-//         imageClass
-//       };
-//     });
-
-//     state.foreignPosts = [...newPostArr];
-//   }
-// };
 
 const updatePostImageClass = (state, postId, imageClass, arrType) => {
   let newPostArr = [];
 
   switch (arrType) {
     case "userPosts":
-        newPostArr = updateArr(state.posts, postId, imageClass);
+      newPostArr = updateArr(state.posts, postId, imageClass);
       state.posts = [...newPostArr];
       break;
     case "foreignPosts":
-        newPostArr = updateArr(state.foreignPosts, postId, imageClass);
+      newPostArr = updateArr(state.foreignPosts, postId, imageClass);
       state.foreignPosts = [...newPostArr];
       break;
     default:
@@ -104,7 +101,7 @@ const updateArr = (newPostArr, id, imageClass) => {
       imageClass
     };
   });
-}
+};
 
 export default {
   state: { ...initialState },

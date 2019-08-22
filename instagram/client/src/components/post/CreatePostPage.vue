@@ -145,7 +145,7 @@ export default {
       let that = this;
       img.src = URL.createObjectURL(file);
       img.onload = function() {
-        if (this.width >= this.height) {
+        if (this.width > this.height) {
           that.imageClass = "l";
         }
       };

@@ -9,4 +9,13 @@ public interface PostService {
     List<PostAllViewModel> getAll(String username) throws Exception;
 
     boolean createPost(MultipartFile file, String loggedInUserId, String location, String caption) throws Exception;
+
+//    List<PostAllViewModel> getAllById(String id) throws Exception;
+
+//    List<PostAllViewModel> getAllById(String id, int pageNumber) throws Exception;
+
+    List<PostAllViewModel> getOnePageForeignPostsByUserId(String id, int pageNumber) throws Exception;
+
+    List<PostAllViewModel> getOnePageUserPostsByUsername(String username, int pageNumber) throws Exception;
+
 }

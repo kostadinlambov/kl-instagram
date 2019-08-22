@@ -71,7 +71,7 @@
         <ul class="gallery-wrapper">
           <post-card v-for="post in posts" v-bind:key="post.id" v-bind:currentPost="post"></post-card>
         </ul>
-      </div> -->
+      </div>-->
 
       <PostGallery :posts="posts" />
     </div>
@@ -88,7 +88,7 @@ import { mapGetters, mapActions } from "vuex";
 import { debuglog } from "util";
 import placeholderLink from "../../assets/images/placeholder.png";
 import FollowerModal from "./FollowerModal";
-import PostGallery from "../postGallery/PostGallery"
+import PostGallery from "../postGallery/PostGallery";
 
 export default {
   name: "user-home-page",
@@ -102,7 +102,9 @@ export default {
       userId: userService.getUserId(),
       placeholderLink,
       followingModal: false,
-      followerModal: false
+      followerModal: false,
+      pageNumber: 0,
+      bottom: false
     };
   },
   computed: {
@@ -116,7 +118,10 @@ export default {
     }),
     ...mapGetters("post", {
       posts: "getUserPosts",
-      postCount: "getPostCount"
+      postCount: "getPostCount",
+      pagesCount: "getUserPostPagesCount",
+      currentPage: "getCurrentPageUser",
+      loading: "getLoadingUserPosts"
     }),
     webpageUrl() {
       return "//" + this.getTimeLineUser.website;
@@ -125,11 +130,11 @@ export default {
       return this.getTimeLineUser.profilePicUrl || this.placeholderLink;
     },
     imageSizeClass() {
-      return this.getTimeLineUser.imageClass || '';
+      return this.getTimeLineUser.imageClass || "";
     }
   },
   methods: {
-    ...mapActions("post", ["fetchUserPosts"]),
+    ...mapActions("post", ["fetchUserPosts", "resetUserPostState"]),
     ...mapActions("user", ["fetchFollowers", "fetchFollowing"]),
     ...mapActions("auth", ["fetchTimeLineUser"]),
 
@@ -140,22 +145,71 @@ export default {
     isFollowerModal(value) {
       this.followerModal = value;
       this.followingModal = false;
+    },
+    scroll() {
+      const data = {
+        username: this.username,
+        pageNumber: this.pageNumber
+      };
+
+      this.fetchUserPosts(data);
+
+      this.pageNumber = this.pageNumber + 1;
+
+      if (this.bottomVisible) {
+        this.scroll;
+      }
+    },
+    bottomVisible() {
+      const scrollY = window.scrollY;
+      const visible = document.documentElement.clientHeight;
+      const pageHeight = document.documentElement.scrollHeight;
+      const bottomOfPage = visible + scrollY >= pageHeight;
+      return bottomOfPage || pageHeight < visible;
     }
   },
   created() {
-    this.fetchUserPosts(this.username);
     this.fetchFollowers(this.username);
     this.fetchFollowing(this.username);
     this.fetchTimeLineUser({ username: this.username });
+
+    window.addEventListener("scroll", () => {
+      this.bottom = this.bottomVisible();
+    });
+    this.scroll();
   },
   watch: {
     $route(to, from) {
-      const username = to.params.username;
-      this.fetchTimeLineUser({ username });
-      this.fetchUserPosts(username);
-      this.fetchFollowers(username);
-      this.fetchFollowing(username);
+      this.resetUserPostState();
+
+      this.username = to.params.username;
+
+      this.fetchTimeLineUser({ username: this.username });
+      this.fetchFollowers(this.username);
+      this.fetchFollowing(this.username);
+
+      this.pageNumber = 0;
+
+      const data = {
+        username: this.username,
+        pageNumber: this.pageNumber
+      };
+
+      this.fetchUserPosts(data);
+      this.pageNumber++;
+    },
+
+    bottom(bottom) {
+      debugger;
+      if (bottom && !this.loading && this.pagesCount > this.currentPage + 1) {
+        this.scroll();
+      }
     }
+  },
+  
+  beforeDestroy() {
+    debugger;
+    this.resetUserPostState();
   }
 };
 </script>
@@ -207,7 +261,7 @@ export default {
   padding-top: 100%;
 }
 
-.profile-pick-container img{
+.profile-pick-container img {
   display: block;
   position: absolute;
   width: 100%;
@@ -217,7 +271,7 @@ export default {
   transform: translate(-50%, -50%);
 }
 
-.profile-pick-container img.l  {
+.profile-pick-container img.l {
   display: block;
   position: absolute;
   width: auto;
@@ -321,7 +375,7 @@ span.post-count {
   padding: 0;
   margin: 0;
   white-space: nowrap;
-  color:#262626
+  color: #262626;
 }
 
 span.bio {

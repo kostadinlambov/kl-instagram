@@ -14,6 +14,10 @@ import com.instagram.validations.serviceValidation.services.PostValidationServic
 import com.instagram.validations.serviceValidation.services.UserValidationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -112,6 +116,70 @@ public class PostServiceImpl implements PostService {
         post.setLocation(location);
 
         return this.postRepository.save(post) != null;
+    }
 
+    // Get Post from loggedIn User. Post are ordered descending by publishing time.
+    @Override
+    public List<PostAllViewModel> getOnePageUserPostsByUsername(String username, int pageNumber) throws Exception {
+        User user = this.userRepository.findByUsername(username)
+                .filter(userValidation::isValid)
+                .orElseThrow(Exception::new);
+
+        Pageable pageable = PageRequest.of(pageNumber, 3, Sort.by("time").descending());
+        Page<Post> currentPage = this.postRepository.findAllByCreatorIdOrderByTimeDesc(user.getId(), pageable);
+//        List<Post> posts = this.postRepository.findAllByCreatorIdOrderByTimeDesc(id, pageable);
+
+        return this.getCurrentPagePosts(currentPage);
+    }
+
+    // Get Post from all other users( except posts from loggedIn user). Post are ordered descending by publishing time.
+    @Override
+    public List<PostAllViewModel> getOnePageForeignPostsByUserId(String id, int pageNumber) throws Exception {
+        User user = this.userRepository.findById(id)
+                .filter(userValidation::isValid)
+                .orElseThrow(Exception::new);
+
+        Pageable pageable = PageRequest.of(pageNumber, 3, Sort.by("time").descending());
+        Page<Post> currentPage = this.postRepository.findAllByCreatorIdNotOrderByTimeDesc(id, pageable);
+//        List<Post> posts = this.postRepository.findAllByCreatorIdOrderByTimeDesc(id, pageable);
+
+        return this.getCurrentPagePosts(currentPage);
+    }
+
+
+    private List<PostAllViewModel> getCurrentPagePosts(Page<Post> currentPage) throws Exception {
+        List<Post> currentPagePosts = currentPage.getContent();
+
+        int totalPages = currentPage.getTotalPages();
+        int currentPageNumber = currentPage.getPageable().getPageNumber();
+        //        long totalElements = currentPage.getTotalElements();
+
+        List<PostServiceModel> postServiceModels = currentPagePosts.stream().map(post -> this.modelMapper.map(post, PostServiceModel.class))
+                .peek(postServiceModel -> {
+                    List<Comment> commentList = postServiceModel.getComments()
+                            .stream().sorted((comment1, comment2) -> {
+                                if (comment1.getTime().isAfter(comment2.getTime())) {
+                                    return 1;
+                                } else if (comment1.getTime().isBefore(comment2.getTime())) {
+                                    return -1;
+                                }
+                                return 0;
+                            }).collect(Collectors.toList());
+                    postServiceModel.setComments(commentList);
+                })
+                .collect(Collectors.toList());
+
+        List<PostAllViewModel> postAllViewModels = postServiceModels.stream().map(postServiceModel -> {
+            PostAllViewModel postAllViewModel = this.modelMapper.map(postServiceModel, PostAllViewModel.class);
+            postAllViewModel.setLikeCount((int) postServiceModel
+                    .getLikes()
+                    .stream()
+                    .filter(like -> like.getLikeType().name().equals("POST")).count());
+            postAllViewModel.setCurrentPageNumber(currentPageNumber);
+            postAllViewModel.setTotalPages(totalPages);
+            return postAllViewModel;
+        }).collect(Collectors.toList());
+
+        return postAllViewModels;
     }
 }

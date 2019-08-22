@@ -9,9 +9,18 @@ import {
   POST_CREATE_SUCCESS,
   FETCH_ALL_FOREIGN_POSTS,
   UPDATE_POSTIMAGE_CLASS,
+  RESET_FOREIGN_POSTS_STATE,
+  LOADING_FOREIGN_POSTS,
+  LOADING_USER_POSTS,
+  RESET_USER_POSTS_STATE,
 } from "./mutationTypes";
 
 export const fetchNonLoggedInUserPosts = (context,{ loggedInUser, pageNumber }) => {
+  context.commit({
+    type: LOADING_FOREIGN_POSTS,
+    loading: true
+  });
+
   const url = "post/notMy/" + loggedInUser + "/" + pageNumber;
   requester
     .get(url)
@@ -23,8 +32,16 @@ export const fetchNonLoggedInUserPosts = (context,{ loggedInUser, pageNumber }) 
         posts: res.body
       });
 
-      context.dispatch("updatePostImageClass", {posts:res.body, arrType: 'foreignPosts'});
-      
+      context.dispatch("updatePostImageClass", {
+        posts: res.body,
+        arrType: "foreignPosts"
+      });
+
+      context.commit({
+        type: LOADING_FOREIGN_POSTS,
+        loading: false
+      });
+
       Vue.$toast.open({
         message: "All non loggedInUser Posts fetched!",
         type: "success"
@@ -38,8 +55,13 @@ export const fetchNonLoggedInUserPosts = (context,{ loggedInUser, pageNumber }) 
     });
 };
 
-export const fetchUserPosts = (context, username) => {
-  const url = "post/all/" + username;
+export const fetchUserPosts = (context, {username, pageNumber}) => {
+  context.commit({
+    type: LOADING_USER_POSTS,
+    loading: true
+  });
+
+  const url = "post/all/" + username + "/" + pageNumber;
   requester
     .get(url)
     .then(res => {
@@ -50,7 +72,15 @@ export const fetchUserPosts = (context, username) => {
         posts: res.body
       });
 
-      context.dispatch("updatePostImageClass", {posts:res.body, arrType: 'userPosts'});
+      context.commit({
+        type: LOADING_USER_POSTS,
+        loading: false
+      });
+
+      context.dispatch("updatePostImageClass", {
+        posts: res.body,
+        arrType: "userPosts"
+      });
 
       Vue.$toast.open({
         message: "All User Posts fetched!",
@@ -65,26 +95,29 @@ export const fetchUserPosts = (context, username) => {
     });
 };
 
-export const updatePostImageClass = (context, {posts, arrType}) => {
+export const updatePostImageClass = (context, { posts, arrType }) => {
   posts.forEach(post => {
-    userService.getImageClass(post.imageUrl).then(res => {
-      context.commit({
-        type: UPDATE_POSTIMAGE_CLASS,
-        imageClass: res,
-        postId: post.id,
-        arrType
-      });
+    userService
+      .getImageClass(post.imageUrl)
+      .then(res => {
+        context.commit({
+          type: UPDATE_POSTIMAGE_CLASS,
+          imageClass: res,
+          postId: post.id,
+          arrType
+        });
 
-      Vue.$toast.open({
-        message: "Post Image Class updated!",
-        type: "success"
+        Vue.$toast.open({
+          message: "Post Image Class updated!",
+          type: "success"
+        });
+      })
+      .catch(error => {
+        Vue.$toast.open({
+          message: "Update Image Class Error!",
+          type: "error"
+        });
       });
-    }).catch(error => {
-      Vue.$toast.open({
-        message: 'Update Image Class Error!',
-        type: "error"
-      });
-    });
   });
 };
 
@@ -118,6 +151,16 @@ export const createPost = (context, data) => {
       });
     });
 };
+
+export const resetForeignPostState = context => {
+  context.commit(RESET_FOREIGN_POSTS_STATE);
+};
+
+export const resetUserPostState = context => {
+  context.commit(RESET_USER_POSTS_STATE);
+};
+
+
 
 // export const resetState = context => {
 //   context.commit({

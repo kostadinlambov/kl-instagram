@@ -11,13 +11,16 @@ public class PostAllViewModel {
     private String imageUrl;
     private String location;
     private LocalDateTime time;
-    private String userId;
-    private String userUsername;
-    private String userFirstName;
-    private String userLastName;
-    private String userProfilePicUrl;
+    private String creatorId;
+    private String creatorUsername;
+    private String creatorFirstName;
+    private String creatorLastName;
+    private String creatorProfilePicUrl;
     private int likeCount;
     private List<Comment> comments;
+
+    private int totalPages;
+    private int currentPageNumber;
 
     public PostAllViewModel() {
     }
@@ -62,44 +65,44 @@ public class PostAllViewModel {
         this.time = time;
     }
 
-    public String getUserId() {
-        return this.userId;
+    public String getCreatorId() {
+        return this.creatorId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId;
     }
 
-    public String getUserUsername() {
-        return this.userUsername;
+    public String getCreatorUsername() {
+        return this.creatorUsername;
     }
 
-    public void setUserUsername(String userUsername) {
-        this.userUsername = userUsername;
+    public void setCreatorUsername(String creatorUsername) {
+        this.creatorUsername = creatorUsername;
     }
 
-    public String getUserFirstName() {
-        return this.userFirstName;
+    public String getCreatorFirstName() {
+        return this.creatorFirstName;
     }
 
-    public void setUserFirstName(String userFirstName) {
-        this.userFirstName = userFirstName;
+    public void setCreatorFirstName(String creatorFirstName) {
+        this.creatorFirstName = creatorFirstName;
     }
 
-    public String getUserLastName() {
-        return this.userLastName;
+    public String getCreatorLastName() {
+        return this.creatorLastName;
     }
 
-    public void setUserLastName(String userLastName) {
-        this.userLastName = userLastName;
+    public void setCreatorLastName(String creatorLastName) {
+        this.creatorLastName = creatorLastName;
     }
 
-    public String getUserProfilePicUrl() {
-        return this.userProfilePicUrl;
+    public String getCreatorProfilePicUrl() {
+        return this.creatorProfilePicUrl;
     }
 
-    public void setUserProfilePicUrl(String userProfilePicUrl) {
-        this.userProfilePicUrl = userProfilePicUrl;
+    public void setCreatorProfilePicUrl(String creatorProfilePicUrl) {
+        this.creatorProfilePicUrl = creatorProfilePicUrl;
     }
 
     public int getLikeCount() {
@@ -108,6 +111,22 @@ public class PostAllViewModel {
 
     public void setLikeCount(int likeCount) {
         this.likeCount = likeCount;
+    }
+
+    public int getTotalPages() {
+        return this.totalPages;
+    }
+
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
+    }
+
+    public int getCurrentPageNumber() {
+        return this.currentPageNumber;
+    }
+
+    public void setCurrentPageNumber(int currentPageNumber) {
+        this.currentPageNumber = currentPageNumber;
     }
 
     public List<Comment> getComments() {

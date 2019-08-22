@@ -7,6 +7,7 @@
           <i class="fas fa-heart"></i>
           <span>{{currentPost.likeCount}}</span>
           {{currentPost.imageClass}}
+          {{currentPost.creatorUsername}}
         </div>
         <div class="comments">
           <i class="fas fa-comments"></i>

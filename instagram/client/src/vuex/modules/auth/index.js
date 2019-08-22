@@ -1,7 +1,7 @@
 import * as actions from "./actions";
 import * as getters from "./getters";
 import { userService } from "@/infrastructure/userService";
-import Vue from 'vue';
+import Vue from "vue";
 
 import {
   LOGIN_SUCCESS,
@@ -11,6 +11,7 @@ import {
   FETCH_TIMELINE_USER,
   UPDATE_TIMELINE_USER,
   UPDATE_USER_IMAGE_CLASS,
+  RESET_AUTH_STATE
 } from "./mutationTypes";
 
 // initial state
@@ -24,21 +25,21 @@ const initialState = {
     role: userService.getRole(),
     profilePicUrl: userService.getProfilePicUrl(),
     isAdminOrRoot: userService.isAdminOrRoot(),
-    bio: '',
-    website: '',
-    imageClass: '',
+    bio: "",
+    website: "",
+    imageClass: ""
   },
   timeLineUser: {
-    username: '',
-    id: '',
-    firstName:'',
-    lastName: '',
-    role: '',
-    profilePicUrl: '',
-    isAdminOrRoot: '',
-    bio: '',
-    website: '',
-    imageClass: '',
+    username: "",
+    id: "",
+    firstName: "",
+    lastName: "",
+    role: "",
+    profilePicUrl: "",
+    isAdminOrRoot: "",
+    bio: "",
+    website: "",
+    imageClass: ""
   }
 };
 
@@ -56,59 +57,64 @@ const mutations = {
   // },
 
   [FETCH_LOGGEDIN_USER]: (state, payload) => {
-    state.loggedInUser = {...payload.user};
+    state.loggedInUser = { ...payload.user };
     state.loggedInUser.isAdminOrRoot = userService.isAdminOrRoot();
   },
 
   [FETCH_TIMELINE_USER]: (state, payload) => {
-    state.timeLineUser = {...payload.user};
-    state.timeLineUser.isAdminOrRoot = payload.user.role === 'ROOT' || payload.user.role === 'ADMIN';
+    state.timeLineUser = { ...payload.user };
+    state.timeLineUser.isAdminOrRoot =
+      payload.user.role === "ROOT" || payload.user.role === "ADMIN";
   },
 
   [UPDATE_TIMELINE_USER]: (state, payload) => {
-    state.timeLineUser = {...state.timeLineUser,...payload.user};
+    state.timeLineUser = { ...state.timeLineUser, ...payload.user };
     // state.timeLineUser = {...state.timeLineUser,...payload.user};
-    state.timeLineUser.isAdminOrRoot = payload.user.role === 'ROOT' || payload.user.role === 'ADMIN';
+    state.timeLineUser.isAdminOrRoot =
+      payload.user.role === "ROOT" || payload.user.role === "ADMIN";
   },
 
   [UPDATE_USER_IMAGE_CLASS]: (state, { id, imageClass, userType }) => {
     updateUserImageClass(state, id, imageClass, userType);
   },
 
-  [AUTH_RESET_STATE]: (state) => {
+  [AUTH_RESET_STATE]: state => {
     for (let f in state) {
       Vue.set(state, f, initialState[f]);
     }
   },
 
-  // [RESET_STATE](state) {
-  //   debugger;
-  //   console.log('initialState: ', initialState)
-  //   Object.keys(initialState).forEach(key => {
+  [RESET_AUTH_STATE](state) {
+    state.isLoggedIn = initialState.isLoggedIn;
+    state.loggedInUser = initialState.loggedInUser;
+    state.timeLineUser = initialState.timeLineUser;
+    // debugger;
+    // console.log('initialState: ', initialState)
+    // Object.keys(initialState).forEach(key => {
 
-  //     console.log('key: ', key)
-  //     debugger;
-  //     Object.assign(state[key], initialState[key])
-  //   })
-  // }
+    //   console.log('key: ', key)
+    //   debugger;
+    //   Object.assign(state[key], initialState[key])
+    // })
+  }
 };
 
 const updateUserImageClass = (state, id, imageClass, userType) => {
   switch (userType) {
     case "loggedInUser":
-      state.loggedInUser ={ ...state.loggedInUser, imageClass};
+      state.loggedInUser = { ...state.loggedInUser, imageClass };
       break;
     case "timeLineUser":
-      state.timeLineUser = {...state.timeLineUser, imageClass};
+      state.timeLineUser = { ...state.timeLineUser, imageClass };
       break;
     default:
       break;
   }
-}
+};
 
 export default {
-    state: {...initialState},
-    actions,
-    getters,
-    mutations
-}
+  state: { ...initialState },
+  actions,
+  getters,
+  mutations
+};

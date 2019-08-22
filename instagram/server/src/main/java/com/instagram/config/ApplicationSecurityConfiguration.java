@@ -71,6 +71,7 @@ public class ApplicationSecurityConfiguration
                         "/user/details/username/*",
                         "/post/all/*",
                         "/post/create",
+                        "/post/notMy/*",
                         "/user/update/*"
 //                        "/relationship/friends/*",
 //                        "/relationship/findFriends/*",

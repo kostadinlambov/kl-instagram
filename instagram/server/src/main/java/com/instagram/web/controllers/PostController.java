@@ -38,6 +38,22 @@ public class PostController {
 
         List<PostAllViewModel> postAllViewModels = this.postService.getAll(username);
 
+        return postAllViewModels;
+    }
+
+    @GetMapping(value = "/all/{username}/{pageNumber}")
+    public List<PostAllViewModel> getAllUserPosts(@PathVariable(value = "username") String username, @PathVariable(value = "pageNumber") int pageNumber) throws Exception {
+
+        List<PostAllViewModel> postAllViewModels = this.postService.getOnePageUserPostsByUsername(username, pageNumber);
+
+        return postAllViewModels;
+    }
+
+    @GetMapping(value = "/notMy/{id}/{pageNumber}")
+    public List<PostAllViewModel> getAllForeignPosts(@PathVariable(value = "id") String id, @PathVariable(value = "pageNumber") int pageNumber) throws Exception {
+
+        List<PostAllViewModel> postAllViewModels = this.postService.getOnePageForeignPostsByUserId(id, pageNumber);
+
         System.out.println();
 
         return postAllViewModels;

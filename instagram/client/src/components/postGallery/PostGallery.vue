@@ -1,7 +1,15 @@
 <template>
   <div class="gallery-container">
     <ul class="gallery-wrapper">
-      <post-card v-for="post in posts" v-bind:key="post.id" v-bind:currentPost="post"></post-card>
+      <post-card 
+      v-for="post in posts" 
+      v-bind:key="post.id" 
+      v-bind:currentPost="post"
+      >
+       <!-- v-infinite-scroll="loadMore" 
+      infinite-scroll-disabled="busy" 
+      infinite-scroll-distance="limit" -->
+      </post-card>
     </ul>
   </div>
 </template>
@@ -12,12 +20,31 @@ import PostCard from "./PostCard";
 export default {
   name: "post-gallery",
   components: { PostCard },
+  data: function() {
+    return {
+      pageNumber: 0
+    };
+  },
   props: {
       posts: {
           type: Array,
           required: true,
       }
-  }
+  },
+  // methods: {
+  //   loadMore() {
+  //     console.log("Adding 10 more data results");
+  //     this.busy = true;
+  //     axios.get("https://jsonplaceholder.typicode.com/posts").then(response => {
+  //       const append = response.data.slice(
+  //         this.posts.length,
+  //         this.posts.length + this.limit
+  //       );
+  //       this.posts = this.posts.concat(append);
+  //       this.busy = false;
+  //     });
+  //   }
+  // }
 };
 </script>
 

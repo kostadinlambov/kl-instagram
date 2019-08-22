@@ -8,7 +8,7 @@ import {
   FETCH_ALL_USERS_ADMIN,
   PROMOTE_USER,
   DEMOTE_USER,
-  RESET_STATE,
+  RESET_USER_STATE,
   FOLLOW_USER_SUCCESS,
   UNFOLLOW_USER_SUCCESS,
   FETCH_ALL_FOLLOWERS,
@@ -84,10 +84,15 @@ const mutations = {
     updateFollowingCandidates(state, payload.userToUnFollowId, false);
   },
 
-  [RESET_STATE]: state => {
-    for (let f in state) {
-      Vue.set(state, f, initialState[f]);
-    }
+  [RESET_USER_STATE]: state => {
+    state.usersAdmin= [];
+    state.users=  [];
+    state.followers=  [];
+    state.following= [];
+    state.followingCandidates=  [];
+    // for (let f in state) {
+    //   Vue.set(state, f, initialState[f]);
+    // }
   }
 };
 
