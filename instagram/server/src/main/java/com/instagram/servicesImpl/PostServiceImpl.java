@@ -110,6 +110,8 @@ public class PostServiceImpl implements PostService {
 
         post.setImageUrl(uploadMap.get("url").toString());
         post.setCloudinaryPublicId(uploadMap.get("public_id").toString());
+        post.setImageWidth(Integer.parseInt(uploadMap.get("width").toString()));
+        post.setImageHeight(Integer.parseInt(uploadMap.get("height").toString()));
         post.setCreator(user);
         post.setTime(LocalDateTime.now());
         post.setCaption(caption);
@@ -132,6 +134,19 @@ public class PostServiceImpl implements PostService {
         return this.getCurrentPagePosts(currentPage);
     }
 
+    // Get Posts from Users that we are following. Post are ordered descending by publishing time.
+    @Override
+    public List<PostAllViewModel> getOnePageFollowingPostsByUserId(String id, int pageNumber) throws Exception {
+        this.userRepository.findById(id)
+                .filter(userValidation::isValid)
+                .orElseThrow(Exception::new);
+
+        Pageable pageable = PageRequest.of(pageNumber, 2, Sort.by("time").descending());
+        Page<Post> currentPage = this.postRepository.getAllFollowingPosts(id, pageable);
+
+        return this.getCurrentPagePosts(currentPage);
+    }
+
     // Get Post from all other users( except posts from loggedIn user). Post are ordered descending by publishing time.
     @Override
     public List<PostAllViewModel> getOnePageForeignPostsByUserId(String id, int pageNumber) throws Exception {
@@ -141,7 +156,6 @@ public class PostServiceImpl implements PostService {
 
         Pageable pageable = PageRequest.of(pageNumber, 3, Sort.by("time").descending());
         Page<Post> currentPage = this.postRepository.findAllByCreatorIdNotOrderByTimeDesc(id, pageable);
-//        List<Post> posts = this.postRepository.findAllByCreatorIdOrderByTimeDesc(id, pageable);
 
         return this.getCurrentPagePosts(currentPage);
     }

@@ -1,7 +1,9 @@
 import Vue from "vue";
 import requester from "@/infrastructure/requester";
 import { userService } from "@/infrastructure/userService";
+import { postService } from "@/infrastructure/postService";
 import router from "@/router";
+import placeholderLink from "@/assets/images/placeholder.png";
 
 import {
   FETCH_ALL_POSTS,
@@ -9,10 +11,15 @@ import {
   POST_CREATE_SUCCESS,
   FETCH_ALL_FOREIGN_POSTS,
   UPDATE_POSTIMAGE_CLASS,
-  RESET_FOREIGN_POSTS_STATE,
+  FETCH_FOLLOWING_POSTS,
   LOADING_FOREIGN_POSTS,
   LOADING_USER_POSTS,
+  LOADING_FOLLOWING_POSTS,
   RESET_USER_POSTS_STATE,
+  RESET_FOREIGN_POSTS_STATE,
+  RESET_FOLLOWING_POSTS_STATE,
+  UPDATE_CREATOR_IMAGE_CLASS,
+
 } from "./mutationTypes";
 
 export const fetchNonLoggedInUserPosts = (context,{ loggedInUser, pageNumber }) => {
@@ -95,14 +102,58 @@ export const fetchUserPosts = (context, {username, pageNumber}) => {
     });
 };
 
+export const fetchFollowingPosts = (context, {loggedInUser, pageNumber}) => {
+  context.commit({
+    type: LOADING_FOLLOWING_POSTS,
+    loading: true
+  });
+
+  const url = "post/following/" + loggedInUser + "/" + pageNumber;
+  requester
+    .get(url)
+    .then(res => {
+      console.log("User Posts: ", res.body);
+
+      context.commit({
+        type: FETCH_FOLLOWING_POSTS,
+        posts: res.body
+      });
+
+      context.commit({
+        type: LOADING_FOLLOWING_POSTS,
+        loading: false
+      });
+
+      context.dispatch("updatePostImageClass", {
+        posts: res.body,
+        arrType: "followingPosts"
+      });
+
+      context.dispatch("updateCreatorImageClass", {
+        posts: res.body,
+        arrType: "followingPosts"
+      });
+
+      Vue.$toast.open({
+        message: "All Following Posts fetched!",
+        type: "success"
+      });
+    })
+    .catch(err => {
+      Vue.$toast.open({
+        message: err.body.message,
+        type: "error"
+      });
+    });
+};
+
 export const updatePostImageClass = (context, { posts, arrType }) => {
   posts.forEach(post => {
-    userService
-      .getImageClass(post.imageUrl)
-      .then(res => {
+        const imageClass = postService.getPostImageClass(post.imageWidth, post.imageHeight);
+   
         context.commit({
           type: UPDATE_POSTIMAGE_CLASS,
-          imageClass: res,
+          imageClass: imageClass,
           postId: post.id,
           arrType
         });
@@ -112,14 +163,60 @@ export const updatePostImageClass = (context, { posts, arrType }) => {
           type: "success"
         });
       })
-      .catch(error => {
-        Vue.$toast.open({
-          message: "Update Image Class Error!",
-          type: "error"
-        });
+      
+};
+
+export const updateCreatorImageClass = (context, {posts, arrType}) => {
+  posts.forEach(post => {
+
+    const profilePicUrl =  post.creatorProfilePicUrl || placeholderLink ;
+    const id = post.id 
+    userService.getImageClass(profilePicUrl).then(res => {
+      context.commit({
+        type: UPDATE_CREATOR_IMAGE_CLASS,
+        imageClass: res,
+        id: id,
+        arrType
       });
+
+      Vue.$toast.open({
+        message: "Post Creator Image Class updated!",
+        type: "success"
+      });
+    }).catch(error => {
+      Vue.$toast.open({
+        message: 'Update User Image Class Error!  => ' + arrType,
+        type: "error"
+      });
+    });
   });
 };
+
+// export const updatePostImageClass = (context, { posts, arrType }) => {
+//   posts.forEach(post => {
+//     userService
+//       .getImageClass(post.imageUrl)
+//       .then(res => {
+//         context.commit({
+//           type: UPDATE_POSTIMAGE_CLASS,
+//           imageClass: res,
+//           postId: post.id,
+//           arrType
+//         });
+
+//         Vue.$toast.open({
+//           message: "Post Image Class updated!",
+//           type: "success"
+//         });
+//       })
+//       .catch(error => {
+//         Vue.$toast.open({
+//           message: "Update Image Class Error!",
+//           type: "error"
+//         });
+//       });
+//   });
+// };
 
 export const createPost = (context, data) => {
   const url = "post/create";
@@ -160,7 +257,9 @@ export const resetUserPostState = context => {
   context.commit(RESET_USER_POSTS_STATE);
 };
 
-
+export const resetFollowingPostState = context => {
+  context.commit(RESET_FOLLOWING_POSTS_STATE);
+};
 
 // export const resetState = context => {
 //   context.commit({

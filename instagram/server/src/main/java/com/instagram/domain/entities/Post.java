@@ -12,6 +12,8 @@ import java.util.List;
 public class Post extends BaseEntity {
     private String caption;
     private String imageUrl;
+    private Integer imageWidth;
+    private Integer imageHeight;
     private String location;
     private LocalDateTime time;
     private User creator;
@@ -40,6 +42,23 @@ public class Post extends BaseEntity {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    @Column(name = "image_width")
+    public Integer getImageWidth() {
+        return this.imageWidth;
+    }
+    public void setImageWidth(Integer imageWidth) {
+        this.imageWidth = imageWidth;
+    }
+
+    @Column(name = "image_height")
+    public Integer getImageHeight() {
+        return this.imageHeight;
+    }
+
+    public void setImageHeight(Integer imageHeight) {
+        this.imageHeight = imageHeight;
     }
 
     @Column(name = "location")

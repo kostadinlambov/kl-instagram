@@ -16,6 +16,8 @@ public class User extends BaseEntity implements UserDetails {
     private String firstName;
     private String lastName;
     private String profilePicUrl;
+    private Integer profilePicWidth;
+    private Integer profilePicHeight;
     private String bio;
     private String website;
     private boolean isDeleted;
@@ -159,6 +161,24 @@ public class User extends BaseEntity implements UserDetails {
 
     public void setProfilePicUrl(String profilePicUrl) {
         this.profilePicUrl = profilePicUrl;
+    }
+
+    @Column(name = "profile_pic_width")
+    public Integer getProfilePicWidth() {
+        return this.profilePicWidth;
+    }
+
+    public void setProfilePicWidth(Integer profilePicWidth) {
+        this.profilePicWidth = profilePicWidth;
+    }
+
+    @Column(name = "profile_pic_height")
+    public Integer getProfilePicHeight() {
+        return this.profilePicHeight;
+    }
+
+    public void setProfilePicHeight(Integer profilePicHeight) {
+        this.profilePicHeight = profilePicHeight;
     }
 
     public boolean isDeleted() {

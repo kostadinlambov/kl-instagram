@@ -14,6 +14,8 @@ public class PostServiceModel {
     private String location;
     private LocalDateTime time;
     private User creator;
+    private Integer imageWidth;
+    private Integer imageHeight;
     private List<Like> likes;
     private List<Comment> comments;
 
@@ -50,6 +52,22 @@ public class PostServiceModel {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public Integer getImageWidth() {
+        return this.imageWidth;
+    }
+
+    public void setImageWidth(Integer imageWidth) {
+        this.imageWidth = imageWidth;
+    }
+
+    public Integer getImageHeight() {
+        return this.imageHeight;
+    }
+
+    public void setImageHeight(Integer imageHeight) {
+        this.imageHeight = imageHeight;
     }
 
     public LocalDateTime getTime() {

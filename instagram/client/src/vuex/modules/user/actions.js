@@ -2,7 +2,7 @@ import Vue from "vue";
 import requester from "@/infrastructure/requester";
 import router from "@/router";
 import { userService } from "@/infrastructure/userService";
-import placeholderLink from "../../../assets/images/placeholder.png";
+import placeholderLink from "@/assets/images/placeholder.png";
 
 import {
   FETCH_ALL_USERS_ADMIN,

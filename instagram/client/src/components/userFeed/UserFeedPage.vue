@@ -1,53 +1,88 @@
 <template>
   <main class="main-container container col-md-9">
     <section class="main-section">
-      <h2 class>Main Section</h2>
-      <user-feed-card v-for="post in posts" v-bind:key="post.id" v-bind:post="post"></user-feed-card>
+      <!-- <h2 class>Main Section</h2> -->
+      <post-feed-card v-for="post in posts" v-bind:key="post.id" v-bind:post="post"></post-feed-card>
     </section>
     <section class="aside-section">
-      <h2 class>Aside Section</h2>
+      <!-- <h2 class>Aside Section</h2> -->
+      <logged-in-user-card> </logged-in-user-card>
+      <!-- <people> </people> -->
+      <user-feed-suggestions> </user-feed-suggestions>
+
     </section>
   </main>
 </template>
 
 <script>
-import UserFeedCard from "./UserFeedCard";
+import PostFeedCard from "./PostFeedCard";
+import LoggedInUserCard from "./LoggedInUserCard";
+import People from '../people/People';
+import UserFeedSuggestions from './UserFeedSuggestions'
 import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "user-feed-page",
   components: {
-    UserFeedCard
+    PostFeedCard, LoggedInUserCard, People, UserFeedSuggestions
   },
   data() {
     return {
-    
+      pageNumber: 0,
+      bottom: false
     };
   },
   computed: {
     ...mapGetters("post", {
-      posts: "getNotLoggedInUserPosts",
-      pagesCount: "getForeignPostPagesCount",
-      currentPage: "getCurrentPageForeign",
-      loading: "getLoadingForeignPosts"
+      posts: "getFollowingPosts",
+      pagesCount: "getFollowingPostsPagesCount",
+      currentPage: "getCurrentPageFollowingPosts",
+      loading: "getLoadingFollowingPosts"
     }),
     ...mapGetters("auth", {
       loggedInUser: "getLoggedInUserData"
-    }),
+    })
   },
   methods: {
-    ...mapActions("post", [
-      "fetchNonLoggedInUserPosts",
-      "resetForeignPostState"
-    ]),
-    onBlurTextarea() {}
-  },
-  created(){
-     const data = {
+    ...mapActions("post", ["fetchFollowingPosts", "resetFollowingPostState"]),
+    onBlurTextarea() {},
+    scroll() {
+      const data = {
         loggedInUser: this.loggedInUser.id,
-        pageNumber: 0
+        pageNumber: this.pageNumber
       };
-    this.fetchNonLoggedInUserPosts(data);
+      this.fetchFollowingPosts(data);
+
+      this.pageNumber = this.pageNumber + 1;
+
+      if (this.bottomVisible) {
+        this.scroll;
+      }
+    },
+    bottomVisible() {
+      const scrollY = window.scrollY;
+      const visible = document.documentElement.clientHeight;
+      const pageHeight = document.documentElement.scrollHeight;
+      const bottomOfPage = visible + scrollY >= pageHeight;
+      return bottomOfPage || pageHeight < visible;
+    }
+  },
+
+  created() {
+    window.addEventListener("scroll", () => {
+      this.bottom = this.bottomVisible();
+    });
+    this.scroll();
+  },
+  watch: {
+    bottom(bottom) {
+      if (bottom && !this.loading && this.pagesCount > this.currentPage + 1) {
+        this.scroll();
+      }
+    }
+  },
+  beforeDestroy() {
+    this.resetFollowingPostState();
   }
 };
 </script>
@@ -60,13 +95,13 @@ export default {
   flex-flow: row nowrap;
   margin: 5rem auto 0;
   padding-top: 60px;
-  width: 100%;
+  /* width: 100%; */
   position: relative;
 }
 
 .main-section {
-  margin-right: 20px;
-  max-width: 610px;
+  margin-right: 30px;
+  max-width: 543px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -76,12 +111,31 @@ export default {
   padding: 0;
 }
 .aside-section {
-  max-width: 305px;
-  position: absolute;
-  right: 0;
+  max-width: 372px;
+  /* position: absolute; */
+  /* right: 0; */
   width: 100%;
+  /* margin: auto; */
+  margin-left:2rem;
 }
 
+@media  screen and (max-width: 900px){
+  .main-container{
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .main-section {
+    margin:auto;
+  }
+
+  .aside-section {
+    margin:0 auto 2rem;;
+  }
+
+}
 
 </style>
 

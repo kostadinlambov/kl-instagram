@@ -63,16 +63,17 @@ public class ApplicationSecurityConfiguration
                 .antMatchers(
                         "/user/all/*",
                         "/user/notFollowers/*",
+                        "/user/update/*",
                         "/follower/follow",
                         "/follower/unFollow",
                         "/follower/getFollowers/*",
                         "/follower/getFollowing/*",
                         "/user/details/id/*",
                         "/user/details/username/*",
-                        "/post/all/*",
                         "/post/create",
+                        "/post/all/*",
                         "/post/notMy/*",
-                        "/user/update/*"
+                        "/post/following/*"
 //                        "/relationship/friends/*",
 //                        "/relationship/findFriends/*",
 //                        "/relationship/addFriend",

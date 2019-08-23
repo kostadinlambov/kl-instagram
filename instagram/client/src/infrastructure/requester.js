@@ -7,6 +7,7 @@ export default {
       .then(res => Promise.resolve(res))
       .catch(error => Promise.reject(error));
   },
+  
   post: (endPoint, data) => {
     return Vue.http
       .post(endPoint, data)

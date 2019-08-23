@@ -11,7 +11,7 @@
              {{username}}
         </router-link>
         <div
-          class="names"
+          class="names" :style="userNameStyle"
         >{{firstName}} {{lastName}}</div>
       </div>
     </div>
@@ -46,6 +46,9 @@ export default {
     currentUser: {
       type: Object,
       required: true
+    },
+    userNameStyle:{
+      type: Object
     }
   },
   computed: {
@@ -84,7 +87,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .card-container {
   display: flex;
   justify-content: space-between;
@@ -111,6 +114,7 @@ export default {
   position: relative;
   overflow: hidden;
   border-radius: 50%;
+  box-shadow: 0px 0px 12px 2px rgba(65, 184, 131, 0.5);
 }
 
 .profile-pick-container:after {
@@ -142,6 +146,8 @@ export default {
 .usernames-container {
   margin-left: 20px;
   text-align: left;
+    overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 a.username {
@@ -156,7 +162,9 @@ a.username:hover{
 
 
 .names {
-  color: rgb(53, 73, 94);;
+  color: rgb(53, 73, 94);
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .buttons-wrapper {

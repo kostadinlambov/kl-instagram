@@ -1,8 +1,6 @@
 import * as actions from "./actions";
 import * as getters from "./getters";
 
-import Vue from "vue";
-
 import {
   FETCH_ALL_POSTS,
   POST_CREATE_BEGIN,
@@ -12,16 +10,22 @@ import {
   RESET_FOREIGN_POSTS_STATE,
   LOADING_FOREIGN_POSTS,
   LOADING_USER_POSTS,
+  LOADING_FOLLOWING_POSTS,
   RESET_POST_STATE,
-  RESET_USER_POSTS_STATE
+  RESET_USER_POSTS_STATE,
+  RESET_FOLLOWING_POSTS_STATE,
+  UPDATE_CREATOR_IMAGE_CLASS,
+  FETCH_FOLLOWING_POSTS
 } from "./mutationTypes";
 
 // initial state
 const initialState = {
   posts: [],
+  loadingUserPosts: false,
   foreignPosts: [],
   loadingForeignPosts: false,
-  loadingUserPosts: false,
+  followingPosts: [],
+  loadingFollowingPosts: false
 };
 
 const mutations = {
@@ -43,8 +47,20 @@ const mutations = {
     state.loadingForeignPosts = payload.loading;
   },
 
+ [FETCH_FOLLOWING_POSTS]: (state, payload) => {
+    state.followingPosts.push(...payload.posts);
+  },
+
+  [LOADING_FOLLOWING_POSTS]: (state, payload) => {
+    state.loadingFollowingPosts = payload.loading;
+  },
+
   [UPDATE_POSTIMAGE_CLASS]: (state, { postId, imageClass, arrType }) => {
     updatePostImageClass(state, postId, imageClass, arrType);
+  },
+
+  [UPDATE_CREATOR_IMAGE_CLASS]: (state, { id, imageClass, arrType }) => {
+    updateCreatorImageClass(state, id, imageClass, arrType);
   },
 
   [POST_CREATE_BEGIN]: state => {
@@ -63,6 +79,10 @@ const mutations = {
     state.posts = [];
   },
 
+  [RESET_FOLLOWING_POSTS_STATE]: state => {
+    state.followingPosts = [];
+  },
+
   [RESET_POST_STATE]: state => {
     state.posts = [];
     state.foreignPosts = [];
@@ -74,6 +94,7 @@ const mutations = {
 };
 
 const updatePostImageClass = (state, postId, imageClass, arrType) => {
+ 
   let newPostArr = [];
 
   switch (arrType) {
@@ -85,6 +106,11 @@ const updatePostImageClass = (state, postId, imageClass, arrType) => {
       newPostArr = updateArr(state.foreignPosts, postId, imageClass);
       state.foreignPosts = [...newPostArr];
       break;
+    case "followingPosts":
+      newPostArr = updateArr(state.followingPosts, postId, imageClass);
+      state.followingPosts = [...newPostArr];
+      break;
+
     default:
       break;
   }
@@ -99,6 +125,32 @@ const updateArr = (newPostArr, id, imageClass) => {
     return {
       ...post,
       imageClass
+    };
+  });
+};
+
+const updateCreatorImageClass = (state, postId, imageClass, arrType) => {
+  let newPostArr = [];
+
+  switch (arrType) {
+    case "followingPosts":
+      newPostArr = updateCreatorArr(state.followingPosts, postId, imageClass);
+      state.followingPosts = [...newPostArr];
+      break;
+    default:
+      break;
+  }
+};
+
+const updateCreatorArr = (newPostArr, id, creatorImageClass) => {
+  return newPostArr.map(post => {
+    if (post.id !== id) {
+      return post;
+    }
+
+    return {
+      ...post,
+      creatorImageClass
     };
   });
 };

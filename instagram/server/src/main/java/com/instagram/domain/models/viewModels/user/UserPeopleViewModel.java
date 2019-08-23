@@ -6,6 +6,8 @@ public class UserPeopleViewModel {
     private String firstName;
     private String lastName;
     private String profilePicUrl;
+    private Integer profilePicWidth;
+    private Integer profilePicHeight;
     private Boolean isActive;
 
     public UserPeopleViewModel() {
@@ -59,7 +61,23 @@ public class UserPeopleViewModel {
         isActive = active;
     }
 
-//    public Boolean isActive() {
+    public Integer getProfilePicWidth() {
+        return this.profilePicWidth;
+    }
+
+    public void setProfilePicWidth(Integer profilePicWidth) {
+        this.profilePicWidth = profilePicWidth;
+    }
+
+    public Integer getProfilePicHeight() {
+        return this.profilePicHeight;
+    }
+
+    public void setProfilePicHeight(Integer profilePicHeight) {
+        this.profilePicHeight = profilePicHeight;
+    }
+
+    //    public Boolean isActive() {
 //        return this.isActive;
 //    }
 

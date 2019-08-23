@@ -2,7 +2,7 @@
   <article class="user-feed-postcard-article">
     <header>
       <div class="profile-pick-container">
-        <img v-bind:class="imageSizeClass" :src="profilePicUrl" alt="user-pic" />
+        <img v-bind:class="getProfilePicClass" :src="profilePicUrl" alt="user-pic" />
       </div>
       <div class="post-info-container">
         <div class="username-container">
@@ -22,7 +22,7 @@
     </header>
     <div class="post-image-container">
       <div class="image-wrapper">
-        <img :src="post.imageUrl" alt  v-bind:class="postImageSizeClass"/>
+        <img :src="post.imageUrl" alt v-bind:class="postImageSizeClass" />
       </div>
     </div>
     <div class="footer">
@@ -96,7 +96,7 @@
 import placeholderImg from "@/assets/images/placeholder.png";
 
 export default {
-  name: "user-feed-card",
+  name: "post-feed-card",
   data() {
     return {
       areaContent: ""
@@ -111,45 +111,59 @@ export default {
   computed: {
     imageSizeClass() {
       return "l";
-    //   return this.currentUser.imageClass || '';
+      //   return this.currentUser.imageClass || '';
     },
-    postImageSizeClass(){
-        return "l";
+    postImageSizeClass() {
+      return this.post.imageClass;
     },
     profilePicUrl() {
+      return this.post.creatorProfilePicUrl || placeholderImg;
+    },
+    getProfilePicClass(){
+        return this.post.creatorImageClass || '';
+    },
+    getCommentsCount() {
+      return this.post.comments.length;
+    },
+    getTime() {
+      const dayTime = this.post.time.hour <= 12 ? "AM" : "PM";
+      const month =
+        this.post.time.month.substring(0, 1) +
+        this.post.time.month.substring(1).toLowerCase();
+      const hour =
+        this.post.time.hour < 10
+          ? "0" + this.post.time.hour
+          : this.post.time.hour;
+      const minute =
+        this.post.time.minute < 10
+          ? "0" + this.post.time.minute
+          : this.post.time.minute;
+
       return (
-        this.post.creatorProfilePicUrl || placeholderImg
-        // this.currentUser.userProfilePicUrl ||
-        // this.currentUser.followerProfilePicUrl ||
+        this.post.time.dayOfMonth +
+        " " +
+        month +
+        " " +
+        hour +
+        ":" +
+        minute +
+        " " +
+        dayTime
       );
-    },
-    getCommentsCount(){
-        return this.post.comments.length;
-    },
-    getTime(){
-        const dayTime = this.post.time.hour <= 12 ? 'AM' : 'PM';
-        const month = this.post.time.month.substring(0, 1) + this.post.time.month.substring(1).toLowerCase()
-        const hour = this.post.time.hour < 10 ? '0' + this.post.time.hour : this.post.time.hour;
-        const minute = this.post.time.minute < 10 ? '0' + this.post.time.minute : this.post.time.minute;
-
-        return this.post.time.dayOfMonth + ' ' + month + ' ' + hour + ':' + minute + ' ' + dayTime
-
-        // {props.time.dayOfMonth} {month} {hour}:{minute} {dayTime}
-    },
+    }
   }
 };
 </script>
 
 <style  scoped>
 /* UserFeedPostCard */
-
 .user-feed-postcard-article {
   display: flex;
   flex-direction: column;
   width: 100%;
   border: 1px solid #e6e6e6;
-  margin-bottom: 60px;
-  background: white,
+  margin-bottom: 30px;
+  background: white;
 }
 
 header {
@@ -157,6 +171,7 @@ header {
   justify-content: flex-start;
   align-items: center;
   padding: 0.5rem 1rem;
+  background: white;
 }
 
 .profile-pick-container {
@@ -165,6 +180,7 @@ header {
   position: relative;
   overflow: hidden;
   border-radius: 50%;
+  background: white;
 }
 
 .profile-pick-container:after {
@@ -191,6 +207,12 @@ header {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.post-image-container{
+  background: white;
+  border: 1px solid #e6e6e6;
+
 }
 
 .post-info-container {
@@ -225,14 +247,13 @@ img {
   /* border-radius: 50%; */
 }
 
-
 .image-wrapper:after {
   display: block;
   content: "";
   padding-top: 80%;
 }
 
-.image-wrapper img {
+.image-wrapper img{
   display: block;
   position: absolute;
   width: 100%;
@@ -242,7 +263,7 @@ img {
   transform: translate(-50%, -50%);
 }
 
-.image-wrapper img.l {
+.image-wrapper img.l  {
   display: block;
   position: absolute;
   width: auto;
@@ -254,6 +275,8 @@ img {
 
 .footer {
   /* border: 1px solid #999; */
+  background: white;
+
 }
 
 .icons {
@@ -381,5 +404,14 @@ textarea {
 
 textarea-autosize {
   height: 18px;
+}
+
+
+@media  screen and (max-width: 900px){
+ 
+ .user-feed-postcard-article {
+  margin-bottom: 10px;
+}
+
 }
 </style>

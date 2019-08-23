@@ -59,6 +59,18 @@ public class PostController {
         return postAllViewModels;
     }
 
+    @GetMapping(value = "/following/{id}/{pageNumber}")
+    public List<PostAllViewModel> getAllFollowingPosts(@PathVariable(value = "id") String id, @PathVariable(value = "pageNumber") int pageNumber) throws Exception {
+
+        List<PostAllViewModel> postAllViewModels = this.postService.getOnePageFollowingPostsByUserId(id, pageNumber);
+
+        System.out.println();
+
+        return postAllViewModels;
+    }
+
+
+
     @PostMapping(value = "/create")
     public ResponseEntity createPost(
             @RequestParam(name = "loggedInUserId") String loggedInUserId,

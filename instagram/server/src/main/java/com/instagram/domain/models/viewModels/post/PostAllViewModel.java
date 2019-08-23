@@ -9,6 +9,8 @@ public class PostAllViewModel {
     private String id;
     private String caption;
     private String imageUrl;
+    private Integer imageWidth;
+    private Integer imageHeight;
     private String location;
     private LocalDateTime time;
     private String creatorId;
@@ -16,6 +18,8 @@ public class PostAllViewModel {
     private String creatorFirstName;
     private String creatorLastName;
     private String creatorProfilePicUrl;
+    private Integer creatorImageWidth;
+    private Integer creatorImageHeight;
     private int likeCount;
     private List<Comment> comments;
 
@@ -47,6 +51,22 @@ public class PostAllViewModel {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public Integer getImageWidth() {
+        return this.imageWidth;
+    }
+
+    public void setImageWidth(Integer imageWidth) {
+        this.imageWidth = imageWidth;
+    }
+
+    public Integer getImageHeight() {
+        return this.imageHeight;
+    }
+
+    public void setImageHeight(Integer imageHeight) {
+        this.imageHeight = imageHeight;
     }
 
     public String getLocation() {
@@ -135,5 +155,21 @@ public class PostAllViewModel {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Integer getCreatorImageWidth() {
+        return this.creatorImageWidth;
+    }
+
+    public void setCreatorImageWidth(Integer creatorImageWidth) {
+        this.creatorImageWidth = creatorImageWidth;
+    }
+
+    public Integer getCreatorImageHeight() {
+        return this.creatorImageHeight;
+    }
+
+    public void setCreatorImageHeight(Integer creatorImageHeight) {
+        this.creatorImageHeight = creatorImageHeight;
     }
 }

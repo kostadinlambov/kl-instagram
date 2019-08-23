@@ -7,6 +7,8 @@ public class UserAllViewModel {
     private String firstName;
     private String lastName;
     private String profilePicUrl;
+    private Integer profilePicWidth;
+    private Integer profilePicHeight;
 
     public UserAllViewModel() {
     }
@@ -57,5 +59,21 @@ public class UserAllViewModel {
 
     public void setProfilePicUrl(String profilePicUrl) {
         this.profilePicUrl = profilePicUrl;
+    }
+
+    public Integer getProfilePicWidth() {
+        return this.profilePicWidth;
+    }
+
+    public void setProfilePicWidth(Integer profilePicWidth) {
+        this.profilePicWidth = profilePicWidth;
+    }
+
+    public Integer getProfilePicHeight() {
+        return this.profilePicHeight;
+    }
+
+    public void setProfilePicHeight(Integer profilePicHeight) {
+        this.profilePicHeight = profilePicHeight;
     }
 }

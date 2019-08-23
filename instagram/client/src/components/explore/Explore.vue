@@ -103,8 +103,6 @@ export default {
         this.bottom = this.bottomVisible();
       });
       this.scroll();
-      // this.$root.$on("on-follow", this.onFollowHandler);
-      // this.$root.$on("on-unfollow", this.onUnFollowHandler);
     }
   },
 
@@ -120,8 +118,6 @@ export default {
   },
   beforeDestroy() {
     this.resetForeignPostState();
-    // this.$root.$off("on-follow");
-    // this.$root.$off("on-unfollow");
   }
 };
 </script>

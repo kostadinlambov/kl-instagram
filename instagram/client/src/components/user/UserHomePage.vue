@@ -251,6 +251,8 @@ export default {
   overflow: hidden;
   border-radius: 50%;
   margin: 0 3rem auto 3rem;
+  /* border: 1px solid red; */
+  box-shadow: 0px 0px 12px 2px rgba(65, 184, 131, 0.5);
 }
 
 .profile-pick-container:after {
@@ -259,7 +261,7 @@ export default {
   padding-top: 100%;
 }
 
-.profile-pick-container img {
+.profile-pick-container img  {
   display: block;
   position: absolute;
   width: 100%;
@@ -269,7 +271,7 @@ export default {
   transform: translate(-50%, -50%);
 }
 
-.profile-pick-container img.l {
+.profile-pick-container img.l{
   display: block;
   position: absolute;
   width: auto;

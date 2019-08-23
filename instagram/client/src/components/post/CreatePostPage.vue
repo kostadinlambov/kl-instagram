@@ -44,7 +44,7 @@
             <!-- <img :src="defaultImg" alt="post-image" :style="styleImg" class="post-image" /> -->
             <div class="image-container">
               <img
-                :class="['gallery-img', 'post-image', imageClass ]"
+                :class="['gallery-img', 'post-image', getImgClass ]"
                 :style="styleImg"
                 :src="defaultImg"
                 alt
@@ -66,7 +66,7 @@
               class="btn app-button-secondary post-image-btn"
               @click="$refs.fileInput.click()"
             >Pick File</button>
-
+            ImageClass: {{getImgClass}}
             <small
               v-if="!$v.postImage.required && $v.postImage.$dirty"
               id="postImageHelp"
@@ -110,6 +110,9 @@ export default {
     ...mapGetters("auth", {
       loggedInUser: "getLoggedInUserData"
     }),
+    getImgClass() {
+      return this.imageClass;
+    }
   },
   validations: {
     caption: {
@@ -126,8 +129,12 @@ export default {
     ...mapActions("post", ["createPost"]),
 
     onFileSelected(event) {
-	  this.postImage = event.target.files[0];
-	  
+      this.postImage = event.target.files[0];
+
+      if (typeof this.postImage === "undefined") {
+        return;
+      }
+
       this.getImageSizeClass(this.postImage);
 
       const reader = new FileReader();
@@ -139,6 +146,9 @@ export default {
     },
 
     getImageSizeClass(file) {
+      if (typeof file === "undefined") {
+        return;
+      }
       const URL = window.URL || window.webkitURL;
       const img = new Image();
 
@@ -147,6 +157,8 @@ export default {
       img.onload = function() {
         if (this.width > this.height) {
           that.imageClass = "l";
+        } else {
+          that.imageClass = "";
         }
       };
     },
@@ -183,7 +195,7 @@ export default {
 
       this.createPost(data);
     }
-  },
+  }
 };
 </script>
 

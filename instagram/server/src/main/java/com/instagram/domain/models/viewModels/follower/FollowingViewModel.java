@@ -9,6 +9,8 @@ public class FollowingViewModel {
     private String userFirstName;
     private String userLastName;
     private String userProfilePicUrl;
+    private Integer userProfilePicWidth;
+    private Integer userProfilePicHeight;
     private Boolean isActive;
     private LocalDateTime time;
 

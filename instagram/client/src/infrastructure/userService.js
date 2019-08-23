@@ -140,5 +140,4 @@ export const userService = {
       img.src = url;
     });
   },
-
 };

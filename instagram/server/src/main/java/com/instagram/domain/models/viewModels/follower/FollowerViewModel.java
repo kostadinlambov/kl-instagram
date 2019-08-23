@@ -9,6 +9,8 @@ public class FollowerViewModel {
     private String followerFirstName;
     private String followerLastName;
     private String followerProfilePicUrl;
+    private Integer followerProfilePicWidth;
+    private Integer followerProfilePicHeight;
     private Boolean isActive;
     private LocalDateTime time;
 
@@ -61,6 +63,22 @@ public class FollowerViewModel {
 
     public void setFollowerProfilePicUrl(String followerProfilePicUrl) {
         this.followerProfilePicUrl = followerProfilePicUrl;
+    }
+
+    public Integer getFollowerProfilePicWidth() {
+        return this.followerProfilePicWidth;
+    }
+
+    public void setFollowerProfilePicWidth(Integer followerProfilePicWidth) {
+        this.followerProfilePicWidth = followerProfilePicWidth;
+    }
+
+    public Integer getFollowerProfilePicHeight() {
+        return this.followerProfilePicHeight;
+    }
+
+    public void setFollowerProfilePicHeight(Integer followerProfilePicHeight) {
+        this.followerProfilePicHeight = followerProfilePicHeight;
     }
 
     public Boolean getActive() {
