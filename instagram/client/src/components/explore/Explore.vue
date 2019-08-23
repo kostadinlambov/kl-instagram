@@ -91,12 +91,10 @@ export default {
     },
 
     onFollowHandler(userId) {
-      debugger;
       this.followUserAction(userId);
     },
 
     onUnFollowHandler(userId) {
-      debugger;
       this.unFollowUserAction(userId);
     },
 
@@ -105,7 +103,6 @@ export default {
         this.bottom = this.bottomVisible();
       });
       this.scroll();
-      debugger;
       // this.$root.$on("on-follow", this.onFollowHandler);
       // this.$root.$on("on-unfollow", this.onUnFollowHandler);
     }
@@ -122,7 +119,6 @@ export default {
     }
   },
   beforeDestroy() {
-    debugger;
     this.resetForeignPostState();
     // this.$root.$off("on-follow");
     // this.$root.$off("on-unfollow");

@@ -16,7 +16,7 @@
 <script>
 import { userService } from "@/infrastructure/userService";
 import UserCard from "./UserCard";
-import { mapGetters,  mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "user-all",
@@ -30,11 +30,15 @@ export default {
 
   computed: {
     ...mapGetters("user", {
-        usersAdmin: "getAllUsersAdmin",
+      usersAdmin: "getAllUsersAdmin"
     })
   },
   methods: {
-    ...mapActions("user", [ "fetchAllUsersAdminAction", "promoteUserAction", "demoteUserAction"]),
+    ...mapActions("user", [
+      "fetchAllUsersAdminAction",
+      "promoteUserAction",
+      "demoteUserAction"
+    ]),
 
     onPromoteHandler(userToPromoteId) {
       this.promoteUserAction(userToPromoteId);
@@ -43,7 +47,7 @@ export default {
     onDemoteHandler(userToDemoteId) {
       this.demoteUserAction(userToDemoteId);
     },
- 
+
     addEventListeners() {
       this.$root.$on("on-promote", this.onPromoteHandler);
       this.$root.$on("on-demote", this.onDemoteHandler);
@@ -84,16 +88,17 @@ export default {
   padding-left: 12px;
   padding-right: 12px;
   margin-top: 16px;
-  margin-bottom: 12px;
+  margin-bottom: 2rem;
 }
 
 .title {
   display: block;
-  color: #262626;
+  color: #999;
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
   margin: -6px 0;
+  text-align: left;
 }
 
 .people-section {
@@ -107,6 +112,5 @@ export default {
     /* padding-top: 60px;
     padding-bottom: 60px; */
   }
-
 }
 </style>

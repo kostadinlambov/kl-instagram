@@ -9,14 +9,16 @@ import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/index.css';
 import interceptors from '@/plugins/interceptorPlugin';
 import { store } from './vuex/store';
-import infiniteScroll from 'vue-infinite-scroll'
-
+import infiniteScroll from 'vue-infinite-scroll';
+import VueTextareaAutosize from 'vue-textarea-autosize';
+ 
 Vue.config.productionTip = false;
 
 Vue.use(Vuelidate);
 Vue.use(VueResource);
 Vue.use(interceptors);
 Vue.use(infiniteScroll)
+Vue.use(VueTextareaAutosize)
 
 Vue.use(VueToast, {
   duration: 3000,
