@@ -1,6 +1,7 @@
 package com.instagram.servicesImpl;
 
 import com.instagram.domain.entities.Comment;
+import com.instagram.domain.entities.Like;
 import com.instagram.domain.entities.Post;
 import com.instagram.domain.entities.User;
 import com.instagram.domain.models.serviceModels.PostServiceModel;
@@ -131,7 +132,7 @@ public class PostServiceImpl implements PostService {
         Page<Post> currentPage = this.postRepository.findAllByCreatorIdOrderByTimeDesc(user.getId(), pageable);
 //        List<Post> posts = this.postRepository.findAllByCreatorIdOrderByTimeDesc(id, pageable);
 
-        return this.getCurrentPagePosts(currentPage);
+        return this.getCurrentPagePosts(currentPage, user.getId());
     }
 
     // Get Posts from Users that we are following. Post are ordered descending by publishing time.
@@ -144,7 +145,7 @@ public class PostServiceImpl implements PostService {
         Pageable pageable = PageRequest.of(pageNumber, 2, Sort.by("time").descending());
         Page<Post> currentPage = this.postRepository.getAllFollowingPosts(id, pageable);
 
-        return this.getCurrentPagePosts(currentPage);
+        return this.getCurrentPagePosts(currentPage, id);
     }
 
     // Get Post from all other users( except posts from loggedIn user). Post are ordered descending by publishing time.
@@ -157,11 +158,11 @@ public class PostServiceImpl implements PostService {
         Pageable pageable = PageRequest.of(pageNumber, 3, Sort.by("time").descending());
         Page<Post> currentPage = this.postRepository.findAllByCreatorIdNotOrderByTimeDesc(id, pageable);
 
-        return this.getCurrentPagePosts(currentPage);
+        return this.getCurrentPagePosts(currentPage, id);
     }
 
 
-    private List<PostAllViewModel> getCurrentPagePosts(Page<Post> currentPage) throws Exception {
+    private List<PostAllViewModel> getCurrentPagePosts(Page<Post> currentPage, String userId) throws Exception {
         List<Post> currentPagePosts = currentPage.getContent();
 
         int totalPages = currentPage.getTotalPages();
@@ -188,9 +189,22 @@ public class PostServiceImpl implements PostService {
             postAllViewModel.setLikeCount((int) postServiceModel
                     .getLikes()
                     .stream()
-                    .filter(like -> like.getLikeType().name().equals("POST")).count());
+                    .filter(like -> like.getLikeType().name().equals("POST") && like.isActive()).count());
             postAllViewModel.setCurrentPageNumber(currentPageNumber);
             postAllViewModel.setTotalPages(totalPages);
+
+            Like loggedInUserLike = postServiceModel.getLikes()
+                    .stream()
+                    .filter(like -> like.getUser().getId()
+                            .equals(userId) &&  like.isActive())
+                    .findFirst()
+                    .orElse(null);
+            if(loggedInUserLike == null){
+                postAllViewModel.setHasUserLikedPost(false);
+            }else{
+                postAllViewModel.setHasUserLikedPost(true);
+            }
+
             return postAllViewModel;
         }).collect(Collectors.toList());
 

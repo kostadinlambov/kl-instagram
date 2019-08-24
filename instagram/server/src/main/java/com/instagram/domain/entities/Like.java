@@ -21,6 +21,7 @@ public class Like extends BaseEntity {
 
     @ManyToOne(targetEntity = User.class, optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonBackReference
     public User getUser() {
         return this.user;
     }

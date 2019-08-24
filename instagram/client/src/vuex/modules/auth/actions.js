@@ -1,7 +1,7 @@
 import Vue from "vue";
 import router from "@/router";
 import requester from "@/infrastructure/requester";
-import placeholderLink from "../../../assets/images/placeholder.png";
+import placeholderLink from "@/assets/images/placeholder.png";
 
 import {
   CHANGE_IS_AUTHENTICATED,

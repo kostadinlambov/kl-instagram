@@ -19,6 +19,7 @@ import {
   RESET_FOREIGN_POSTS_STATE,
   RESET_FOLLOWING_POSTS_STATE,
   UPDATE_CREATOR_IMAGE_CLASS,
+  CHANGE_POST_LIKE_SUCCESS,
 
 } from "./mutationTypes";
 
@@ -260,6 +261,32 @@ export const resetUserPostState = context => {
 export const resetFollowingPostState = context => {
   context.commit(RESET_FOLLOWING_POSTS_STATE);
 };
+
+export const changePostLikeCount = (context, data) => {
+  const url = "like/changePostLike";
+
+  requester
+    .post(url, data)
+    .then(res => {
+      context.commit({
+        type: CHANGE_POST_LIKE_SUCCESS,
+        postId: data.postId,
+        change: res.body.payload
+      });
+
+      Vue.$toast.open({
+        message: res.body.message,
+        type: "success"
+      });
+    })
+    .catch(err => {
+      Vue.$toast.open({
+        message: err.body.message,
+        type: "error"
+      });
+    });
+
+}
 
 // export const resetState = context => {
 //   context.commit({

@@ -100,6 +100,7 @@ public class Post extends BaseEntity {
 //    }
 
     @OneToMany(mappedBy = "post", targetEntity = Like.class, cascade = CascadeType.ALL)
+    @JsonManagedReference
     public List<Like> getLikes() {
         return this.likes;
     }

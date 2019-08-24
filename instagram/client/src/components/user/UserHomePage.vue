@@ -114,7 +114,8 @@ export default {
     }),
     ...mapGetters("user", {
       followingCount: "getFollowingCount",
-      followersCount: "getFollowersCount"
+      followersCount: "getFollowersCount",
+      followingCandidates: "getFollowingCandidates",
     }),
     ...mapGetters("post", {
       posts: "getUserPosts",
@@ -135,7 +136,7 @@ export default {
   },
   methods: {
     ...mapActions("post", ["fetchUserPosts", "resetUserPostState"]),
-    ...mapActions("user", ["fetchFollowers", "fetchFollowing"]),
+    ...mapActions("user", ["fetchFollowers", "fetchFollowing", "fetchAllFollowingCandidates"]),
     ...mapActions("auth", ["fetchTimeLineUser"]),
 
     isFollowingModal(value) {
@@ -171,6 +172,7 @@ export default {
   created() {
     this.fetchFollowers(this.username);
     this.fetchFollowing(this.username);
+    // this.fetchAllFollowingCandidates(this.username);
     this.fetchTimeLineUser({ username: this.username });
 
     window.addEventListener("scroll", () => {
@@ -187,6 +189,7 @@ export default {
       this.fetchTimeLineUser({ username: this.username });
       this.fetchFollowers(this.username);
       this.fetchFollowing(this.username);
+      //  this.fetchAllFollowingCandidates(this.username);
 
       this.pageNumber = 0;
 

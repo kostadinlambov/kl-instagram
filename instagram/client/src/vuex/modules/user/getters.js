@@ -13,3 +13,5 @@ export const getFollowing = state => state.following;
 export const getFollowingCount = state => state.users.filter(user => user.active).length;
 
 export const getFollowingCandidates = state => state.followingCandidates;
+
+export const getFirstThreeFollowingCandidates = state => state.followingCandidates.slice(0, 3);

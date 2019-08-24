@@ -1,6 +1,7 @@
 package com.instagram.domain.models.viewModels.post;
 
 import com.instagram.domain.entities.Comment;
+import com.instagram.domain.entities.Like;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,7 +22,9 @@ public class PostAllViewModel {
     private Integer creatorImageWidth;
     private Integer creatorImageHeight;
     private int likeCount;
+    private boolean hasUserLikedPost;
     private List<Comment> comments;
+//    private List<Like> likes;
 
     private int totalPages;
     private int currentPageNumber;
@@ -172,4 +175,20 @@ public class PostAllViewModel {
     public void setCreatorImageHeight(Integer creatorImageHeight) {
         this.creatorImageHeight = creatorImageHeight;
     }
+
+    public boolean isHasUserLikedPost() {
+        return this.hasUserLikedPost;
+    }
+
+    public void setHasUserLikedPost(boolean hasUserLikedPost) {
+        this.hasUserLikedPost = hasUserLikedPost;
+    }
+
+//    public List<Like> getLikes() {
+//        return this.likes;
+//    }
+//
+//    public void setLikes(List<Like> likes) {
+//        this.likes = likes;
+//    }
 }

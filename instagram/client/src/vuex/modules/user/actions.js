@@ -14,6 +14,7 @@ import {
   FETCH_ALL_FOLLOWERS,
   FETCH_ALL_FOLLOWING,
   DELETE_USER_SUCCESS,
+  FETCH_ALL_FOLLOWING_CANDIDATES,
   RESET_STATE,
   UPDATE_USER_IMAGE_CLASS,
 } from "./mutationTypes";
@@ -39,7 +40,7 @@ export const fetchAllUsersAdminAction = (context, payload) => {
 };
 
 export const fetchAllUsersAction = (context, payload) => {
-  const url = "user/notFollowers/" + payload.id;
+  const url = "user/all/" + payload.id;
   requester
     .get(url)
     .then(res => {
@@ -49,7 +50,6 @@ export const fetchAllUsersAction = (context, payload) => {
       });
 
       context.dispatch("updateUserImageClass", {users:res.body, arrType: 'allUsers'});
-
 
       const followingCandidates = context.state.followingCandidates;
       context.dispatch("updateUserImageClass", {users:followingCandidates, arrType: 'followingCandidates'});
@@ -62,6 +62,28 @@ export const fetchAllUsersAction = (context, payload) => {
       });
     });
 };
+
+export const fetchAllFollowingCandidates = (context, username) => {
+  const url = "user/followingCandidates/" + username;
+  requester
+    .get(url)
+    .then(res => {
+      context.commit({
+        type: FETCH_ALL_FOLLOWING_CANDIDATES,
+        users: res.body
+      });
+
+      context.dispatch("updateUserImageClass", {users:res.body, arrType: 'followingCandidates'});
+
+    })
+    .catch(err => {
+      Vue.$toast.open({
+        message: err.body.message,
+        type: "error"
+      });
+    });
+};
+
 
 export const promoteUserAction = (context, userToPromoteId) => {
   const url = "user/promote?id=" + userToPromoteId;

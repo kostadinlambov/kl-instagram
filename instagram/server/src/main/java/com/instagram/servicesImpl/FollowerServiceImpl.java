@@ -116,4 +116,17 @@ public class FollowerServiceImpl implements FollowerService {
                 .map(follower -> this.modelMapper.map(follower, FollowingViewModel.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<FollowingViewModel> getAllFollowingCandidates(String username) throws Exception {
+        User user = this.userRepository.findByUsername(username)
+                .filter(userValidation::isValid)
+                .orElseThrow(Exception::new);
+
+        List<Follower> byUserId = this.followerRepository.findByFollowerIdAndActiveTrue(user.getId());
+
+        return byUserId.stream()
+                .map(follower -> this.modelMapper.map(follower, FollowingViewModel.class))
+                .collect(Collectors.toList());
+    }
 }

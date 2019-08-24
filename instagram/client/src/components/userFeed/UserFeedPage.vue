@@ -1,15 +1,16 @@
 <template>
   <main class="main-container container col-md-9">
-    <section class="main-section">
-      <!-- <h2 class>Main Section</h2> -->
+    <section class="main-section" v-if="posts.length > 0">
       <post-feed-card v-for="post in posts" v-bind:key="post.id" v-bind:post="post"></post-feed-card>
     </section>
+     <section class="main-section" v-else>
+       <div class="user-message">
+          You don't follow any user on Instagram or the users that you follow haven't posted anything yet!
+        </div>
+    </section>
     <section class="aside-section">
-      <!-- <h2 class>Aside Section</h2> -->
       <logged-in-user-card> </logged-in-user-card>
-      <!-- <people> </people> -->
       <user-feed-suggestions> </user-feed-suggestions>
-
     </section>
   </main>
 </template>
@@ -117,6 +118,19 @@ export default {
   width: 100%;
   /* margin: auto; */
   margin-left:2rem;
+}
+
+.user-message{
+  font-size: 1.5rem;
+  font-weight: 600;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 1rem;
+  color: rgb(65, 184, 131);
+  background: white;
+  border: 1px solid #e6e6e6;
+
 }
 
 @media  screen and (max-width: 900px){

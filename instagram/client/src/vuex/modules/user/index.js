@@ -14,7 +14,8 @@ import {
   FETCH_ALL_FOLLOWERS,
   FETCH_ALL_FOLLOWING,
   DELETE_USER_SUCCESS,
-  UPDATE_USER_IMAGE_CLASS
+  UPDATE_USER_IMAGE_CLASS,
+  FETCH_ALL_FOLLOWING_CANDIDATES
 } from "./mutationTypes";
 
 // initial state
@@ -56,6 +57,10 @@ const mutations = {
 
   [FETCH_ALL_FOLLOWING]: (state, payload) => {
     state.following = payload.following;
+  },
+
+  [FETCH_ALL_FOLLOWING_CANDIDATES]: (state, payload) => {
+    state.followingCandidates = payload.users;
   },
 
   [UPDATE_USER_IMAGE_CLASS]: (state, { id, imageClass, arrType }) => {

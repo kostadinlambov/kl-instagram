@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.instagram.domain.models.bindingModels.user.UserRegisterBindingModel;
 import com.instagram.domain.models.bindingModels.user.UserUpdateBindingModel;
 import com.instagram.domain.models.serviceModels.UserServiceModel;
+import com.instagram.domain.models.viewModels.follower.FollowingViewModel;
 import com.instagram.domain.models.viewModels.user.UserAllViewModel;
 import com.instagram.domain.models.viewModels.user.UserCreateViewModel;
 import com.instagram.domain.models.viewModels.user.UserDetailsViewModel;
@@ -76,11 +77,18 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping(value = "/notFollowers/{id}")
-    public List<UserPeopleViewModel> getAllUsersNotFollowers(@PathVariable(value = "id") String userId) throws Exception {
+    @GetMapping(value = "/all/{id}")
+    public List<UserPeopleViewModel> getAllUsersFollowersInfo(@PathVariable(value = "id") String userId) throws Exception {
         List<UserPeopleViewModel> allUsers = this.userService.getAllUsersWithFollowersInfo(userId);
 
         return allUsers;
+    }
+
+    @GetMapping(value = "/followingCandidates/{username}")
+    public List<UserPeopleViewModel> getAllFollowingCandidates(@PathVariable(value = "username") String username) throws Exception {
+        List<UserPeopleViewModel> allFollowingCandidates = this.userService.getAllNotFollowers(username);
+
+        return allFollowingCandidates;
     }
 
 
@@ -97,18 +105,18 @@ public class UserController {
 //                .collect(Collectors.toList());
 //    }
 
-    @GetMapping(value = "/all/{id}")
-    public List<UserAllViewModel> getAllUsers(@PathVariable(value = "id") String userId) throws Exception {
-        List<UserServiceModel> allUsers = this.userService.getAllUsers(userId);
-
-        return allUsers.stream()
-                .map(x -> {
-                    UserAllViewModel userAllViewModel = this.modelMapper.map(x, UserAllViewModel.class);
-                    userAllViewModel.setRole(x.extractAuthority());
-                    return userAllViewModel;
-                })
-                .collect(Collectors.toList());
-    }
+//    @GetMapping(value = "/all/{id}")
+//    public List<UserAllViewModel> getAllUsers(@PathVariable(value = "id") String userId) throws Exception {
+//        List<UserServiceModel> allUsers = this.userService.getAllUsers(userId);
+//
+//        return allUsers.stream()
+//                .map(x -> {
+//                    UserAllViewModel userAllViewModel = this.modelMapper.map(x, UserAllViewModel.class);
+//                    userAllViewModel.setRole(x.extractAuthority());
+//                    return userAllViewModel;
+//                })
+//                .collect(Collectors.toList());
+//    }
 
 
     @PostMapping(value = "/promote")

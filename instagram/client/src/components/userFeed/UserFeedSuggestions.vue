@@ -14,7 +14,7 @@
       </section>
       <section class="people-section"  v-else >
         <div class="user-message">
-          You are following all registered users at Instagram...!
+          You are following all registered users on Instagram...!
         </div>
       </section>
     </div>
@@ -49,7 +49,7 @@ export default {
       users: "getAllUsers",
       followers: "getFollowers",
       following: "getFollowing",
-      followingCandidates: "getFollowingCandidates"
+      followingCandidates: "getFirstThreeFollowingCandidates"
     })
     // orderByFollowingAsc(){
     //   return this.users.sort((firstUser, secondUser) => secondUser.active - firstUser.active)

@@ -62,7 +62,7 @@ public class ApplicationSecurityConfiguration
                 ).permitAll()
                 .antMatchers(
                         "/user/all/*",
-                        "/user/notFollowers/*",
+                        "/user/followingCandidates/*",
                         "/user/update/*",
                         "/follower/follow",
                         "/follower/unFollow",
@@ -73,7 +73,8 @@ public class ApplicationSecurityConfiguration
                         "/post/create",
                         "/post/all/*",
                         "/post/notMy/*",
-                        "/post/following/*"
+                        "/post/following/*",
+                        "/like/changePostLike"
 //                        "/relationship/friends/*",
 //                        "/relationship/findFriends/*",
 //                        "/relationship/addFriend",
@@ -85,7 +86,6 @@ public class ApplicationSecurityConfiguration
 //                        "/pictures/add",
 //                        "/pictures/remove",
 //                        "/post/remove",
-//                        "/like/add",
 //                        "/comment/create",
 //                        "/comment/remove",
 //                        "/message/create",

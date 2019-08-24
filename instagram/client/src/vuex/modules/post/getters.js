@@ -52,4 +52,3 @@ export const getCurrentPageFollowingPosts= state =>{
      }
      return 0;
 }
-

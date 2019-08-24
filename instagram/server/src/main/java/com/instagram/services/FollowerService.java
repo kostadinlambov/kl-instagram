@@ -13,4 +13,6 @@ public interface FollowerService {
     List<FollowerViewModel> getAllFollowers(String username) throws Exception;
 
     List<FollowingViewModel> getAllFollowing(String username) throws Exception;
+
+    List<FollowingViewModel> getAllFollowingCandidates(String username) throws Exception;
 }

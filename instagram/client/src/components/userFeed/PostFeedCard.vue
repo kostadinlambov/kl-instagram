@@ -29,9 +29,10 @@
       <div class="icons">
         <div class="left-side-icons">
           <div class="nav-item heart-icon-wrapper">
-            <router-link to="/account/activity" class="nav-link">
-              <i class="far fa-heart"></i>
-            </router-link>
+            <div class="nav-link" @click="likeHandler">
+              <i v-if="post.hasUserLikedPost" class="fas fa-heart" :style="hasUserLikedPost"></i>
+              <i v-else class="far fa-heart"></i>
+            </div>
           </div>
           <div class="nav-item comments-icon-wrapper">
             <router-link to="/account/activity" class="nav-link">
@@ -94,12 +95,16 @@
 
 <script>
 import placeholderImg from "@/assets/images/placeholder.png";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "post-feed-card",
   data() {
     return {
-      areaContent: ""
+      areaContent: "",
+      hasUserLikedPost: {
+        color: "red"
+      }
     };
   },
   props: {
@@ -109,6 +114,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters("auth", {
+      loggedInUser: "getLoggedInUserData"
+    }),
     imageSizeClass() {
       return "l";
       //   return this.currentUser.imageClass || '';
@@ -119,8 +127,8 @@ export default {
     profilePicUrl() {
       return this.post.creatorProfilePicUrl || placeholderImg;
     },
-    getProfilePicClass(){
-        return this.post.creatorImageClass || '';
+    getProfilePicClass() {
+      return this.post.creatorImageClass || "";
     },
     getCommentsCount() {
       return this.post.comments.length;
@@ -150,6 +158,19 @@ export default {
         " " +
         dayTime
       );
+    }
+  },
+  methods: {
+    ...mapActions("post", ["changePostLikeCount"]),
+
+    likeHandler() {
+      debugger;
+      const data = {
+        postId: this.post.id,
+        userId: this.loggedInUser.id
+      };
+
+      this.changePostLikeCount(data);
     }
   }
 };
@@ -209,10 +230,9 @@ header {
   transform: translate(-50%, -50%);
 }
 
-.post-image-container{
+.post-image-container {
   background: white;
   border: 1px solid #e6e6e6;
-
 }
 
 .post-info-container {
@@ -253,7 +273,7 @@ img {
   padding-top: 80%;
 }
 
-.image-wrapper img{
+.image-wrapper img {
   display: block;
   position: absolute;
   width: 100%;
@@ -263,7 +283,7 @@ img {
   transform: translate(-50%, -50%);
 }
 
-.image-wrapper img.l  {
+.image-wrapper img.l {
   display: block;
   position: absolute;
   width: auto;
@@ -276,7 +296,6 @@ img {
 .footer {
   /* border: 1px solid #999; */
   background: white;
-
 }
 
 .icons {
@@ -406,12 +425,9 @@ textarea-autosize {
   height: 18px;
 }
 
-
-@media  screen and (max-width: 900px){
- 
- .user-feed-postcard-article {
-  margin-bottom: 10px;
-}
-
+@media screen and (max-width: 900px) {
+  .user-feed-postcard-article {
+    margin-bottom: 10px;
+  }
 }
 </style>

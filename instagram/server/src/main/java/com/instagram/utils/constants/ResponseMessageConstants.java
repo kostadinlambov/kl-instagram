@@ -70,5 +70,6 @@ public final class ResponseMessageConstants {
 
     // Like Messages
     public static final String SUCCESSFUL_LIKE_POST_MESSAGE = "You liked a post!";
+    public static final String SUCCESSFUL_DISLIKE_POST_MESSAGE = "You disliked a post!";
 
 }

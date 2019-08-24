@@ -15,7 +15,8 @@ import {
   RESET_USER_POSTS_STATE,
   RESET_FOLLOWING_POSTS_STATE,
   UPDATE_CREATOR_IMAGE_CLASS,
-  FETCH_FOLLOWING_POSTS
+  FETCH_FOLLOWING_POSTS,
+  CHANGE_POST_LIKE_SUCCESS
 } from "./mutationTypes";
 
 // initial state
@@ -47,7 +48,7 @@ const mutations = {
     state.loadingForeignPosts = payload.loading;
   },
 
- [FETCH_FOLLOWING_POSTS]: (state, payload) => {
+  [FETCH_FOLLOWING_POSTS]: (state, payload) => {
     state.followingPosts.push(...payload.posts);
   },
 
@@ -69,6 +70,10 @@ const mutations = {
 
   [POST_CREATE_SUCCESS]: state => {
     state.loading = true;
+  },
+
+  [CHANGE_POST_LIKE_SUCCESS]: (state, postId, change) => {
+    changePostLikeCount(state, postId, change);
   },
 
   [RESET_FOREIGN_POSTS_STATE]: state => {
@@ -93,8 +98,44 @@ const mutations = {
   }
 };
 
+const changePostLikeCount = (state, {postId, change}) => {
+  let newPostArr = [];
+    newPostArr = updatePostCount(state.posts, postId, change);
+    state.posts = [...newPostArr];
+
+    newPostArr = updatePostCount(state.foreignPosts, postId, change);
+    state.foreignPosts = [...newPostArr];
+
+    newPostArr = updatePostCount(state.followingPosts, postId, change);
+    state.followingPosts = [...newPostArr];
+};
+
+const updatePostCount = (newPostArr, postId, change) => {
+  return newPostArr.map(post => {
+    if (post.id !== postId) {
+      return post;
+    }
+
+    let likeCount = post.likeCount;
+    let hasUserLikedPost = post.hasUserLikedPost;
+
+    if(change === "add"){
+       likeCount++;
+       hasUserLikedPost = true;
+    }else{
+      likeCount--;
+      hasUserLikedPost = false;
+    }
+
+    return {
+      ...post,
+      likeCount,
+      hasUserLikedPost
+    };
+  });
+};
+
 const updatePostImageClass = (state, postId, imageClass, arrType) => {
- 
   let newPostArr = [];
 
   switch (arrType) {
