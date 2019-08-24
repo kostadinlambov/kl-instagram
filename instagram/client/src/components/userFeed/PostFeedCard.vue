@@ -48,45 +48,53 @@
           </div>
         </div>
       </div>
+      <div class="likes-count">{{getLikesCountMessage}}</div>
       <div class="comments-wrapper">
         <div class="caption">
           <router-link
-            :to="{name:'single-user-page', params: {'username': 'pesho'}}"
+            :to="{name:'single-user-page', params: {username: post.creatorUsername}}"
             class="caption-username"
-          >username</router-link>
-          <span class="caption-text">My first Post</span>
+          >{{post.creatorUsername}}</router-link>
+          <span class="caption-text">{{post.caption}}</span>
         </div>
-        <div class="count-comments" v-if="getCommentsCount">
+        <div class="count-comments" v-if="lastComment">
           <router-link to="#" class>View all {{getCommentsCount}} comments</router-link>
         </div>
-        <div class="count-comments" else>
+        <div class="count-comments" v-else>
           <router-link to="#" class>Write the first comment...</router-link>
         </div>
-        <div class="comments">
+        <div class="comments" v-if="lastComment">
           <div class="comment">
             <router-link
-              :to="{name:'single-user-page', params: {'username': 'pesho'}}"
+              :to="{name:'single-user-page', params: {username: lastComment.creatorUsername}}"
               class="comment-username"
-            >comment-username</router-link>
-            <span class="comment-text">My first Comment</span>
+            >{{lastComment.creatorUsername}}</router-link>
+            <span class="comment-text">{{lastComment.content}}</span>
           </div>
         </div>
+        <!-- <div class="comments" >
+          <router-link
+            :to="{name:'single-user-page', params: {username: lastComment.creatorUsername}}"
+            class="comment-username"
+          >{{lastComment.creatorUsername}}</router-link>
+          <span class="comment-text">{{lastComment.content}}</span>
+        </div>-->
       </div>
       <div class="time">{{getTime}}</div>
       <section class="add-comment-section">
-        <form class="post-form">
+        <form class="post-form" @submit.prevent="onCommentSubmit">
           <textarea-autosize
             class="post-textarea"
             placeholder="Add a comment..."
             ref="someName"
-            v-model="areaContent"
+            v-model.trim="$v.content.$model"
             :min-height="10"
             :max-height="80"
-            @blur.native="onBlurTextarea"
           ></textarea-autosize>
+          <!-- @blur.native="onBlurTextarea" -->
           <!-- :style="{height: '10px'}" -->
 
-          <button disabled class="btn app-button-secondary btn-sm">Post</button>
+          <button :disabled="$v.$invalid" class="btn app-button-secondary btn-sm">Post</button>
         </form>
       </section>
     </div>
@@ -96,12 +104,13 @@
 <script>
 import placeholderImg from "@/assets/images/placeholder.png";
 import { mapGetters, mapActions } from "vuex";
+import { required } from "vuelidate/lib/validators";
 
 export default {
   name: "post-feed-card",
   data() {
     return {
-      areaContent: "",
+      content: "",
       hasUserLikedPost: {
         color: "red"
       }
@@ -113,13 +122,23 @@ export default {
       required: true
     }
   },
+  validations: {
+    content: {
+      required
+    }
+  },
   computed: {
     ...mapGetters("auth", {
       loggedInUser: "getLoggedInUserData"
     }),
-    imageSizeClass() {
-      return "l";
-      //   return this.currentUser.imageClass || '';
+    ...mapGetters("post", {
+      // getLastComment: "getLastCommentFollowingPosts"
+    }),
+    ...mapGetters("comment", {
+      getLastComment: "getLastComment"
+    }),
+    lastComment() {
+      return this.getLastComment(this.post.id);
     },
     postImageSizeClass() {
       return this.post.imageClass;
@@ -133,22 +152,31 @@ export default {
     getCommentsCount() {
       return this.post.comments.length;
     },
+    getLikesCountMessage() {
+      return this.post.likeCount === 1
+        ? "1 like"
+        : this.post.likeCount + " likes";
+    },
     getTime() {
-      const dayTime = this.post.time.hour <= 12 ? "AM" : "PM";
+      if (!this.lastComment.time) {
+        return;
+      }
+
+      const dayTime = this.lastComment.time.hour <= 12 ? "AM" : "PM";
       const month =
-        this.post.time.month.substring(0, 1) +
-        this.post.time.month.substring(1).toLowerCase();
+        this.lastComment.time.month.substring(0, 1) +
+        this.lastComment.time.month.substring(1).toLowerCase();
       const hour =
-        this.post.time.hour < 10
-          ? "0" + this.post.time.hour
-          : this.post.time.hour;
+        this.lastComment.time.hour < 10
+          ? "0" + this.lastComment.time.hour
+          : this.lastComment.time.hour;
       const minute =
-        this.post.time.minute < 10
-          ? "0" + this.post.time.minute
-          : this.post.time.minute;
+        this.lastComment.time.minute < 10
+          ? "0" + this.lastComment.time.minute
+          : this.lastComment.time.minute;
 
       return (
-        this.post.time.dayOfMonth +
+        this.lastComment.time.dayOfMonth +
         " " +
         month +
         " " +
@@ -162,6 +190,7 @@ export default {
   },
   methods: {
     ...mapActions("post", ["changePostLikeCount"]),
+    ...mapActions("comment", ["createComment", "fetchLastCommentByPostId"]),
 
     likeHandler() {
       debugger;
@@ -171,12 +200,25 @@ export default {
       };
 
       this.changePostLikeCount(data);
+    },
+    onCommentSubmit(event) {
+      const data = {
+        content: this.content,
+        postId: this.post.id,
+        loggedInUserId: this.loggedInUser.id
+      };
+      debugger;
+      this.createComment(data);
+      this.content = "";
     }
+  },
+  created() {
+    this.fetchLastCommentByPostId(this.post.id);
   }
 };
 </script>
 
-<style  scoped>
+<style scoped>
 /* UserFeedPostCard */
 .user-feed-postcard-article {
   display: flex;
@@ -202,6 +244,7 @@ header {
   overflow: hidden;
   border-radius: 50%;
   background: white;
+  box-shadow: 0px 0px 12px 2px rgba(65, 184, 131, 0.5);
 }
 
 .profile-pick-container:after {
@@ -303,6 +346,7 @@ img {
   justify-content: space-between;
   align-items: center;
   font-size: 1.5rem;
+  /* border-bottom: 1px solid #efefef; */
 }
 
 .left-side-icons {
@@ -313,7 +357,7 @@ img {
 
 .comments-wrapper {
   text-align: left;
-  padding: 0 16px;
+  padding: 8px 16px;
 }
 
 a.caption-username,
@@ -343,6 +387,17 @@ a.header-username:hover {
 }
 
 .count-comments > a {
+  color: #999 !important;
+  font-weight: 500 !important;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.likes-count {
+  margin-bottom: 8px;
+  text-align: left;
+  display: block;
+  padding: 0rem 1rem;
   color: #999 !important;
   font-weight: 500 !important;
   font-size: 14px;

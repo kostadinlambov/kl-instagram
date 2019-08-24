@@ -6,15 +6,26 @@ import * as Cookies from "js-cookie";
 import auth from "./modules/auth";
 import user from "./modules/user";
 import post from "./modules/post";
+import comment from "./modules/comment";
 import { RESET_STATE_GLOBAL } from "./mutationTypes";
 
 Vue.use(Vuex);
 
 // initial State
+// function initialState(){
+//   return{
+//   auth: { ...auth.state },
+//   user: { ...user.state },
+//   post: { ...post.state },
+//   comment: { ...post.comment },
+// };
+// } 
+
 let initialState = {
   auth: { ...auth.state },
   user: { ...user.state },
   post: { ...post.state },
+  comment: { ...comment.state },
 };
 
 export const store = new Vuex.Store({
@@ -41,6 +52,11 @@ export const store = new Vuex.Store({
       namespaced: true,
       state: post.state,
       ...post
+    },
+    comment: {
+      namespaced: true,
+      state: comment.state,
+      ...comment
     }
   },
 
@@ -67,6 +83,20 @@ export const store = new Vuex.Store({
       });
     }
   }
+  
+    // mutations: {
+    //   [RESET_STATE_GLOBAL]:(state) =>{
+    //     // acquire initial state
+    //     const s = initialState()
+    //     debugger;
+    //     Object.keys(s).forEach(key => {
+    //       state[key] = s[key]
+    //        debugger;
+    //     })
+    //     console.log('state: ', state);
+    //     debugger;
+    //   }
+    // }
 
   // [RESET_STATE]: state => {
   //   // Object.keys(initialState).forEach(key => {

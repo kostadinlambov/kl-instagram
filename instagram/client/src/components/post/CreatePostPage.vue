@@ -66,7 +66,6 @@
               class="btn app-button-secondary post-image-btn"
               @click="$refs.fileInput.click()"
             >Pick File</button>
-            ImageClass: {{getImgClass}}
             <small
               v-if="!$v.postImage.required && $v.postImage.$dirty"
               id="postImageHelp"

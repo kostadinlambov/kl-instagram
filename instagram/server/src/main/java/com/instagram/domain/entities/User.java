@@ -1,5 +1,6 @@
 package com.instagram.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
 public class User extends BaseEntity implements UserDetails {
     private String username;
     private String email;
@@ -33,7 +34,7 @@ public class User extends BaseEntity implements UserDetails {
 //    private List<Post> userTimelineAllPosts;
 
     private List<Comment> createdCommentsList;
-    private List<Comment> userTimelineAllComments;
+//    private List<Comment> userTimelineAllComments;
 
     private List<Like> likeList;
 
@@ -45,6 +46,7 @@ public class User extends BaseEntity implements UserDetails {
     }
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
     public List<Follower> getFollowedUserList() {
         return this.followedUserList;
     }
@@ -54,6 +56,7 @@ public class User extends BaseEntity implements UserDetails {
     }
 
     @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL)
+    @JsonManagedReference
     public List<Follower> getFollowerList() {
         return this.followerList;
     }
@@ -63,6 +66,7 @@ public class User extends BaseEntity implements UserDetails {
     }
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
     public List<Like> getLikeList() {
         return this.likeList;
     }
@@ -72,6 +76,7 @@ public class User extends BaseEntity implements UserDetails {
     }
 
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
+    @JsonManagedReference
     public List<Post> getUserPostList() {
         return this.userPostList;
     }
@@ -90,6 +95,7 @@ public class User extends BaseEntity implements UserDetails {
 //    }
 
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
+    @JsonManagedReference
     public List<Comment> getCreatedCommentsList() {
         return this.createdCommentsList;
     }
@@ -98,14 +104,14 @@ public class User extends BaseEntity implements UserDetails {
         this.createdCommentsList = createdCommentsList;
     }
 
-    @OneToMany(mappedBy = "timelineUser", cascade = CascadeType.ALL)
-    public List<Comment> getUserTimelineAllComments() {
-        return this.userTimelineAllComments;
-    }
-
-    public void setUserTimelineAllComments(List<Comment> userTimelineAllComments) {
-        this.userTimelineAllComments = userTimelineAllComments;
-    }
+//    @OneToMany(mappedBy = "timelineUser", cascade = CascadeType.ALL)
+//    public List<Comment> getUserTimelineAllComments() {
+//        return this.userTimelineAllComments;
+//    }
+//
+//    public void setUserTimelineAllComments(List<Comment> userTimelineAllComments) {
+//        this.userTimelineAllComments = userTimelineAllComments;
+//    }
 
     @Override
     @Column(name = "username", nullable = false, unique = true, columnDefinition = "VARCHAR(50) BINARY")

@@ -1,10 +1,12 @@
 package com.instagram.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "followers")
+@Table(name = "followers", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
 public class Follower extends BaseEntity {
     private User user;
     private User follower;
@@ -16,6 +18,7 @@ public class Follower extends BaseEntity {
 
     @ManyToOne(optional = false, targetEntity = User.class)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonBackReference
     public User getUser() {
         return this.user;
     }
@@ -26,6 +29,7 @@ public class Follower extends BaseEntity {
 
     @ManyToOne(optional = false, targetEntity = User.class)
     @JoinColumn(name = "follower_id", referencedColumnName = "id")
+    @JsonBackReference
     public User getFollower() {
         return this.follower;
     }

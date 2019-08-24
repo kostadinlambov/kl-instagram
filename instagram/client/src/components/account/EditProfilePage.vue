@@ -376,5 +376,15 @@ input.error, textarea.error {
 
 
 .app-button-primary {
+  background-color: rgb(53, 73, 94);
+  color: white;
 }
+
+.app-button-primary:hover {
+  background: rgb(65, 184, 131);
+  color: #fff;
+  border: 1px solid #fff;
+  box-shadow: 0 0 14px 1px rgba(0, 0, 0, 0.3);
+}
+
 </style>

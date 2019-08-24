@@ -52,3 +52,15 @@ export const getCurrentPageFollowingPosts= state =>{
      }
      return 0;
 }
+
+
+// getLastComment
+export const getLastCommentFollowingPosts = (state) => (postId) =>  {
+    if( state.followingPosts.length > 0){
+        const comments = state.followingPosts.filter(post => post.id === postId)[0].comments
+        if(comments.length > 0){
+            return comments[comments.length-1];
+        }
+     }
+     return '';
+}

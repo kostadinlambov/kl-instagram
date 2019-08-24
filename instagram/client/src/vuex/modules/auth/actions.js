@@ -12,7 +12,7 @@ import {
   UPDATE_USER_IMAGE_CLASS,
   RESET_AUTH_STATE,
 } from "./mutationTypes";
-// import { RESET_STATE_GLOBAL } from "../../mutationTypes";
+import { RESET_STATE_GLOBAL } from "../../mutationTypes";
 import { userService } from "@/infrastructure/userService";
 
 export const registerAction = (context, payload) => {
@@ -90,6 +90,7 @@ export const logoutAction = context => {
   context.commit(RESET_AUTH_STATE);
   context.commit('post/RESET_POST_STATE', null, { root: true });
   context.commit('user/RESET_USER_STATE', null, { root: true });
+  context.commit('comment/RESET_COMMENT_STATE', null, { root: true });
 
   localStorage.clear();
   router.push("/login");

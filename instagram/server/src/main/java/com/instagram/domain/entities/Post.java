@@ -1,5 +1,6 @@
 package com.instagram.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -17,7 +18,7 @@ public class Post extends BaseEntity {
     private String location;
     private LocalDateTime time;
     private User creator;
-//    private User timelineUser;
+    //    private User timelineUser;
     private String cloudinaryPublicId;
     private List<Like> likes;
     private List<Comment> comments;
@@ -48,6 +49,7 @@ public class Post extends BaseEntity {
     public Integer getImageWidth() {
         return this.imageWidth;
     }
+
     public void setImageWidth(Integer imageWidth) {
         this.imageWidth = imageWidth;
     }
@@ -81,6 +83,7 @@ public class Post extends BaseEntity {
 
     @ManyToOne(targetEntity = User.class, optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonBackReference
     public User getCreator() {
         return this.creator;
     }

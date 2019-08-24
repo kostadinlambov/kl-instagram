@@ -49,6 +49,8 @@ public final class ResponseMessageConstants {
     //Comment Messages
     public static final String SUCCESSFUL_CREATE_COMMENT_MESSAGE = "Comment created successfully.";
     public static final String SUCCESSFUL_DELETE_COMMENT_MESSAGE = "Comment successfully deleted!";
+    public static final String SUCCESSFUL_GET_LAST_COMMENT_MESSAGE = "Last Comment successfully fetched!";
+    public static final String FAILURE_GET_LAST_COMMENT_MESSAGE = "There are no comments to this post!";
 
     // Relationship Messages
     public static final String SUCCESSFUL_FRIEND_REQUEST_SUBMISSION_MESSAGE = "Your friend request have been successfully submitted!";

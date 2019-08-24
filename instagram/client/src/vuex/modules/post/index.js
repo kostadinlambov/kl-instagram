@@ -16,7 +16,8 @@ import {
   RESET_FOLLOWING_POSTS_STATE,
   UPDATE_CREATOR_IMAGE_CLASS,
   FETCH_FOLLOWING_POSTS,
-  CHANGE_POST_LIKE_SUCCESS
+  CHANGE_POST_LIKE_SUCCESS,
+  ADD_COMMENT_TO_FOLLOWING_POSTS,
 } from "./mutationTypes";
 
 // initial state
@@ -75,6 +76,25 @@ const mutations = {
   [CHANGE_POST_LIKE_SUCCESS]: (state, postId, change) => {
     changePostLikeCount(state, postId, change);
   },
+
+  [ADD_COMMENT_TO_FOLLOWING_POSTS]: (state, comment)=> {
+    const postId = comment.postId;
+
+    const newArr = state.followingPosts.map(post => {
+       if(post.id != postId){
+         return post;
+       }
+
+       const comments = [...post.comments, comment];
+
+       return {
+        ...post, comments
+       }
+     })
+
+     state.followingPosts = [...newArr];
+  },
+
 
   [RESET_FOREIGN_POSTS_STATE]: state => {
     state.foreignPosts = [];

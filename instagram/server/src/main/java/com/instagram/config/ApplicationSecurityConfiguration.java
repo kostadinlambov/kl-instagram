@@ -74,7 +74,9 @@ public class ApplicationSecurityConfiguration
                         "/post/all/*",
                         "/post/notMy/*",
                         "/post/following/*",
-                        "/like/changePostLike"
+                        "/like/changePostLike",
+                        "/comment/create",
+                        "comment/last/*"
 //                        "/relationship/friends/*",
 //                        "/relationship/findFriends/*",
 //                        "/relationship/addFriend",
@@ -86,7 +88,6 @@ public class ApplicationSecurityConfiguration
 //                        "/pictures/add",
 //                        "/pictures/remove",
 //                        "/post/remove",
-//                        "/comment/create",
 //                        "/comment/remove",
 //                        "/message/create",
 //                        "/message/all/*",

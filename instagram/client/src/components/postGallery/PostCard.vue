@@ -135,7 +135,7 @@ img.gallery-img {
   /* transition: transform 1.5s; */
 }
 
-.gallery-img.l {
+.gallery-img.l{
   position: absolute;
   display: block;
   width: auto;

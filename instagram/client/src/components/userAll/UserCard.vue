@@ -95,7 +95,7 @@ export default {
   position: relative;
   overflow: hidden;
   border-radius: 50%;
-   box-shadow: 0px 0px 12px 2px rgba(65, 184, 131, 0.5);
+  box-shadow: 0px 0px 12px 2px rgba(65, 184, 131, 0.5);
 }
 
 .profile-pick-container:after {
