@@ -47,8 +47,6 @@ export const loginAction = (context, payload) => {
   requester
     .post("login", payload)
     .then(res => {
-      console.log("res => ", res);
-
       const id = userService.getUserId();
       context.dispatch("fetchLoggedInUser", { id });
       context.dispatch("user/fetchAllUsersAction", { id }, { root: true });
@@ -63,7 +61,7 @@ export const loginAction = (context, payload) => {
         type: "success"
       });
 
-      router.push("/");
+      router.push("/home");
     })
     .catch(err => {
       let message = "Server error!";

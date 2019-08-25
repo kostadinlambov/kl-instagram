@@ -1,19 +1,18 @@
 <template>
   <div class="container">
     <div class="col-md-12">
-      <div class="modal fade" id="follower-modal">
+      <div class="modal fade" id="post-modal">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
               <div></div>
-              <h1 v-if="followingModal">Following</h1>
-              <h1 v-else>Followers</h1>
+              <h1>Hello from Modal</h1>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-              <People v-bind:wrapperPeople="wrapperClass" :followingModal="followingModal" :followerModal="followerModal" />
+              <post-details > </post-details>
             </div>
           </div>
         </div>
@@ -23,12 +22,12 @@
 </template>
 
 <script>
-import People from "../people/People";
+import PostDeatils from "./PostDeatils";
 
 export default {
-  name: "follower-modal",
+  name: "post-modal",
   components: {
-    People
+    PostDeatils
   },
   props: {
     followingModal: {

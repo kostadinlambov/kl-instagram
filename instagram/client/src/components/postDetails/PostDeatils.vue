@@ -32,17 +32,14 @@
                 </div>
               </div>
               <div class="nav-item comments-icon-wrapper">
-                <router-link
-                  :to="{name:'post-details', params: {postId: post.id}}"
-                  class="nav-link"
-                >
+                <label for="post-textarea"  class="nav-link comment-label">
                   <i class="far fa-comments"></i>
-                </router-link>
+                </label>
               </div>
             </div>
             <div class="right-side-icons">
-              <div class="nav-link bookmark-icon-wrapper"  @click="bookmarkHandler">
-                  <i class="far fa-bookmark"></i>
+              <div class="nav-link bookmark-icon-wrapper" @click="bookmarkHandler">
+                <i class="far fa-bookmark"></i>
               </div>
             </div>
           </div>
@@ -51,6 +48,7 @@
           <section class="add-comment-section">
             <form class="post-form" @submit.prevent="onCommentSubmit">
               <textarea-autosize
+                id="post-textarea"
                 class="post-textarea"
                 placeholder="Add a comment..."
                 ref="someName"
@@ -82,12 +80,17 @@ export default {
   components: { UserFeedUserCard, CommentCard, PostCreatorCard },
   data() {
     return {
-      postId: this.$route.params.postId,
+      postId: this.$route.params.postId || this.postIdFromModal,
       content: "",
       hasUserLikedPost: {
         color: "red"
       }
     };
+  },
+  props: {
+    postIdFromModal: {
+      type: String
+    }
   },
   validations: {
     content: {
@@ -126,15 +129,12 @@ export default {
       const imageClass = this.postImageSizeClass;
       const creatorProfilePicUrl = this.profilePicUrl;
       return { ...this.post, imageClass, content, creatorProfilePicUrl };
-    },
+    }
   },
   methods: {
     ...mapActions("post", ["fetchPostDetails", "changePostLikeCount"]),
     ...mapActions("user", ["fetchUserDetails"]),
-    ...mapActions("comment", [
-      "createComment",
-      "fetchComments"
-    ]),
+    ...mapActions("comment", ["createComment", "fetchComments"]),
 
     likeHandler() {
       const data = {
@@ -144,8 +144,8 @@ export default {
 
       this.changePostLikeCount(data);
     },
-    bookmarkHandler(){
-       const data = {
+    bookmarkHandler() {
+      const data = {
         postId: this.post.id,
         userId: this.loggedInUser.id
       };
@@ -164,9 +164,9 @@ export default {
   },
   created() {
     const data = {
-        postId: this.postId,
-        loggedInUserId: this.loggedInUser.id
-      };
+      postId: this.postId,
+      loggedInUserId: this.loggedInUser.id
+    };
     this.fetchPostDetails(data);
     this.fetchUserDetails(this.postId);
     this.fetchComments(this.postId);
@@ -211,6 +211,16 @@ export default {
   /* margin-right: 335px; */
 }
 
+.comments-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 305px;
+  width: 100%;
+  overflow: auto;
+  border: 1px solid #e6e6e6;
+
+}
+
 .profile-pick-container {
   flex: 0 0 2.5rem;
   /* width: 3rem; */
@@ -250,23 +260,8 @@ export default {
 .post-image-container {
   background: white;
   border: 1px solid #e6e6e6;
+  /* width: 100%; */
 }
-
-/* .post-info-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-left: 0.7rem;
-} */
-
-/* .username-container {
-  text-align: left; */
-/* display: flex;
-  justify-content: space-between; */
-/* align-items: center; */
-/* width: 100%; */
-/* } */
 
 img {
   /* width: 100%; */
@@ -339,14 +334,6 @@ i.fa-heart:hover {
   cursor: pointer;
 }
 
-.comments-wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 300px;
-  width: 100%;
-  overflow: auto;
-}
-
 a.caption-username,
 a.comment-username,
 a.header-username {
@@ -366,7 +353,8 @@ a.header-username:hover {
   color: rgb(65, 184, 131);
 }
 
-.caption-text {
+.comment-label{
+  margin-bottom: 0;
 }
 
 .count-comments {
@@ -467,9 +455,19 @@ textarea-autosize {
   height: 18px;
 }
 
+@media screen and (max-width: 1600px) {
+  .comments-wrapper {
+    height: 320px;
+  }
+}
+
 @media screen and (max-width: 900px) {
   .user-feed-postcard-article {
     margin-bottom: 10px;
+  }
+
+  .comments-section {
+    display: none;
   }
 }
 </style>

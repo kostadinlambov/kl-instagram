@@ -47,6 +47,7 @@ export default {
   background: rgb(255, 255, 255);
   padding: 0.5rem 1rem;
   border-radius: 5px;
+  /* font-size: 0.8rem; */
 }
 
 .content-wrapper {
@@ -72,7 +73,7 @@ export default {
   padding-top: 100%;
 }
 
-.profile-pick-container img {
+.profile-pick-container img.l {
   display: block;
   position: absolute;
   width: 100%;
@@ -82,7 +83,7 @@ export default {
   transform: translate(-50%, -50%);
 }
 
-.profile-pick-container img.l {
+.profile-pick-container img {
   display: block;
   position: absolute;
   width: auto;

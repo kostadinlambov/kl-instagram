@@ -58,20 +58,15 @@
         </div>
       </header>
       <div class="gallery-navbar-wrapper">
-        <router-link class="title-link align-middle" to="#">
+        <router-link class="title-link align-middle active" to="#">
           <i class="fas fa-border-all"></i>
           <span class="bookmark-icon-span">POSTS</span>
         </router-link>
-        <router-link class="title-link" to="#">
+        <div class="title-link bookmark-wrapper">
           <i class="far fa-bookmark"></i>
           <span class="bookmark-icon-span">SAVED</span>
-        </router-link>
+        </div>
       </div>
-      <!-- <div class="gallery-container">
-        <ul class="gallery-wrapper">
-          <post-card v-for="post in posts" v-bind:key="post.id" v-bind:currentPost="post"></post-card>
-        </ul>
-      </div>-->
 
       <PostGallery :posts="posts" />
     </div>
@@ -79,7 +74,7 @@
       <router-link to="#" class="nav-link" data-toggle="modal" data-target="#testleModalId">Modal</router-link>
     </li>-->
 
-    <FollowerModal :followingModal="followingModal" :followerModal="followerModal" />
+    <follower-modal :followingModal="followingModal" :followerModal="followerModal" ></follower-modal>
   </main>
 </template>
 <script>
@@ -94,7 +89,7 @@ export default {
   name: "user-home-page",
   components: {
     FollowerModal,
-    PostGallery
+    PostGallery,
   },
   data() {
     return {
@@ -429,11 +424,29 @@ span.bio {
 .title-link:hover {
   color: rgb(65, 184, 131);
   border-top: 1px solid rgb(65, 184, 131);
+  cursor:pointer;
 }
 
 .bookmark-icon-span {
   margin-left: 5px;
 }
+
+.bookmark-wrapper:hover{
+
+}
+
+a.active{
+  color: rgb(65, 184, 131);
+  border-top: 1px solid rgb(65, 184, 131);
+  font-weight: 600;
+  pointer-events: none;
+  cursor: default;
+}
+
+/* a.active:hover{
+  cursor: pointer;
+  color:  rgb(53, 73, 94);
+} */
 
 /*############ picture gallery grid #######################*/
 .gallery-container {

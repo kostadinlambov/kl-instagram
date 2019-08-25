@@ -1,21 +1,22 @@
 <template>
-  <router-link class="image-container" to="#">
-    <img :class="['gallery-img', currentPost.imageClass ]" :src="imageUrl" alt />
-    <div class="img-details">
-      <div class="likes-and-comments">
-        <div class="likes">
-          <i class="fas fa-heart"></i>
-          <span>{{currentPost.likeCount}}</span>
-          {{currentPost.imageClass}}
-          {{currentPost.creatorUsername}}
-        </div>
-        <div class="comments">
-          <i class="fas fa-comments"></i>
-          <span>{{currentPost.comments.length}}</span>
+    <router-link
+      class="image-container"
+      :to="{name:'post-details', params: {postId: currentPost.id}}"
+    >
+      <img :class="['gallery-img', currentPost.imageClass ]" :src="imageUrl" alt />
+      <div class="img-details">
+        <div class="likes-and-comments">
+          <div class="likes">
+            <i class="fas fa-heart"></i>
+            <span>{{currentPost.likeCount}}</span>
+          </div>
+          <div class="comments">
+            <i class="fas fa-comments"></i>
+            <span>{{currentPost.comments.length}}</span>
+          </div>
         </div>
       </div>
-    </div>
-  </router-link>
+    </router-link>
 </template>  
 
 <script>
@@ -24,11 +25,12 @@ import { userService } from "@/infrastructure/userService";
 
 export default {
   name: "post-card",
+  components: {
+  },
   data() {
     return {
       posts: [],
       placeholder: placeholderLink,
-      // imageUrl: this.currentPost.imageUrl || this.placeholder,
       imageClass: ""
     };
   },
@@ -81,21 +83,6 @@ export default {
 
 <style scoped>
 /*############ picture gallery grid #######################*/
-/* .gallery-container {
-  max-width: 935px;
-  width: 100%;
-  padding: 40px 0 0;
-  margin: auto;
-}
-
-.gallery-wrapper {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 32%);
-  gap: 1rem;
-  justify-content: space-around;
-  align-content: stretch;
-} */
 
 .image-container {
   /* width: 280px;
@@ -110,6 +97,10 @@ export default {
   position: relative;
 
   transition: transform 1.5s;
+}
+
+a.image-container:hover {
+  cursor: pointer;
 }
 
 .image-container:after {
@@ -135,7 +126,7 @@ img.gallery-img {
   /* transition: transform 1.5s; */
 }
 
-.gallery-img.l{
+.gallery-img.l {
   position: absolute;
   display: block;
   width: auto;

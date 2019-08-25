@@ -95,12 +95,6 @@ export default {
       following: "getFollowing",
       followingCandidates: "getFollowingCandidates"
     })
-    // orderByFollowingAsc(){
-    //   return this.users.sort((firstUser, secondUser) => secondUser.active - firstUser.active)
-    // },
-    // orderByFollowingDesc(){
-    //   return this.users.sort((firstUser, secondUser) => firstUser.active - secondUser.active)
-    // }
   },
 
   methods: {
@@ -111,12 +105,10 @@ export default {
     ]),
 
     onFollowHandler(userId) {
-      debugger;
       this.followUserAction(userId);
     },
 
     onUnFollowHandler(userId) {
-       debugger;
       this.unFollowUserAction(userId);
     },
 
@@ -130,27 +122,11 @@ export default {
         (firstUser, secondUser) => firstUser.active - secondUser.active
       );
     },
-
-    addEventListeners() {
-      // this.$root.$on("on-follow", this.onFollowHandler);
-      // this.$root.$on("on-unfollow", this.onUnFollowHandler);
-    }
   },
-
-  // created() {
-  //   this.fetchAllUsersAction({ id: this.loggedInUserId });
-  // },
 
   mounted() {
-    this.addEventListeners();
-    // this.orderByFollowingAsc();
     this.orderByFollowingDesc();
   },
-
-  beforeDestroy() {
-    this.$root.$off("on-follow");
-    this.$root.$off("on-unfollow");
-  }
 };
 </script>
 

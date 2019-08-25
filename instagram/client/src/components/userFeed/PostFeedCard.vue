@@ -93,9 +93,6 @@
             :min-height="10"
             :max-height="80"
           ></textarea-autosize>
-          <!-- @blur.native="onBlurTextarea" -->
-          <!-- :style="{height: '10px'}" -->
-
           <button :disabled="$v.$invalid" class="btn app-button-secondary btn-sm">Post</button>
         </form>
       </section>
@@ -132,9 +129,6 @@ export default {
   computed: {
     ...mapGetters("auth", {
       loggedInUser: "getLoggedInUserData"
-    }),
-    ...mapGetters("post", {
-      // getLastComment: "getLastCommentFollowingPosts"
     }),
     ...mapGetters("comment", {
       getLastComment: "getLastComment"
@@ -195,7 +189,6 @@ export default {
     ...mapActions("comment", ["createComment", "fetchLastCommentByPostId"]),
 
     likeHandler() {
-      debugger;
       const data = {
         postId: this.post.id,
         userId: this.loggedInUser.id
@@ -209,7 +202,6 @@ export default {
         postId: this.post.id,
         loggedInUserId: this.loggedInUser.id
       };
-      debugger;
       this.createComment(data);
       this.content = "";
     }

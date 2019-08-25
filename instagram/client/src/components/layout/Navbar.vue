@@ -5,7 +5,7 @@
       <section class="navbar-section">
         <div class="navbar-wrapper">
           <nav class="navbar navbar-expand-lg">
-            <router-link to="/" class="navbar-brand insta-icon-container">
+            <router-link to="/home" class="navbar-brand insta-icon-container">
               <i class="fab fa-instagram"></i>
               <div class="vertical-line"></div>
               <div>Instagram</div>
@@ -27,18 +27,7 @@
             </label>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav mr-auto">
-                <!-- <li class="nav-item active">
-                  <router-link to="/home" class="nav-link">
-                    Home
-                    <span class="sr-only">(current)</span>
-                  </router-link>
-                </li>
-                <li class="nav-item">
-                  <router-link to="/about" class="nav-link" href="#"><i class="far fa-heart">About</i></router-link>
-                </li>-->
-              </ul>
-
+              <ul class="navbar-nav mr-auto"></ul>
               <ul class="navbar-nav" v-if="isLoggedIn">
                 <!-- <form class="form-inline my-2 my-lg-0">
                   <input
@@ -48,7 +37,7 @@
                     aria-label="Search"
                   />
                   <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form> -->
+                </form>-->
               </ul>
 
               <ul class="navbar-nav ml-auto">
@@ -67,33 +56,48 @@
                     </router-link>
                   </li>
                   <li class="nav-item">
-                    <router-link to="/account/activity" class="nav-link">
+                    <router-link to="/people" class="nav-link">
                       <i class="fas fa-heart"></i>
                     </router-link>
                   </li>
-                  <!-- <li class="nav-item">
-                    <router-link :to="getUserHomePageRoute()" class="nav-link">
-                      <i class="fas fa-user-alt"></i>
-                    </router-link>
-                  </li> -->
-                    <li class="nav-item">
-                    <router-link :to="{name:'single-user-page', params: {'username': loggedInUserData.username}}" class="nav-link">
+                  <li class="nav-item">
+                    <router-link
+                      :to="{name:'single-user-page', params: {'username': loggedInUserData.username}}"
+                      class="nav-link"
+                    >
                       <i class="fas fa-user-alt"></i>
                     </router-link>
                   </li>
-                  
-                  <!-- <li class="nav-item">
-                    <router-link to="#" class="nav-link" data-toggle="modal" data-target="#testleModalId">
-                      Modal
-                    </router-link>
-                  </li> -->
-                  <!-- <li class="nav-item" >
-                    <router-link to="/user/profile" class="nav-link">
-                      <i class="fas fa-user-alt"></i>
-                    </router-link>
-                  </li>-->
-                  <li class="nav-item" v-on:click="logout">
-                    <router-link class="nav-link" to="/login">Logout</router-link>
+
+                  <li class="nav-item custom-dropdown">
+                    <div class="btn-group">
+                      <div
+                        class="nav-link custom-dropdown-button dropdown-toggle"
+                        data-toggle="dropdown"
+                      >
+                        <i class="fas fa-ellipsis-v"></i>
+                      </div>
+                      <div class="dropdown-menu dropdown-menu-right" >
+                        <router-link
+						v-if="isLoggedInUserAdminOrRoot"
+                          to="/admin/all"
+                          class="dropdown-item custom-dropdown-items"
+                        >
+                          All Users
+                        </router-link>
+                        <div v-on:click="logout">
+                          <router-link
+                            class="dropdown-item custom-dropdown-items"
+                            to="/login"
+                          >Logout</router-link>
+                        </div>
+
+                        <!-- <router-link to="/account/activity" class="dropdown-item custom-dropdown-items">
+                            Activity
+                            <i class="fas fa-heart">Activity</i>
+                        </router-link>-->
+                      </div>
+                    </div>
                   </li>
                 </template>
               </ul>
@@ -111,29 +115,52 @@ import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Navbar",
-  components: {
-  },
+  components: {},
   data() {
-    return {
-    };
+    return {};
   },
   computed: {
-    ...mapGetters('auth', {
-      isLoggedIn: 'getIsLoggedIn', 
-      loggedInUserData: 'getLoggedInUserData'
-    })
+    ...mapGetters("auth", {
+      isLoggedIn: "getIsLoggedIn",
+      loggedInUserData: "getLoggedInUserData"
+	}),
+	isLoggedInUserAdminOrRoot(){
+		return this.loggedInUserData.role === 'ROOT' || this.loggedInUserData.role === 'ADMIN'
+	}
   },
   methods: {
     ...mapActions("auth", ["logoutAction"]),
 
     logout() {
       this.logoutAction();
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style scoped>
+.dropdown-toggle::after {
+  display: none;
+}
+.custom-dropdown-button {
+  color: rgb(192, 192, 192);
+}
+.custom-dropdown-button:hover {
+  color: white;
+}
+
+.custom-dropdown-items {
+  text-align: center;
+}
+
+.custom-dropdown-items:hover {
+  color: rgb(65, 184, 131);
+}
+
+.fa-ellipsis-v:hover{
+	cursor: pointer;
+}
+
 .navbar-section {
   /* background: rgb(65, 184, 131); */
   background: rgb(53, 73, 94);
