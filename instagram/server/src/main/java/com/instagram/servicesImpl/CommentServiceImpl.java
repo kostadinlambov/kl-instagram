@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.instagram.utils.constants.ResponseMessageConstants.SERVER_ERROR_MESSAGE;
 
@@ -91,5 +92,23 @@ public class CommentServiceImpl implements CommentService {
         }
 
         return null;
+    }
+
+    @Override
+    public List<CommentViewModel> getAllByPostId(String postId) throws Exception {
+        Post post = this.postRepository
+                .findById(postId)
+                .filter(postValidation::isValid)
+                .orElseThrow(Exception::new);
+
+        List<Comment> comments = this.commentRepository.getCommentByPostIdOrderByTimeAsc(postId);
+
+        List<CommentViewModel> commentViewModels = comments.stream()
+                .map(comment -> this.modelMapper
+                        .map(comment, CommentViewModel.class))
+                .collect(Collectors.toList());
+
+        System.out.println();
+        return commentViewModels;
     }
 }

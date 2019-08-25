@@ -36,4 +36,6 @@ public interface UserService extends UserDetailsService {
     boolean updateUser(UserServiceModel userServiceModel, String loggedInUserId) throws Exception;
 
     boolean deleteUserById(String id) throws Exception;
+
+    UserDetailsViewModel getUserByPostId(String postId) throws Exception;
 }

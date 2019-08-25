@@ -35,7 +35,7 @@
             </div>
           </div>
           <div class="nav-item comments-icon-wrapper">
-            <router-link to="/account/activity" class="nav-link">
+            <router-link :to="{name:'post-details', params: {postId: post.id}}" class="nav-link">
               <i class="far fa-comments"></i>
             </router-link>
           </div>
@@ -58,7 +58,9 @@
           <span class="caption-text">{{post.caption}}</span>
         </div>
         <div class="count-comments" v-if="lastComment">
-          <router-link to="#" class>View all {{getCommentsCount}} comments</router-link>
+          <router-link
+            :to="{name:'post-details', params: {postId: post.id}}"
+          >View all {{getCommentsCount}} comments</router-link>
         </div>
         <div class="count-comments" v-else>
           <router-link to="#" class>Write the first comment...</router-link>
@@ -355,6 +357,20 @@ img {
   align-items: center;
 }
 
+
+i.fa-heart,
+i.fa-comments,
+i.fa-bookmark {
+  color: black;
+}
+
+i.fa-comments:hover,
+i.fa-bookmark:hover,
+i.fa-heart:hover {
+  color: rgb(65, 184, 131);
+  cursor: pointer;
+}
+
 .comments-wrapper {
   text-align: left;
   padding: 8px 16px;
@@ -380,6 +396,7 @@ a.header-username:hover {
 }
 
 .caption-text {
+  word-break: break-all;
 }
 
 .count-comments {
@@ -410,6 +427,11 @@ a.header-username:hover {
   text-align: left;
   margin: 0 16px 8px;
   font-size: 14px;
+}
+
+.comment-text {
+  margin-left: 5px;
+  word-break: break-all;
 }
 
 .add-comment-section {

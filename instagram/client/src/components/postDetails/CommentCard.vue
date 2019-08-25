@@ -1,30 +1,68 @@
 <template>
-  <div class="card-container">
-    <div class="content-wrapper">
-      <div class="profile-pick-container">
-        <img v-bind:class="user.imageClass" :src="user.profilePicUrl" alt="user-pic" />
-        <!-- <img v-bind:class="imageSizeClass" :src="profilePicUrl" alt="user-pic" /> -->
-      </div>
-      <div class="usernames-container">
-        <router-link
-          :to="{'name':'single-user-page', 'params': {'username': user.username}}"
-          class="username"
-        >{{user.username}}</router-link>
-        <div class="names">{{user.firstName}} {{user.lastName}}</div>
+  <div>
+    <div class="card-container">
+      <div class="content-wrapper">
+        <div class="profile-pick-container">
+          <img v-bind:class="comment.imageClass" :src="comment.creatorProfilePicUrl" alt="user-pic" />
+          <!-- <img v-bind:class="imageSizeClass" :src="profilePicUrl" alt="user-pic" /> -->
+        </div>
+        <div class="usernames-container">
+          <router-link
+            :to="{'name':'single-user-page', 'params': {'username': comment.creatorUsername}}"
+            class="username"
+          >{{comment.creatorUsername}}</router-link>
+          <span class="comment-text">{{comment.content}}</span>
+          <!-- <div class="names">{{user.firstName}} {{user.lastName}}</div> -->
+        </div>
       </div>
     </div>
+    <div class="time">{{getTime}}</div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
-
 export default {
-  name: "logged-in-user-card",
+  name: "comment-card",
+  props: {
+    comment: {
+      type: Object,
+      required: true
+    }
+  },
   computed: {
-    ...mapGetters("auth", {
-      user: "getLoggedInUserData"
-    })
+    profilePicUrl() {
+      return this.comment.creatorProfilePicUrl || placeholderLink;
+    },
+    getTime() {
+      if (!this.comment.time) {
+        return;
+      }
+
+      const dayTime = this.comment.time.hour <= 12 ? "AM" : "PM";
+      const month =
+        this.comment.time.month.substring(0, 1) +
+        this.comment.time.month.substring(1).toLowerCase();
+      const hour =
+        this.comment.time.hour < 10
+          ? "0" + this.comment.time.hour
+          : this.comment.time.hour;
+      const minute =
+        this.comment.time.minute < 10
+          ? "0" + this.comment.time.minute
+          : this.comment.time.minute;
+
+      return (
+        this.comment.time.dayOfMonth +
+        " " +
+        month +
+        " " +
+        hour +
+        ":" +
+        minute +
+        " " +
+        dayTime
+      );
+    }
   }
 };
 </script>
@@ -34,23 +72,24 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid #e6e6e6;
+  /* border: 1px solid #e6e6e6; */
   /* flex-wrap: wrap; */
   background: rgb(255, 255, 255);
   padding: 0.5rem 1rem;
   border-radius: 5px;
+  font-size: 0.8rem;
 }
 
 .content-wrapper {
   display: flex;
-  justify-content: start;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   /* border: 2px solid blue; */
   width: 100%;
 }
 
 .profile-pick-container {
-  flex: 0 0 3rem;
+  flex: 0 0 2rem;
   /* width: 3rem; */
   position: relative;
   overflow: hidden;
@@ -85,38 +124,33 @@ export default {
 }
 
 .usernames-container {
-  margin-left: 20px;
+  margin-left: 10px;
   text-align: left;
 }
 
 a.username {
   font-weight: 600;
-  color: #262626;
+  color: rgb(65, 184, 131);
   text-decoration: none;
 }
 
 a.username:hover {
-  color: rgb(65, 184, 131);
-}
-
-.names {
   color: rgb(53, 73, 94);
 }
 
-.buttons-wrapper {
-  flex: 0 1 50%;
-  display: flex;
-  justify-content: flex-end;
+.comment-text {
+  margin-left: 5px;
+  word-break: break-all;
+}
+
+.time{
+  font-size: 0.7rem;
+  text-align: right;
   margin-right: 5px;
-}
+  border-bottom: 1px solid #e6e6e6;
+  font-weight: 500;
+  color: #999;
 
-.buttons-wrapper button {
-  margin-left: 10px;
-}
-
-.user-role {
-  margin-left: 10px;
-  margin: auto;
 }
 
 .app-button-primary {

@@ -1,15 +1,18 @@
 package com.instagram.servicesImpl;
 
+import com.instagram.domain.entities.Post;
 import com.instagram.domain.entities.User;
 import com.instagram.domain.entities.UserRole;
 import com.instagram.domain.models.serviceModels.UserServiceModel;
 import com.instagram.domain.models.viewModels.user.UserCreateViewModel;
 import com.instagram.domain.models.viewModels.user.UserDetailsViewModel;
 import com.instagram.domain.models.viewModels.user.UserPeopleViewModel;
+import com.instagram.repositories.PostRepository;
 import com.instagram.repositories.RoleRepository;
 import com.instagram.repositories.UserRepository;
 import com.instagram.services.UserService;
 import com.instagram.utils.responseHandler.exceptions.CustomException;
+import com.instagram.validations.serviceValidation.services.PostValidationService;
 import com.instagram.validations.serviceValidation.services.UserValidationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,15 +31,19 @@ import static com.instagram.utils.constants.ResponseMessageConstants.*;
 @Transactional
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final PostRepository postRepository;
     private final UserValidationService userValidation;
+    private final PostValidationService postValidation;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final RoleRepository roleRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserValidationService userValidation, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder, RoleRepository roleRepository) {
+    public UserServiceImpl(UserRepository userRepository, PostRepository postRepository, UserValidationService userValidation, PostValidationService postValidation, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.postRepository = postRepository;
         this.userValidation = userValidation;
+        this.postValidation = postValidation;
         this.modelMapper = modelMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.roleRepository = roleRepository;
@@ -161,6 +168,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDetailsViewModel getUserByPostId(String postId) throws Exception {
+        Post post = this.postRepository
+                .findById(postId)
+                .filter(postValidation::isValid)
+                .orElseThrow(Exception::new);
+
+        User user = this.userRepository.findById(post.getCreator().getId())
+                .filter(userValidation::isValid)
+                .orElseThrow(Exception::new);
+
+        String userAuthority = this.getUserAuthority(user.getId());
+        UserDetailsViewModel userFromDb = this.modelMapper.map(user, UserDetailsViewModel.class);
+        userFromDb.setRole(userAuthority);
+
+        return userFromDb;
+    }
+
+    @Override
     public boolean updateUser(UserServiceModel userServiceModel, String loggedInUserId) throws Exception {
         if (!userValidation.isValid(userServiceModel)) {
             throw new Exception(SERVER_ERROR_MESSAGE);
@@ -210,6 +235,8 @@ public class UserServiceImpl implements UserService {
             throw new Exception(SERVER_ERROR_MESSAGE);
         }
     }
+
+
 
     @Override
     public List<UserServiceModel> getAllUsersAdmin(String userId) throws Exception {

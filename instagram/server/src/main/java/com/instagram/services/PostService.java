@@ -19,4 +19,6 @@ public interface PostService {
     List<PostAllViewModel> getOnePageUserPostsByUsername(String username, int pageNumber) throws Exception;
 
     List<PostAllViewModel> getOnePageFollowingPostsByUserId(String id, int pageNumber) throws Exception;
+
+    PostAllViewModel getPostDetails(String postId, String loggedInUserId) throws Exception;
 }

@@ -2,88 +2,36 @@
   <div class="card-container">
     <div class="content-wrapper">
       <div class="profile-pick-container">
-        <img v-bind:class="imageSizeClass" :src="profilePicUrl" alt="user-pic" />
+        <img v-bind:class="user.imageClass" :src="profilePicUrl" alt="user-pic" />
+        <!-- <img v-bind:class="imageSizeClass" :src="profilePicUrl" alt="user-pic" /> -->
       </div>
       <div class="usernames-container">
-        <router-link 
-          :to="{'name':'single-user-page', 'params': {'username': username}}"
-          class="username">
-             {{username}}
-        </router-link>
-        <div
-          class="names" :style="userNameStyle"
-        >{{firstName}} {{lastName}}</div>
+        <router-link
+          :to="{'name':'single-user-page', 'params': {'username': user.username}}"
+          class="username"
+        >{{user.username}}</router-link>
+        <div class="names">{{user.firstName}} {{user.lastName}}</div>
       </div>
-    </div>
-
-    <div class="buttons-wrapper" v-if="!currentUser.active">
-      <button
-        class="btn app-button-primary btn-sm"
-        v-on:click="follow(userId)"
-      >Follow</button>
-    </div>
-    <div class="buttons-wrapper" v-else>
-      <button
-        class="btn app-button-secondary btn-sm"
-        v-on:click="unfollow(userId )"
-      >Following</button>
     </div>
   </div>
 </template>
 
 <script>
-import placeholderLink from "../../assets/images/placeholder.png";
-import { userService } from "../../infrastructure/userService";
+import { mapGetters, mapActions } from "vuex";
+import placeholderLink from "@/assets/images/placeholder.png";
+
 
 export default {
-  name: "people-card",
-  data() {
-    return {
-      placeholder: placeholderLink,
-    };
+  name: "user-feed-user-card",
+  computed: {
+    profilePicUrl(){
+      return this.user.profilePicUrl || placeholderLink;
+    }
   },
   props: {
-    currentUser: {
+    user: {
       type: Object,
       required: true
-    },
-    userNameStyle:{
-      type: Object
-    }
-  },
-  computed: {
-    userId(){
-      return (this.currentUser.followerId || this.currentUser.userId || this.currentUser.id);
-    },
-    username(){
-      return (this.currentUser.username || this.currentUser.followerUsername || this.currentUser.userUsername);
-    },
-    firstName(){
-      return (this.currentUser.firstName || this.currentUser.followerFirstName || this.currentUser.userFirstName);
-    },
-    lastName(){
-      return (this.currentUser.lastName || this.currentUser.lastName || this.currentUser.lastName);
-    },
-    profilePicUrl() {
-      return (
-        this.currentUser.profilePicUrl ||
-        this.currentUser.userProfilePicUrl ||
-        this.currentUser.followerProfilePicUrl ||
-        this.placeholder
-      );
-    },
-    imageSizeClass() {
-      return this.currentUser.imageClass || '';
-    }
-  },
-  methods: {
-    follow(userId) {
-      // this.$root.$emit("on-follow", userId);
-      this.$emit("on-follow", userId);
-    },
-    unfollow(userId) {
-      // this.$root.$emit("on-unfollow", userId);
-      this.$emit("on-unfollow", userId);
     }
   }
 };
@@ -94,9 +42,8 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border: 1px solid #e6e6e6;
   /* flex-wrap: wrap; */
-
-  /* border: 2px solid red; */
   background: rgb(255, 255, 255);
   padding: 0.5rem 1rem;
   border-radius: 5px;
@@ -125,7 +72,7 @@ export default {
   padding-top: 100%;
 }
 
-.profile-pick-container img{
+.profile-pick-container img {
   display: block;
   position: absolute;
   width: 100%;
@@ -135,7 +82,7 @@ export default {
   transform: translate(-50%, -50%);
 }
 
-.profile-pick-container img.l  {
+.profile-pick-container img.l {
   display: block;
   position: absolute;
   width: auto;
@@ -148,8 +95,6 @@ export default {
 .usernames-container {
   margin-left: 20px;
   text-align: left;
-    overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 a.username {
@@ -158,15 +103,12 @@ a.username {
   text-decoration: none;
 }
 
-a.username:hover{
+a.username:hover {
   color: rgb(65, 184, 131);
 }
 
-
 .names {
   color: rgb(53, 73, 94);
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .buttons-wrapper {

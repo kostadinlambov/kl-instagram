@@ -7,15 +7,18 @@
           <router-link class="people-link" to="/people">See All</router-link>
         </div>
       </div>
-      <section class="people-section"  v-if="followingCandidates.length > 0">
+      <section class="people-section" v-if="followingCandidates.length > 0">
         <div v-for="user in followingCandidates" :key="user.id">
-          <people-card v-bind:currentUser="user" :userNameStyle="{'display': 'none'}"></people-card>
+          <people-card
+            v-bind:currentUser="user"
+            :userNameStyle="{'display': 'none'}"
+            v-on:on-follow="onFollowHandler"
+            v-on:on-unfollow="onUnFollowHandler"
+          ></people-card>
         </div>
       </section>
-      <section class="people-section"  v-else >
-        <div class="user-message">
-          You are following all registered users on Instagram...!
-        </div>
+      <section class="people-section" v-else>
+        <div class="user-message">You are following all registered users on Instagram...!</div>
       </section>
     </div>
   </article>
@@ -86,8 +89,8 @@ export default {
     },
 
     addEventListeners() {
-      this.$root.$on("on-follow", this.onFollowHandler);
-      this.$root.$on("on-unfollow", this.onUnFollowHandler);
+      // this.$root.$on("on-follow", this.onFollowHandler);
+      // this.$root.$on("on-unfollow", this.onUnFollowHandler);
     }
   },
 
@@ -169,7 +172,7 @@ export default {
   text-decoration: none;
 }
 
-.user-message{
+.user-message {
   font-weight: 600;
   display: block;
   overflow: hidden;

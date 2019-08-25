@@ -10,4 +10,6 @@ public interface CommentService {
     CommentViewModel createComment(CommentCreateBindingModel commentCreateBindingModel) throws Exception;
 
     CommentViewModel getLastByPostId(String postId);
+
+    List<CommentViewModel> getAllByPostId(String postId) throws Exception;
 }

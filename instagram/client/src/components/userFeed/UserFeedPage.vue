@@ -9,7 +9,7 @@
         </div>
     </section>
     <section class="aside-section">
-      <logged-in-user-card> </logged-in-user-card>
+      <user-feed-user-card v-bind:user="loggedInUser"> </user-feed-user-card>
       <user-feed-suggestions> </user-feed-suggestions>
     </section>
   </main>
@@ -17,7 +17,7 @@
 
 <script>
 import PostFeedCard from "./PostFeedCard";
-import LoggedInUserCard from "./LoggedInUserCard";
+import UserFeedUserCard from "./UserFeedUserCard";
 import People from '../people/People';
 import UserFeedSuggestions from './UserFeedSuggestions'
 import { mapGetters, mapActions } from "vuex";
@@ -25,7 +25,7 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "user-feed-page",
   components: {
-    PostFeedCard, LoggedInUserCard, People, UserFeedSuggestions
+    PostFeedCard, UserFeedUserCard, People, UserFeedSuggestions
   },
   data() {
     return {

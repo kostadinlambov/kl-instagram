@@ -3,12 +3,22 @@
     <div class="container col-md-10 wrapper people-container" v-bind:style="wrapperPeople">
       <section class="people-section" v-if="followerModal">
         <div v-for="user in followers" :key="user.followerId">
-          <people-card v-bind:currentUser="user" v-if="user.followerId != loggedInUserId"></people-card>
+          <people-card
+            v-bind:currentUser="user"
+            v-if="user.followerId != loggedInUserId"
+            v-on:on-follow="onFollowHandler"
+            v-on:on-unfollow="onUnFollowHandler"
+          ></people-card>
         </div>
       </section>
       <section class="people-section" v-if="followingModal">
         <div v-for="user in following" :key="user.userId">
-          <people-card v-bind:currentUser="user" v-if="user.userId != loggedInUserId"></people-card>
+          <people-card
+            v-bind:currentUser="user"
+            v-if="user.userId != loggedInUserId"
+            v-on:on-follow="onFollowHandler"
+            v-on:on-unfollow="onUnFollowHandler"
+          ></people-card>
         </div>
       </section>
       <div class="title-wrapper">
@@ -19,7 +29,12 @@
       </div>
       <section class="people-section" v-if="followingModal ||  followerModal">
         <div v-for="user in followingCandidates" :key="user.id">
-          <people-card v-bind:currentUser="user" v-if="user.id != loggedInUserId"></people-card>
+          <people-card
+            v-bind:currentUser="user"
+            v-if="user.id != loggedInUserId"
+            v-on:on-follow="onFollowHandler"
+            v-on:on-unfollow="onUnFollowHandler"
+          ></people-card>
         </div>
       </section>
       <div class="title-wrapper">
@@ -27,7 +42,12 @@
       </div>
       <section class="people-section" v-if="!followingModal &&  !followerModal">
         <div v-for="user in users" :key="user.id">
-          <people-card v-bind:currentUser="user" v-if="user.id != loggedInUserId"></people-card>
+          <people-card
+            v-bind:currentUser="user"
+            v-if="user.id != loggedInUserId"
+            v-on:on-follow="onFollowHandler"
+            v-on:on-unfollow="onUnFollowHandler"
+          ></people-card>
         </div>
       </section>
       <!-- <section class="people-section" v-else>
@@ -91,10 +111,12 @@ export default {
     ]),
 
     onFollowHandler(userId) {
+      debugger;
       this.followUserAction(userId);
     },
 
     onUnFollowHandler(userId) {
+       debugger;
       this.unFollowUserAction(userId);
     },
 
@@ -110,8 +132,8 @@ export default {
     },
 
     addEventListeners() {
-      this.$root.$on("on-follow", this.onFollowHandler);
-      this.$root.$on("on-unfollow", this.onUnFollowHandler);
+      // this.$root.$on("on-follow", this.onFollowHandler);
+      // this.$root.$on("on-unfollow", this.onUnFollowHandler);
     }
   },
 

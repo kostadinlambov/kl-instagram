@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, String> {
     List<Comment> getCommentByPostIdOrderByTimeDesc(String postId);
+
+    List<Comment> getCommentByPostIdOrderByTimeAsc(String postId);
 }

@@ -161,6 +161,13 @@ public class UserController {
 
     }
 
+    @GetMapping(value = "/details/postId/{postId}")
+    public ResponseEntity getDetailsPostId(@PathVariable String postId) throws Exception {
+        UserDetailsViewModel user = this.userService.getUserByPostId(postId);
+        System.out.println();
+        return new ResponseEntity<>(this.objectMapper.writeValueAsString(user), HttpStatus.OK);
+    }
+
     @PutMapping(value = "/update/{id}")
     public ResponseEntity updateUser(@RequestBody @Valid UserUpdateBindingModel userUpdateBindingModel,
                                      @PathVariable(value = "id") String loggedInUserId) throws Exception {

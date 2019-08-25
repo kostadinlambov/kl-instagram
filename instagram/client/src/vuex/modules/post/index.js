@@ -18,6 +18,7 @@ import {
   FETCH_FOLLOWING_POSTS,
   CHANGE_POST_LIKE_SUCCESS,
   ADD_COMMENT_TO_FOLLOWING_POSTS,
+  FETCH_POST_DETAILS
 } from "./mutationTypes";
 
 // initial state
@@ -27,7 +28,26 @@ const initialState = {
   foreignPosts: [],
   loadingForeignPosts: false,
   followingPosts: [],
-  loadingFollowingPosts: false
+  loadingFollowingPosts: false,
+  currentPost: {
+    id: '',
+    caption: '',
+    imageUrl: '',
+    imageWidth: 0,
+    imageHeight: 0,
+    location: '',
+    privattime: '',
+    creatorId: '',
+    creatorUsername: '',
+    creatorFirstName: '',
+    creatorLastName: '',
+    creatorProfilePicUrl: '',
+    creatorImageWidth: '',
+    creatorImageHeight: '',
+    likeCount: 0,
+    hasUserLikedPost: '',
+    comments: [],
+  }
 };
 
 const mutations = {
@@ -57,6 +77,10 @@ const mutations = {
     state.loadingFollowingPosts = payload.loading;
   },
 
+  [FETCH_POST_DETAILS]: (state, payload) => {
+    state.currentPost = { ...state.currentPost, ...payload.post };
+  },
+
   [UPDATE_POSTIMAGE_CLASS]: (state, { postId, imageClass, arrType }) => {
     updatePostImageClass(state, postId, imageClass, arrType);
   },
@@ -77,24 +101,24 @@ const mutations = {
     changePostLikeCount(state, postId, change);
   },
 
-  [ADD_COMMENT_TO_FOLLOWING_POSTS]: (state, comment)=> {
+  [ADD_COMMENT_TO_FOLLOWING_POSTS]: (state, comment) => {
     const postId = comment.postId;
 
     const newArr = state.followingPosts.map(post => {
-       if(post.id != postId){
-         return post;
-       }
+      if (post.id != postId) {
+        return post;
+      }
 
-       const comments = [...post.comments, comment];
+      const comments = [...post.comments, comment];
 
-       return {
-        ...post, comments
-       }
-     })
+      return {
+        ...post,
+        comments
+      };
+    });
 
-     state.followingPosts = [...newArr];
+    state.followingPosts = [...newArr];
   },
-
 
   [RESET_FOREIGN_POSTS_STATE]: state => {
     state.foreignPosts = [];
@@ -118,16 +142,19 @@ const mutations = {
   }
 };
 
-const changePostLikeCount = (state, {postId, change}) => {
+const changePostLikeCount = (state, { postId, change }) => {
   let newPostArr = [];
-    newPostArr = updatePostCount(state.posts, postId, change);
-    state.posts = [...newPostArr];
+  newPostArr = updatePostCount(state.posts, postId, change);
+  state.posts = [...newPostArr];
 
-    newPostArr = updatePostCount(state.foreignPosts, postId, change);
-    state.foreignPosts = [...newPostArr];
+  newPostArr = updatePostCount(state.foreignPosts, postId, change);
+  state.foreignPosts = [...newPostArr];
 
-    newPostArr = updatePostCount(state.followingPosts, postId, change);
-    state.followingPosts = [...newPostArr];
+  newPostArr = updatePostCount(state.followingPosts, postId, change);
+  state.followingPosts = [...newPostArr];
+
+  newPostArr = updatePostCount([state.currentPost], postId, change);
+  state.currentPost = [...newPostArr][0];
 };
 
 const updatePostCount = (newPostArr, postId, change) => {
@@ -135,14 +162,13 @@ const updatePostCount = (newPostArr, postId, change) => {
     if (post.id !== postId) {
       return post;
     }
-
     let likeCount = post.likeCount;
     let hasUserLikedPost = post.hasUserLikedPost;
 
-    if(change === "add"){
-       likeCount++;
-       hasUserLikedPost = true;
-    }else{
+    if (change === "add") {
+      likeCount++;
+      hasUserLikedPost = true;
+    } else {
       likeCount--;
       hasUserLikedPost = false;
     }

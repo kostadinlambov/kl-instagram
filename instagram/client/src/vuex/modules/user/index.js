@@ -1,7 +1,6 @@
 import * as actions from "./actions";
 import * as getters from "./getters";
-
-import Vue from "vue";
+import placeholderLink from "@/assets/images/placeholder.png";
 
 import {
   FETCH_ALL_USERS,
@@ -15,7 +14,8 @@ import {
   FETCH_ALL_FOLLOWING,
   DELETE_USER_SUCCESS,
   UPDATE_USER_IMAGE_CLASS,
-  FETCH_ALL_FOLLOWING_CANDIDATES
+  FETCH_ALL_FOLLOWING_CANDIDATES,
+  FETCH_USER_DETAILS,
 } from "./mutationTypes";
 
 // initial state
@@ -24,7 +24,19 @@ const initialState = {
   users: [],
   followers: [],
   following: [],
-  followingCandidates: []
+  followingCandidates: [],
+  currentPostUser: {
+    username: "",
+    id: "",
+    firstName: "",
+    lastName: "",
+    role: "",
+    profilePicUrl: placeholderLink,
+    isAdminOrRoot: "",
+    bio: "",
+    website: "",
+    imageClass: "",
+  }
 };
 
 const mutations = {
@@ -61,6 +73,10 @@ const mutations = {
 
   [FETCH_ALL_FOLLOWING_CANDIDATES]: (state, payload) => {
     state.followingCandidates = payload.users;
+  },
+
+  [FETCH_USER_DETAILS]: (state, payload) => {
+    state.currentPostUser = { ...state.currentPostUser, ...payload.user };
   },
 
   [UPDATE_USER_IMAGE_CLASS]: (state, { id, imageClass, arrType }) => {

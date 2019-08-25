@@ -20,6 +20,7 @@ import {
   RESET_FOLLOWING_POSTS_STATE,
   UPDATE_CREATOR_IMAGE_CLASS,
   CHANGE_POST_LIKE_SUCCESS,
+  FETCH_POST_DETAILS,
 
 } from "./mutationTypes";
 
@@ -33,8 +34,6 @@ export const fetchNonLoggedInUserPosts = (context,{ loggedInUser, pageNumber }) 
   requester
     .get(url)
     .then(res => {
-      console.log("Not my own Posts: ", res.body);
-
       context.commit({
         type: FETCH_ALL_FOREIGN_POSTS,
         posts: res.body
@@ -73,8 +72,6 @@ export const fetchUserPosts = (context, {username, pageNumber}) => {
   requester
     .get(url)
     .then(res => {
-      console.log("User Posts: ", res.body);
-
       context.commit({
         type: FETCH_ALL_POSTS,
         posts: res.body
@@ -113,8 +110,6 @@ export const fetchFollowingPosts = (context, {loggedInUser, pageNumber}) => {
   requester
     .get(url)
     .then(res => {
-      console.log("User Posts: ", res.body);
-
       context.commit({
         type: FETCH_FOLLOWING_POSTS,
         posts: res.body
@@ -226,11 +221,6 @@ export const createPost = (context, data) => {
   requester
     .post(url, data)
     .then(res => {
-      console.log("res => ", res);
-
-      // const id = userService.getUserId();
-      // context.dispatch("fetchUserPosts", { id });
-
       context.commit(POST_CREATE_SUCCESS);
 
       Vue.$toast.open({
@@ -285,7 +275,29 @@ export const changePostLikeCount = (context, data) => {
         type: "error"
       });
     });
+}
 
+export const fetchPostDetails = (context, {postId, loggedInUserId}) => {
+  const url = "post/details/" + postId + '/' + loggedInUserId;
+  requester
+    .get(url)
+    .then(res => {
+      context.commit({
+        type: FETCH_POST_DETAILS,
+        post: res.body.payload
+      });
+
+      Vue.$toast.open({
+        message: res.body.message,
+        type: "success"
+      });
+    })
+    .catch(err => {
+      Vue.$toast.open({
+        message: err.body.message,
+        type: "error"
+      });
+    });
 }
 
 // export const resetState = context => {

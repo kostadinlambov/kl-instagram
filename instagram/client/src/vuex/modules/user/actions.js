@@ -17,6 +17,7 @@ import {
   FETCH_ALL_FOLLOWING_CANDIDATES,
   RESET_STATE,
   UPDATE_USER_IMAGE_CLASS,
+  FETCH_USER_DETAILS,
 } from "./mutationTypes";
 
 export const fetchAllUsersAdminAction = (context, payload) => {
@@ -83,6 +84,26 @@ export const fetchAllFollowingCandidates = (context, username) => {
       });
     });
 };
+
+export const fetchUserDetails = (context, postId) => {
+  const url = "user/details/postId/" + postId;
+
+  requester.get(url)
+  .then(res => {
+    context.commit({
+      type: FETCH_USER_DETAILS,
+      user: res.body
+    });
+
+  })
+  .catch(err => {
+    Vue.$toast.open({
+      message: err.body.message,
+      type: "error"
+    });
+  });
+
+}
 
 
 export const promoteUserAction = (context, userToPromoteId) => {

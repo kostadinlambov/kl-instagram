@@ -64,3 +64,6 @@ export const getLastCommentFollowingPosts = (state) => (postId) =>  {
      }
      return '';
 }
+
+// get current Post
+export const getCurrentPost = (state) => state.currentPost

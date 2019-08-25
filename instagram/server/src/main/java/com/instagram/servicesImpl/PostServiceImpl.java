@@ -26,6 +26,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -121,6 +122,36 @@ public class PostServiceImpl implements PostService {
         return this.postRepository.save(post) != null;
     }
 
+    @Override
+    public PostAllViewModel getPostDetails(String postId, String loggedInUserId) throws Exception {
+        Post post = this.postRepository
+                .findById(postId)
+                .filter(postValidation::isValid)
+                .orElseThrow(Exception::new);
+
+        PostAllViewModel postAllViewModel = this.modelMapper.map(post, PostAllViewModel.class);
+
+        postAllViewModel.setLikeCount((int) post
+                .getLikes()
+                .stream()
+                .filter(like -> like.getLikeType().name().equals("POST") && like.isActive()).count());
+
+        Like loggedInUserLike = post.getLikes()
+                .stream()
+                .filter(like -> like.getUser().getId()
+                        .equals(loggedInUserId) &&  like.isActive())
+                .findFirst()
+                .orElse(null);
+
+        if(loggedInUserLike == null){
+            postAllViewModel.setHasUserLikedPost(false);
+        }else{
+            postAllViewModel.setHasUserLikedPost(true);
+        }
+
+        return postAllViewModel;
+    }
+
     // Get Post from loggedIn User. Post are ordered descending by publishing time.
     @Override
     public List<PostAllViewModel> getOnePageUserPostsByUsername(String username, int pageNumber) throws Exception {
@@ -147,6 +178,8 @@ public class PostServiceImpl implements PostService {
 
         return this.getCurrentPagePosts(currentPage, id);
     }
+
+
 
     // Get Post from all other users( except posts from loggedIn user). Post are ordered descending by publishing time.
     @Override

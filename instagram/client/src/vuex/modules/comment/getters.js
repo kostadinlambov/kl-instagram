@@ -1,5 +1,5 @@
 
-// export const getLastComment = (state) => state.lastPostComment; 
+export const getComments = (state) => state.comments; 
 
 // getLastComment
 export const getLastComment = (state) => (postId) =>  {

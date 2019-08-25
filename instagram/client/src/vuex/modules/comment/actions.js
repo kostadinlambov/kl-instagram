@@ -1,9 +1,13 @@
 import Vue from "vue";
 import requester from "@/infrastructure/requester";
+import { userService } from "@/infrastructure/userService";
+import placeholderLink from "@/assets/images/placeholder.png";
 
 import {
   CREATE_COMMENT_SUCCESS,
-  FETCH_LAST_COMMENT_SUCCESS
+  FETCH_LAST_COMMENT_SUCCESS,
+  FETCH_ALL_COMMENTS,
+  UPDATE_COMMENT_CREATOR_IMAGE_CLASS,
 } from "./mutationTypes";
 
 export const createComment = (context, data) => {
@@ -21,6 +25,10 @@ export const createComment = (context, data) => {
 
       context.commit('post/ADD_COMMENT_TO_FOLLOWING_POSTS', comment, {root: true})
       context.dispatch('fetchLastCommentByPostId', data.postId)
+
+      const comments = [comment];
+
+      context.dispatch("updateUserImageClass", {comments:comments, arrType: 'commentsCreator'});
 
       Vue.$toast.open({
         message: res.body.message,
@@ -62,4 +70,55 @@ export const fetchLastCommentByPostId = (context, postId) => {
     });
   });
 }
+
+export const fetchComments = (context, postId) => {
+  const url = 'comment/all/' + postId
+
+  requester
+  .get(url)
+  .then(res => {
+
+    context.dispatch("updateUserImageClass", {comments:res.body, arrType: 'commentsCreator'});
+
+
+    context.commit({
+      type: FETCH_ALL_COMMENTS,
+      comments: res.body
+    });
+
+  })
+  .catch(err => {
+    Vue.$toast.open({
+      message: 'Failure comment fetch!',
+      type: "error"
+    });
+  });
+}
+
+export const updateUserImageClass = (context, {comments, arrType}) => {
+  comments.forEach(comment => {
+
+    const profilePicUrl = comment.creatorProfilePicUrl || placeholderLink ;
+    const id = comment.id 
+
+    userService.getImageClass(profilePicUrl).then(res => {
+      context.commit({
+        type: UPDATE_COMMENT_CREATOR_IMAGE_CLASS,
+        imageClass: res,
+        id: id,
+        arrType
+      });
+
+      Vue.$toast.open({
+        message: "User Image Class updated!",
+        type: "success"
+      });
+    }).catch(error => {
+      Vue.$toast.open({
+        message: 'Update User Image Class Error!  => ' + arrType,
+        type: "error"
+      });
+    });
+  });
+};
 

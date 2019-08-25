@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.instagram.utils.constants.ResponseMessageConstants.SUCCESSFUL_CREATE_POST_MESSAGE;
+import static com.instagram.utils.constants.ResponseMessageConstants.*;
 
 @RestController
 @RequestMapping(value = "/post")
@@ -35,41 +35,38 @@ public class PostController {
 
     @GetMapping(value = "/all/{username}")
     public List<PostAllViewModel> getAllPosts(@PathVariable(value = "username") String username) throws Exception {
-
-        List<PostAllViewModel> postAllViewModels = this.postService.getAll(username);
-
-        return postAllViewModels;
+        return this.postService.getAll(username);
     }
 
     @GetMapping(value = "/all/{username}/{pageNumber}")
     public List<PostAllViewModel> getAllUserPosts(@PathVariable(value = "username") String username, @PathVariable(value = "pageNumber") int pageNumber) throws Exception {
-
-        List<PostAllViewModel> postAllViewModels = this.postService.getOnePageUserPostsByUsername(username, pageNumber);
-
-        return postAllViewModels;
+        return this.postService.getOnePageUserPostsByUsername(username, pageNumber);
     }
 
     @GetMapping(value = "/notMy/{id}/{pageNumber}")
     public List<PostAllViewModel> getAllForeignPosts(@PathVariable(value = "id") String id, @PathVariable(value = "pageNumber") int pageNumber) throws Exception {
-
-        List<PostAllViewModel> postAllViewModels = this.postService.getOnePageForeignPostsByUserId(id, pageNumber);
-
-        System.out.println();
-
-        return postAllViewModels;
+        return this.postService.getOnePageForeignPostsByUserId(id, pageNumber);
     }
 
     @GetMapping(value = "/following/{id}/{pageNumber}")
     public List<PostAllViewModel> getAllFollowingPosts(@PathVariable(value = "id") String id, @PathVariable(value = "pageNumber") int pageNumber) throws Exception {
-
-        List<PostAllViewModel> postAllViewModels = this.postService.getOnePageFollowingPostsByUserId(id, pageNumber);
-
-        System.out.println();
-
-        return postAllViewModels;
+        return this.postService.getOnePageFollowingPostsByUserId(id, pageNumber);
     }
 
+    @GetMapping(value = "/details/{postId}/{loggedInUserId}")
+    public ResponseEntity getPostDetails(@PathVariable(value = "postId") String postId, @PathVariable(value = "loggedInUserId") String loggedInUserId ) throws Exception {
 
+        PostAllViewModel postViewModel = this.postService.getPostDetails(postId, loggedInUserId);
+
+        if(postViewModel != null){
+            SuccessResponse successResponse =
+                    new SuccessResponse(LocalDateTime.now(), SUCCESSFUL_FETCH_POST_MESSAGE, postViewModel, true);
+
+            return new ResponseEntity<>(this.objectMapper.writeValueAsString(successResponse), HttpStatus.OK);
+        }
+
+        throw new CustomException(SERVER_ERROR_MESSAGE);
+    }
 
     @PostMapping(value = "/create")
     public ResponseEntity createPost(

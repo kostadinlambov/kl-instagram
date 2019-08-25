@@ -187,6 +187,21 @@ export default new Router({
     },
 
     {
+      path: "/post/:postId",
+      name: "post-details",
+      component: () => import("./components/postDetails/PostDeatils.vue"),
+      beforeEnter: (to, from, next) => {
+        const isAuth = userService.isAuth();
+
+        if (!isAuth) {
+          next("/");
+        } else {
+          next();
+        }
+      }
+    },
+
+    {
       path: "*",
       name: "error-page",
       component: ErrorPage

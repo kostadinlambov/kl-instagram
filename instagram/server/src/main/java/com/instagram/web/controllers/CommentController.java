@@ -26,7 +26,7 @@ public class CommentController {
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public CommentController( CommentService commentService, ObjectMapper objectMapper) {
+    public CommentController(CommentService commentService, ObjectMapper objectMapper) {
         this.commentService = commentService;
         this.objectMapper = objectMapper;
     }
@@ -41,6 +41,11 @@ public class CommentController {
         throw new CustomException(SERVER_ERROR_MESSAGE);
     }
 
+    @GetMapping(value = "/all/{postId}")
+    public List<CommentViewModel> getAllByPostId(@PathVariable(value = "postId") String postId) throws Exception {
+        return this.commentService.getAllByPostId(postId);
+    }
+
     @GetMapping(value = "/last/{postId}")
     public ResponseEntity<Object> getLastByPostId(@PathVariable(value = "postId") String postId) throws Exception {
 
@@ -49,7 +54,7 @@ public class CommentController {
         if (lastComment != null) {
             SuccessResponse successResponse = new SuccessResponse(LocalDateTime.now(), SUCCESSFUL_GET_LAST_COMMENT_MESSAGE, lastComment, true);
             return new ResponseEntity<>(this.objectMapper.writeValueAsString(successResponse), HttpStatus.OK);
-        }else{
+        } else {
             SuccessResponse successResponse = new SuccessResponse(LocalDateTime.now(), FAILURE_GET_LAST_COMMENT_MESSAGE, "", true);
             return new ResponseEntity<>(this.objectMapper.writeValueAsString(successResponse), HttpStatus.OK);
         }
