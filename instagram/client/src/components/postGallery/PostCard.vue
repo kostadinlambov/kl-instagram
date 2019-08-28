@@ -42,42 +42,9 @@ export default {
   },
   computed: {
     imageUrl() {
-      return this.currentPost.imageUrl || this.placeholder;
+      return this.currentPost.imageUrl || placeholder;
     }
   },
-  methods: {
-    // imageSizeClass(imageUrl) {
-    //   console.log("imageUrl:", imageUrl);
-    //   let img = new Image();
-    //   img.src = imageUrl;
-    //   console.log("img.width:", img.width);
-    //   console.log("img.height:", img.height);
-    //   debugger;
-    //   const imageClass = userService.getImageSize(imageUrl);
-    //   console.log(imageClass);
-    //   console.log(this.currentPost.imageUrl);
-    //   return userService.getImageSize(imageUrl);
-    // },
-    // getImgUrl(picUrl) {
-    //   console.log(picUrl);
-    //   return require(picUrl);
-    // }
-  },
-  created() {
-    // userService.getImageClass(this.imageUrl).then(res => {
-    //   debugger;
-    //   this.imageClass = res;
-    //   console.log("res", res);
-    // });
-  },
-  watch: {
-    // currentPost(from, to) {
-    //   console.log("this.currentPost: ", this.currentPost);
-    //   console.log("from: ", from);
-    //   console.log("to: ", to);
-    //   debugger;
-    // }
-  }
 };
 </script>
 
@@ -85,9 +52,6 @@ export default {
 /*############ picture gallery grid #######################*/
 
 .image-container {
-  /* width: 280px;
-  height: 280px; */
-  /* width: 280px; */
   height: 100%;
   width: 100%;
   overflow: hidden;

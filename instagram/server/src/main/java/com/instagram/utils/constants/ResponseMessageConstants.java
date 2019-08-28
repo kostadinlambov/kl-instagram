@@ -34,11 +34,6 @@ public final class ResponseMessageConstants {
     public static final String FAILURE_FOLLOW_USER_MESSAGE = "You have been already following this user!";
     public static final String FAILURE_UNFOLLOW_USER_MESSAGE = "You don't follow this user!";
 
-    //Picture Messages
-    public static final String SUCCESSFUL_PICTURE_ALL_MESSAGE = "All pictures successfully loaded.";
-    public static final String SUCCESSFUL_PICTURE_UPLOAD_MESSAGE = "Successfully uploaded picture!";
-    public static final String SUCCESSFUL_PICTURE_DELETE_MESSAGE = "Picture successfully deleted!";
-
     //Post Messages
     public static final String SUCCESSFUL_CREATE_POST_MESSAGE = "Post created successfully.";
     public static final String SUCCESSFUL_FETCH_POST_MESSAGE = "Post fetched successfully.";
@@ -53,12 +48,6 @@ public final class ResponseMessageConstants {
     public static final String SUCCESSFUL_GET_LAST_COMMENT_MESSAGE = "Last Comment successfully fetched!";
     public static final String FAILURE_GET_LAST_COMMENT_MESSAGE = "There are no comments to this post!";
 
-    // Relationship Messages
-    public static final String SUCCESSFUL_FRIEND_REQUEST_SUBMISSION_MESSAGE = "Your friend request have been successfully submitted!";
-    public static final String SUCCESSFUL_FRIEND_REMOVE_MESSAGE = "User was removed from your friends list!";
-    public static final String SUCCESSFUL_ADDED_FRIEND_MESSAGE = "User was added successfully to your friends list!";
-    public static final String SUCCESSFUL_REJECT_FRIEND_REQUEST_MESSAGE = "Request was successfully rejected!";
-
     // Log Messages
     public static final String SUCCESSFUL_LOGS_SAVING_MESSAGE = "Log was written successfully";
     public static final String SUCCESSFUL_LOGS_DELETING_MESSAGE = "Logs have been successfully deleted.";
@@ -67,9 +56,6 @@ public final class ResponseMessageConstants {
     public static final String FAILURE_LOGS_SAVING_MESSAGE = "Failure log saving!";
     public static final String FAILURE_LOGS_NOT_FOUND_MESSAGE = "No logs available for selected username.";
     public static final String FAILURE_LOGS_CLEARING_ERROR_MESSAGE = "Logs clearing error.";
-
-    // Message Messages
-    public static final String SUCCESSFUL_CREATE_MESSAGE_MESSAGE = "Message created successfully.";
 
     // Like Messages
     public static final String SUCCESSFUL_LIKE_POST_MESSAGE = "You liked a post!";

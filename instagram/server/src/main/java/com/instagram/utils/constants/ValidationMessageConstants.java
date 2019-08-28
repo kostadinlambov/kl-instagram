@@ -17,6 +17,4 @@ public final class ValidationMessageConstants {
     public static final String USER_INVALID_FIRST_NAME_MESSAGE = "First Name must start with a capital letter and must contain only letters.";
     public static final String USER_INVALID_LAST_NAME_MESSAGE = "Last Name must start with a capital letter and must contain only letters.";
     public static final String USER_INVALID_PASSWORD_MESSAGE = "Invalid Password format.";
-    public static final String USER_CITY_REQUIRED_MESSAGE = "City is required.";
-    public static final String USER_ADDRESS_REQUIRED_MESSAGE = "Address is required.";
 }

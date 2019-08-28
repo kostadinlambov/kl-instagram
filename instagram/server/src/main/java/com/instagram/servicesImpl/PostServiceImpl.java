@@ -100,7 +100,6 @@ public class PostServiceImpl implements PostService {
             throw new Exception(SERVER_ERROR_MESSAGE);
         }
 
-
         String cloudinaryPublicId = UUID.randomUUID().toString();
         Map uploadMap = this.cloudinaryService.uploadImage(file, cloudinaryPublicId);
 
@@ -139,13 +138,13 @@ public class PostServiceImpl implements PostService {
         Like loggedInUserLike = post.getLikes()
                 .stream()
                 .filter(like -> like.getUser().getId()
-                        .equals(loggedInUserId) &&  like.isActive())
+                        .equals(loggedInUserId) && like.isActive())
                 .findFirst()
                 .orElse(null);
 
-        if(loggedInUserLike == null){
+        if (loggedInUserLike == null) {
             postAllViewModel.setHasUserLikedPost(false);
-        }else{
+        } else {
             postAllViewModel.setHasUserLikedPost(true);
         }
 
@@ -179,8 +178,6 @@ public class PostServiceImpl implements PostService {
         return this.getCurrentPagePosts(currentPage, id);
     }
 
-
-
     // Get Post from all other users( except posts from loggedIn user). Post are ordered descending by publishing time.
     @Override
     public List<PostAllViewModel> getOnePageForeignPostsByUserId(String id, int pageNumber) throws Exception {
@@ -200,7 +197,7 @@ public class PostServiceImpl implements PostService {
 
         int totalPages = currentPage.getTotalPages();
         int currentPageNumber = currentPage.getPageable().getPageNumber();
-        //        long totalElements = currentPage.getTotalElements();
+        long totalElements = currentPage.getTotalElements();
 
         List<PostServiceModel> postServiceModels = currentPagePosts.stream().map(post -> this.modelMapper.map(post, PostServiceModel.class))
                 .peek(postServiceModel -> {
@@ -225,16 +222,17 @@ public class PostServiceImpl implements PostService {
                     .filter(like -> like.getLikeType().name().equals("POST") && like.isActive()).count());
             postAllViewModel.setCurrentPageNumber(currentPageNumber);
             postAllViewModel.setTotalPages(totalPages);
+            postAllViewModel.setTotalElements(totalElements);
 
             Like loggedInUserLike = postServiceModel.getLikes()
                     .stream()
                     .filter(like -> like.getUser().getId()
-                            .equals(userId) &&  like.isActive())
+                            .equals(userId) && like.isActive())
                     .findFirst()
                     .orElse(null);
-            if(loggedInUserLike == null){
+            if (loggedInUserLike == null) {
                 postAllViewModel.setHasUserLikedPost(false);
-            }else{
+            } else {
                 postAllViewModel.setHasUserLikedPost(true);
             }
 

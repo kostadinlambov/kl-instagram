@@ -1,4 +1,3 @@
-// User
 export const FETCH_ALL_USERS = 'FETCH_ALL_USERS';
 export const FETCH_ALL_USERS_ADMIN = 'FETCH_ALL_USERS_ADMIN';
 export const PROMOTE_USER = 'PROMOTE_USER';

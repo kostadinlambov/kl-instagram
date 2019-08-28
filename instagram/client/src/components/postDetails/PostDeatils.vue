@@ -10,7 +10,6 @@
       </section>
       <section class="comments-section">
         <post-creator-card v-bind:post="post"></post-creator-card>
-        <!-- <user-feed-user-card v-bind:user="user"></user-feed-user-card> -->
         <div class="footer">
           <div class="content-wrapper">
             <div class="comments-wrapper">
@@ -72,8 +71,8 @@ import { required } from "vuelidate/lib/validators";
 import UserFeedUserCard from "../userFeed/UserFeedUserCard";
 import CommentCard from "./CommentCard";
 import PostCreatorCard from "./PostCreatorCard";
-import { postService } from "../../infrastructure/postService";
-import placeholderImg from "../../assets/images/placeholder.png";
+import { postService } from "@/infrastructure/postService";
+import placeholderImg from "@/assets/images/placeholder.png";
 
 export default {
   name: "post-details",
@@ -263,17 +262,12 @@ export default {
   /* width: 100%; */
 }
 
-img {
-  /* width: 100%; */
-}
-
 .image-wrapper {
   /* flex: 0 0 2.5rem; */
   width: 100%;
   height: 100%;
   position: relative;
   overflow: hidden;
-  /* border-radius: 50%; */
 }
 
 .image-wrapper:after {

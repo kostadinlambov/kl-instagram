@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 
 import static com.instagram.utils.constants.ResponseMessageConstants.*;
 
-
 @Service
 public class LoggerServiceImpl implements LoggerService {
     private final ModelMapper modelMapper;
@@ -110,13 +109,6 @@ public class LoggerServiceImpl implements LoggerService {
         }
         return true;
     }
-
-////    @Scheduled(cron = "* */30 * * * *")
-//    @Scheduled(cron = "0 0 2 * * * ")
-//    public void testSchedule(){
-//        this.deleteAll();
-//        System.out.println("Logs deleted successfully!");
-//    }
 }
 
 

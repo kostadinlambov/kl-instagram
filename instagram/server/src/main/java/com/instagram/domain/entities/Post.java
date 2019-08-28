@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-//@Table(name = "posts")
 @Table(name = "posts", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
 public class Post extends BaseEntity {
     private String caption;

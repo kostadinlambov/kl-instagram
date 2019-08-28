@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.instagram.domain.models.bindingModels.user.UserRegisterBindingModel;
 import com.instagram.domain.models.bindingModels.user.UserUpdateBindingModel;
 import com.instagram.domain.models.serviceModels.UserServiceModel;
-import com.instagram.domain.models.viewModels.follower.FollowingViewModel;
 import com.instagram.domain.models.viewModels.user.UserAllViewModel;
 import com.instagram.domain.models.viewModels.user.UserCreateViewModel;
 import com.instagram.domain.models.viewModels.user.UserDetailsViewModel;
@@ -43,7 +42,6 @@ public class UserController {
         this.objectMapper = objectMapper;
         this.userValidationService = userValidationService;
     }
-
 
     @PostMapping(value = "/register")
     public ResponseEntity<Object> registerUser(@RequestBody @Valid UserRegisterBindingModel userRegisterBindingModel) throws Exception {
@@ -91,34 +89,6 @@ public class UserController {
         return allFollowingCandidates;
     }
 
-
-//    @GetMapping(value = "/notFollowers/{id}")
-//    public List<UserAllViewModel> getAllUsersNotFollowers(@PathVariable(value = "id") String userId) throws Exception {
-//        List<UserPeopleViewModel> allUsers = this.userService.getAllUsersWithFollowersInfo(userId);
-//
-//        return allUsers.stream()
-//                .map(x -> {
-//                    UserAllViewModel userAllViewModel = this.modelMapper.map(x, UserAllViewModel.class);
-//                    userAllViewModel.setRole(x.extractAuthority());
-//                    return userAllViewModel;
-//                })
-//                .collect(Collectors.toList());
-//    }
-
-//    @GetMapping(value = "/all/{id}")
-//    public List<UserAllViewModel> getAllUsers(@PathVariable(value = "id") String userId) throws Exception {
-//        List<UserServiceModel> allUsers = this.userService.getAllUsers(userId);
-//
-//        return allUsers.stream()
-//                .map(x -> {
-//                    UserAllViewModel userAllViewModel = this.modelMapper.map(x, UserAllViewModel.class);
-//                    userAllViewModel.setRole(x.extractAuthority());
-//                    return userAllViewModel;
-//                })
-//                .collect(Collectors.toList());
-//    }
-
-
     @PostMapping(value = "/promote")
     public ResponseEntity promoteUser(@RequestParam(name = "id") String id) throws Exception {
         boolean resultOfPromoting = this.userService.promoteUser(id);
@@ -140,7 +110,6 @@ public class UserController {
         boolean resultOfDemoting = this.userService.demoteUser(id);
 
         if (resultOfDemoting) {
-
             SuccessResponse successResponse = successResponseBuilder(LocalDateTime.now(), SUCCESSFUL_USER_DEMOTED_MESSAGE, "", true);
             return new ResponseEntity<>(this.objectMapper.writeValueAsString(successResponse), HttpStatus.OK);
         }
@@ -164,7 +133,6 @@ public class UserController {
     @GetMapping(value = "/details/postId/{postId}")
     public ResponseEntity getDetailsPostId(@PathVariable String postId) throws Exception {
         UserDetailsViewModel user = this.userService.getUserByPostId(postId);
-        System.out.println();
         return new ResponseEntity<>(this.objectMapper.writeValueAsString(user), HttpStatus.OK);
     }
 
@@ -198,9 +166,4 @@ public class UserController {
 
         throw new CustomException(SERVER_ERROR_MESSAGE);
     }
-
-
-
-
-
 }

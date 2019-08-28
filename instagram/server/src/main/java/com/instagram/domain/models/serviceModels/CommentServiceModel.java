@@ -11,7 +11,6 @@ public class CommentServiceModel {
     private String id;
     private Post post;
     private User creator;
-    //    private User timelineUser;
     private String content;
     private LocalDateTime time;
     private List<Like> likes;

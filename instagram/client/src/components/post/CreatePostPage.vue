@@ -326,12 +326,6 @@ img.gallery-img.l {
     margin: 5rem auto 0;
     border-radius: 5px;
     padding: 2rem 0;
-    /* .username-wrapper {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-  } */
   }
 
   .image-container {

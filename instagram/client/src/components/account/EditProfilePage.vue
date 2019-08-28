@@ -220,8 +220,6 @@ export default {
         return;
       }
 
-      // console.log("user: ", this.user);
-
       const data = {
         username: this.user.username,
         email: this.user.email,
@@ -245,10 +243,6 @@ export default {
 <style scoped>
 .edit-form-wrapper {
   margin-top: 7.8rem;
-  /* display:flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh; */
 }
 
 .edit-form-wrapper input,
@@ -272,7 +266,6 @@ textarea:focus {
 
 .aside-section {
   flex: 1 0 15%;
-  /* padding: 1rem 0; */
 }
 .main-section {
   flex: 0 0 83%;
@@ -294,8 +287,6 @@ textarea:focus {
   position: relative;
   margin-bottom: 2.8rem;
   /* flex-wrap: nowrap; */
-
-  /* margin-bottom: 0; */
 }
 
 .input-wrapper {
@@ -325,8 +316,6 @@ li {
   text-align: left;
   /* padding-left: 0.5rem; */
   padding: 1rem 0;
-
-  /* border-bottom: 1px solid red; */
   box-shadow: 0 0 14px 1px rgba(0, 0, 0, 0.15);
 }
 

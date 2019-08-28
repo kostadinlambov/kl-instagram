@@ -50,6 +50,17 @@
           ></people-card>
         </div>
       </section>
+
+      <div v-if="users.length == 0">
+          <!-- <div class="title-wrapper">
+        <div class="title" v-if="!followingModal &&  !followerModal">Suggested</div>
+      </div> -->
+        <section class="people-section">
+          <div
+           class="user-message"
+          >You are the first user on Instagram! Invite some friends to us!</div>
+        </section>
+      </div>
       <!-- <section class="people-section" v-else>
         <div v-for="user in orderByFollowingDesc" :key="user.id">
           <people-card v-bind:currentUser="user" v-if="user.id != loggedInUserId"></people-card>
@@ -121,16 +132,16 @@ export default {
       this.orderedByFollowingDescArr = this.users.sort(
         (firstUser, secondUser) => firstUser.active - secondUser.active
       );
-    },
+    }
   },
 
   mounted() {
     this.orderByFollowingDesc();
-  },
+  }
 };
 </script>
 
-<style>
+<style scoped>
 .people-article,
 .people-container {
   margin-top: 3rem;
@@ -140,7 +151,6 @@ export default {
   margin: 0 auto;
   max-width: 600px;
   width: 100%;
-  /* border: 1px solid red; */
 }
 
 @media screen and (min-width: 640px) {
@@ -160,17 +170,29 @@ export default {
 
 .title {
   display: block;
-  /* color: #262626; */
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
   margin: -6px 0;
-  /* color: rgb(65, 184, 131); */
   color: #999;
 }
 
 .people-section {
   border-radius: 5px;
   background: rgb(255, 255, 255);
+}
+
+.user-message {
+  font-size: 1.5rem;
+  font-weight: 600;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 1rem;
+  color: rgb(65, 184, 131);
+  background: white;
+  border: 1px solid #e6e6e6;
+  /* width: 60%; */
+  margin: auto;
 }
 </style>

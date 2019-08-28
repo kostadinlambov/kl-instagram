@@ -78,11 +78,9 @@ export default {
   },
   methods: {
     follow(userId) {
-      // this.$root.$emit("on-follow", userId);
       this.$emit("on-follow", userId);
     },
     unfollow(userId) {
-      // this.$root.$emit("on-unfollow", userId);
       this.$emit("on-unfollow", userId);
     }
   }
@@ -95,8 +93,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   /* flex-wrap: wrap; */
-
-  /* border: 2px solid red; */
   background: rgb(255, 255, 255);
   padding: 0.5rem 1rem;
   border-radius: 5px;
@@ -106,7 +102,6 @@ export default {
   display: flex;
   justify-content: start;
   align-items: center;
-  /* border: 2px solid blue; */
   width: 100%;
 }
 

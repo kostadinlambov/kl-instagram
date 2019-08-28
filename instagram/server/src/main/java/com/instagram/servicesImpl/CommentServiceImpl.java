@@ -54,15 +54,11 @@ public class CommentServiceImpl implements CommentService {
 
         User creator = this.userRepository
                 .findById(commentCreateBindingModel.getLoggedInUserId())
-                .orElse(null);
+                .orElseThrow(Exception::new);
 
         Post post = this.postRepository
                 .findById(commentCreateBindingModel.getPostId())
-                .orElse(null);
-
-        if (!userValidation.isValid(creator) || !postValidation.isValid(post)) {
-            throw new Exception(SERVER_ERROR_MESSAGE);
-        }
+                .orElseThrow(Exception::new);
 
         CommentServiceModel commentServiceModel = new CommentServiceModel();
         commentServiceModel.setPost(post);
@@ -82,16 +78,12 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentViewModel getLastByPostId(String postId) {
+    public CommentViewModel getLastByPostId(String postId) throws Exception {
         List<Comment> commentByPostIdOrderByTimeDesc = this.commentRepository.getCommentByPostIdOrderByTimeDesc(postId);
 
-        Comment comment = commentByPostIdOrderByTimeDesc.stream().findFirst().orElse(null);
+        Comment comment = commentByPostIdOrderByTimeDesc.stream().findFirst().orElseThrow(Exception::new);
 
-        if(comment != null){
-            return this.modelMapper.map(comment, CommentViewModel.class);
-        }
-
-        return null;
+        return this.modelMapper.map(comment, CommentViewModel.class);
     }
 
     @Override

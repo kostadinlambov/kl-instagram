@@ -32,7 +32,6 @@ public class PostController {
         this.objectMapper = objectMapper;
     }
 
-
     @GetMapping(value = "/all/{username}")
     public List<PostAllViewModel> getAllPosts(@PathVariable(value = "username") String username) throws Exception {
         return this.postService.getAll(username);
@@ -83,6 +82,5 @@ public class PostController {
         }
 
         throw new CustomException(ResponseMessageConstants.SERVER_ERROR_MESSAGE);
-
     }
 }

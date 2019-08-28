@@ -3,8 +3,7 @@
     <div class="card-container">
       <div class="content-wrapper">
         <div class="profile-pick-container">
-          <img v-bind:class="comment.imageClass" :src="comment.creatorProfilePicUrl" alt="user-pic" />
-          <!-- <img v-bind:class="imageSizeClass" :src="profilePicUrl" alt="user-pic" /> -->
+          <img v-bind:class="comment.imageClass" :src="profilePicUrl" alt="user-pic" />
         </div>
         <div class="usernames-container">
           <router-link
@@ -12,7 +11,6 @@
             class="username"
           >{{comment.creatorUsername}}</router-link>
           <span class="comment-text">{{comment.content}}</span>
-          <!-- <div class="names">{{user.firstName}} {{user.lastName}}</div> -->
         </div>
       </div>
     </div>
@@ -21,6 +19,8 @@
 </template>
 
 <script>
+import placeholderLink from "@/assets/images/placeholder.png";
+
 export default {
   name: "comment-card",
   props: {
@@ -84,7 +84,6 @@ export default {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  /* border: 2px solid blue; */
   width: 100%;
 }
 
@@ -176,6 +175,7 @@ a.username:hover {
   border: 1px solid #fff;
   box-shadow: 0 0 14px 1px rgba(0, 0, 0, 0.3);
 }
+
 @media screen and (max-width: 900px) {
 }
 

@@ -31,7 +31,6 @@ public class FollowerController {
         this.objectMapper = objectMapper;
     }
 
-
     @PostMapping(value = "/follow")
     public ResponseEntity followUser(@RequestBody Map<String, Object> body) throws Exception {
         String loggedInUserId = (String) body.get("loggedInUserId");
@@ -77,8 +76,4 @@ public class FollowerController {
 
         return allFollowing;
     }
-
-
-
-
 }

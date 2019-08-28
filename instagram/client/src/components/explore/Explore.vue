@@ -1,7 +1,7 @@
 <template>
   <section class="main-section">
     <div class="container text-center col-md-9 mt-5">
-      <article class="people-article">
+      <article class="people-article" v-if="users.length > 0">
         <div class="header">
           <div class="header-title">Discover People</div>
           <div class="people-link">
@@ -16,9 +16,11 @@
           ></people-slider>
         </div>
       </article>
-
-      <article class="explore-gallery-article">
-         <div class="explore-title">Explore</div>
+      <article class="people-article" v-else>
+        <div class="user-message">You are the first user on Instagram! Invite some friends to us!</div>
+      </article>
+      <article class="explore-gallery-article" v-if="users.length > 0">
+        <div class="explore-title">Explore</div>
         <PostGallery :posts="posts" />
       </article>
     </div>
@@ -44,7 +46,6 @@ export default {
   },
   computed: {
     ...mapGetters("post", {
-      // posts: "getUserPosts",
       posts: "getNotLoggedInUserPosts",
       pagesCount: "getForeignPostPagesCount",
       currentPage: "getCurrentPageForeign",
@@ -55,7 +56,7 @@ export default {
     }),
     ...mapGetters("user", {
       usersAll: "getAllUsers",
-      users: "getFirstFiveUsers",
+      users: "getFirstFiveUsers"
     })
   },
 
@@ -68,7 +69,6 @@ export default {
     ...mapActions("user", ["followUserAction", "unFollowUserAction"]),
 
     scroll() {
-      // console.log('scroll')
       const data = {
         loggedInUser: this.loggedInUser.id,
         pageNumber: this.pageNumber
@@ -148,8 +148,6 @@ export default {
   font-size: 16px;
   line-height: 24px;
   margin: -6px 0;
-  /* color: #262626; */
-  /* color: rgb(53, 73, 94); */
   color: #999;
 }
 
@@ -164,7 +162,6 @@ a.people-link {
   text-overflow: ellipsis;
   white-space: nowrap;
 
-  /* color: #1e6cb9b6; */
   color: rgb(65, 184, 131);
   text-decoration: none;
 }
@@ -177,19 +174,28 @@ a.people-link {
   margin: auto;
 }
 
-.explore-title{
+.explore-title {
   display: block;
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
   margin: -6px 0;
   text-align: left;
-  /* color: #262626; */
-  /* color: rgb(53, 73, 94); */
   color: #999;
 }
 
-
-
+.user-message {
+  font-size: 1.5rem;
+  font-weight: 600;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 1rem;
+  color: rgb(65, 184, 131);
+  background: white;
+  border: 1px solid #e6e6e6;
+  width: 60%;
+  margin: auto;
+}
 
 </style>

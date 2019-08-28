@@ -5,7 +5,6 @@
         <img :class="imageSizeClass" :src="profilePicUrl" alt="user-pic" />
       </div>
       <div class="usernames-container">
-        <!-- <div class="username">{{currentUser.username}}</div> -->
         <router-link 
           :to="{'name':'single-user-page', 'params': {'username': currentUser.username}}"
           class="username">

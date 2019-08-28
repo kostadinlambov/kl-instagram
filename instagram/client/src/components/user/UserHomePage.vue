@@ -16,9 +16,9 @@
                 <div v-if="getTimeLineUser.id === loggedInUser.id || loggedInUser.isAdminOrRoot">
                   <router-link class="btn home-page-btn" to="/account/edit">Edit Profile</router-link>
                 </div>
-                <div v-if="getTimeLineUser.id === loggedInUser.id">
+                <!-- <div v-if="getTimeLineUser.id === loggedInUser.id">
                   <router-link class="btn home-page-btn" to="/account/settings">Settings</router-link>
-                </div>
+                </div>-->
               </div>
               <ul class="follower-info">
                 <li>
@@ -68,20 +68,23 @@
         </div>
       </div>
 
-      <PostGallery :posts="posts" />
+      <PostGallery v-if="postCount > 0" :posts="posts" />
+      <div class="user-message" v-else>
+        Start capturing and sharing your moments. Share your first photo!
+      </div>
     </div>
     <!-- <li class="nav-item">
       <router-link to="#" class="nav-link" data-toggle="modal" data-target="#testleModalId">Modal</router-link>
     </li>-->
 
-    <follower-modal :followingModal="followingModal" :followerModal="followerModal" ></follower-modal>
+    <follower-modal :followingModal="followingModal" :followerModal="followerModal"></follower-modal>
   </main>
 </template>
 <script>
-import { userService } from "../../infrastructure/userService";
+import { userService } from "@/infrastructure/userService";
 import { mapGetters, mapActions } from "vuex";
 import { debuglog } from "util";
-import placeholderLink from "../../assets/images/placeholder.png";
+import placeholderLink from "@/assets/images/placeholder.png";
 import FollowerModal from "./FollowerModal";
 import PostGallery from "../postGallery/PostGallery";
 
@@ -89,7 +92,7 @@ export default {
   name: "user-home-page",
   components: {
     FollowerModal,
-    PostGallery,
+    PostGallery
   },
   data() {
     return {
@@ -110,7 +113,7 @@ export default {
     ...mapGetters("user", {
       followingCount: "getFollowingCount",
       followersCount: "getFollowersCount",
-      followingCandidates: "getFollowingCandidates",
+      followingCandidates: "getFollowingCandidates"
     }),
     ...mapGetters("post", {
       posts: "getUserPosts",
@@ -131,7 +134,11 @@ export default {
   },
   methods: {
     ...mapActions("post", ["fetchUserPosts", "resetUserPostState"]),
-    ...mapActions("user", ["fetchFollowers", "fetchFollowing", "fetchAllFollowingCandidates"]),
+    ...mapActions("user", [
+      "fetchFollowers",
+      "fetchFollowing",
+      "fetchAllFollowingCandidates"
+    ]),
     ...mapActions("auth", ["fetchTimeLineUser"]),
 
     isFollowingModal(value) {
@@ -203,7 +210,7 @@ export default {
       }
     }
   },
-  
+
   beforeDestroy() {
     this.resetUserPostState();
   }
@@ -259,7 +266,7 @@ export default {
   padding-top: 100%;
 }
 
-.profile-pick-container img  {
+.profile-pick-container img {
   display: block;
   position: absolute;
   width: 100%;
@@ -269,7 +276,7 @@ export default {
   transform: translate(-50%, -50%);
 }
 
-.profile-pick-container img.l{
+.profile-pick-container img.l {
   display: block;
   position: absolute;
   width: auto;
@@ -393,7 +400,7 @@ span.bio {
   white-space: nowrap;
 
   /* color: #1e6cb9b6; */
-   color: rgb(65, 184, 131);
+  color: rgb(65, 184, 131);
   text-decoration: none;
 }
 
@@ -424,18 +431,18 @@ span.bio {
 .title-link:hover {
   color: rgb(65, 184, 131);
   border-top: 1px solid rgb(65, 184, 131);
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .bookmark-icon-span {
   margin-left: 5px;
 }
 
-.bookmark-wrapper:hover{
+/* .bookmark-wrapper:hover{
 
-}
+} */
 
-a.active{
+a.active {
   color: rgb(65, 184, 131);
   border-top: 1px solid rgb(65, 184, 131);
   font-weight: 600;
@@ -463,6 +470,20 @@ a.active{
   gap: 1rem;
   justify-content: space-around;
   align-content: stretch;
+}
+
+.user-message {
+  font-size: 1.5rem;
+  font-weight: 600;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 1rem;
+  color: rgb(65, 184, 131);
+  background: white;
+  border: 1px solid #e6e6e6;
+  width: 60%;
+  margin: auto;
 }
 
 @media screen and (max-width: 900px) {

@@ -22,6 +22,7 @@ public class PostAllViewModel {
     private Integer creatorImageWidth;
     private Integer creatorImageHeight;
     private int likeCount;
+    private long totalElements;
     private boolean hasUserLikedPost;
     private List<Comment> comments;
 //    private List<Like> likes;
@@ -184,7 +185,15 @@ public class PostAllViewModel {
         this.hasUserLikedPost = hasUserLikedPost;
     }
 
-//    public List<Like> getLikes() {
+    public long getTotalElements() {
+        return this.totalElements;
+    }
+
+    public void setTotalElements(long totalElements) {
+        this.totalElements = totalElements;
+    }
+
+    //    public List<Like> getLikes() {
 //        return this.likes;
 //    }
 //

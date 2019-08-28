@@ -7,7 +7,6 @@ public class CommentCreateBindingModel {
     private String postId;
     private String loggedInUserId;
     private String content;
-    //    private String timelineUserId;
 
     @NotNull
     @NotEmpty
@@ -38,15 +37,4 @@ public class CommentCreateBindingModel {
     public void setContent(String content) {
         this.content = content;
     }
-
-//    @NotNull
-//    @NotEmpty
-//    public String getTimelineUserId() {
-//        return this.timelineUserId;
-//    }
-//
-//    public void setTimelineUserId(String timelineUserId) {
-//        this.timelineUserId = timelineUserId;
-//    }
-
 }

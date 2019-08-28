@@ -1,7 +1,6 @@
 <template>
   <main class="mt-5 pb-5">
     <div class="container text-center col-md-8 mt-5">
-      <!-- <h1>Delete User</h1> -->
       <h1
         class="text-center font-weight-bold alert alert-danger delete-user-header col-md-9"
       >Are you sure you want to delete this User?</h1>
@@ -21,7 +20,6 @@
             <li>
               <a class="aside-links cancel" @click="$router.go(-1)">Cancel</a>
             </li>
-            <!-- <li>Cancel</li> -->
           </ul>
         </section>
 
@@ -234,8 +232,8 @@ export default {
 
 .aside-section {
   flex: 1 0 15%;
-  /* padding: 1rem 0; */
 }
+
 .main-section {
   flex: 0 0 83%;
   box-shadow: -15px 0 8px -8px rgba(0, 0, 0, 0.3);
@@ -253,8 +251,6 @@ export default {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-
-  /* margin-bottom: 0; */
 }
 
 label {
@@ -274,8 +270,6 @@ li {
   text-align: left;
   /* padding-left: 0.5rem; */
   padding: 1rem 0;
-
-  /* border-bottom: 1px solid red; */
   box-shadow: 0 0 14px 1px rgba(0, 0, 0, 0.15);
 }
 
@@ -322,5 +316,4 @@ h1.delete-user-header {
   border: 1px solid #fff;
   box-shadow: 0 0 14px 1px rgba(0, 0, 0, 0.3);
 }
-
 </style>

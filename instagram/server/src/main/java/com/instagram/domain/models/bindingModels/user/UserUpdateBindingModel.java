@@ -7,6 +7,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
+import static com.instagram.utils.constants.ResponseMessageConstants.VALIDATION_ERROR_MESSAGE;
 import static com.instagram.utils.constants.ValidationMessageConstants.*;
 
 public class UserUpdateBindingModel implements Serializable {
@@ -21,8 +22,6 @@ public class UserUpdateBindingModel implements Serializable {
 
     public UserUpdateBindingModel() {
     }
-
-
 
     @NotNull(message = ID_REQUIRED_MESSAGE)
     @Length(min = 1, message = ID_REQUIRED_MESSAGE)
@@ -72,8 +71,8 @@ public class UserUpdateBindingModel implements Serializable {
     }
 
 
-    @NotNull(message = USER_CITY_REQUIRED_MESSAGE)
-    @Length(min = 1, message = USER_CITY_REQUIRED_MESSAGE)
+    @NotNull(message = VALIDATION_ERROR_MESSAGE)
+    @Length(min = 1, message = VALIDATION_ERROR_MESSAGE)
     public String getProfilePicUrl() {
         return this.profilePicUrl;
     }

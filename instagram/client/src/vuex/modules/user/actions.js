@@ -287,10 +287,10 @@ export const updateUserImageClass = (context, {users, arrType}) => {
         arrType
       });
 
-      Vue.$toast.open({
-        message: "User Image Class updated!",
-        type: "success"
-      });
+      // Vue.$toast.open({
+      //   message: "User Image Class updated!",
+      //   type: "success"
+      // });
     }).catch(error => {
       Vue.$toast.open({
         message: 'Update User Image Class Error!  => ' + arrType,
@@ -303,12 +303,10 @@ export const updateUserImageClass = (context, {users, arrType}) => {
 export const deleteUser = (context, userId) => {
   const loggedInUserId = context.rootState.auth.loggedInUser.id;
   const url = "user/delete/" + userId;
-  debugger;
 
   requester
     .delete(url, { })
     .then(res => {
-      debugger;
       context.commit({
         type: DELETE_USER_SUCCESS,
         userId
@@ -316,7 +314,7 @@ export const deleteUser = (context, userId) => {
 
      
       router.push("/");
-      debugger;
+      
       Vue.$toast.open({
         message: res.body.message,
         type: "success"

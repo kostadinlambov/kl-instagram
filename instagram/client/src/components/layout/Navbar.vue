@@ -77,14 +77,12 @@
                       >
                         <i class="fas fa-ellipsis-v"></i>
                       </div>
-                      <div class="dropdown-menu dropdown-menu-right" >
+                      <div class="dropdown-menu dropdown-menu-right">
                         <router-link
-						v-if="isLoggedInUserAdminOrRoot"
+                          v-if="isLoggedInUserAdminOrRoot"
                           to="/admin/all"
                           class="dropdown-item custom-dropdown-items"
-                        >
-                          All Users
-                        </router-link>
+                        >All Users</router-link>
                         <div v-on:click="logout">
                           <router-link
                             class="dropdown-item custom-dropdown-items"
@@ -123,10 +121,13 @@ export default {
     ...mapGetters("auth", {
       isLoggedIn: "getIsLoggedIn",
       loggedInUserData: "getLoggedInUserData"
-	}),
-	isLoggedInUserAdminOrRoot(){
-		return this.loggedInUserData.role === 'ROOT' || this.loggedInUserData.role === 'ADMIN'
-	}
+    }),
+    isLoggedInUserAdminOrRoot() {
+      return (
+        this.loggedInUserData.role === "ROOT" ||
+        this.loggedInUserData.role === "ADMIN"
+      );
+    }
   },
   methods: {
     ...mapActions("auth", ["logoutAction"]),
@@ -157,8 +158,8 @@ export default {
   color: rgb(65, 184, 131);
 }
 
-.fa-ellipsis-v:hover{
-	cursor: pointer;
+.fa-ellipsis-v:hover {
+  cursor: pointer;
 }
 
 .navbar-section {
@@ -175,42 +176,26 @@ export default {
 .navbar-wrapper {
   width: 65%;
   margin: auto;
-  /* display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap; */
 }
 
 li {
   padding: 0.5rem 0.25rem;
-  /* color: rgb(192, 192, 192); */
 }
 
 a:hover {
-  /* text-decoration: underline; */
   color: white;
 }
 
 .nav-link,
 .navbar-brand {
-  /* color: white; */
   color: rgb(192, 192, 192);
 }
-
-/* .fa-instagram{
-  border-right: 1px solid red;
-  padding-right: 1rem;
-} */
 
 .insta-icon-container {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
-/* .fa-instagram:hover {
-  text-decoration: none;
-} */
 
 .vertical-line {
   background-color: rgb(192, 192, 192);

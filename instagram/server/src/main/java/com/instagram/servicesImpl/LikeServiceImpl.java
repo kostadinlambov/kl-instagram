@@ -42,12 +42,8 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     public String changeLikePost(String postId, String loggedInUserId) throws Exception {
-        Post post = this.postRepository.findById(postId).orElse(null);
-        User user = this.userRepository.findById(loggedInUserId).orElse(null);
-
-        if (!postValidation.isValid(post) || !userValidation.isValid(user)) {
-            throw new Exception(SERVER_ERROR_MESSAGE);
-        }
+        Post post = this.postRepository.findById(postId).orElseThrow(Exception::new);
+        User user = this.userRepository.findById(loggedInUserId).orElseThrow(Exception::new);;
 
         Like likeByUserAndPost = this.likeRepository.findByUserAndPost(user, post);
 
@@ -69,8 +65,5 @@ public class LikeServiceImpl implements LikeService {
             likeByUserAndPost.setActive(true);
             return "add";
         }
-
-//        throw new CustomException(FAILURE_POST_LIKE_MESSAGE);
-
     }
 }

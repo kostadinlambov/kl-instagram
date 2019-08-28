@@ -3,7 +3,6 @@
     <div class="content-wrapper">
       <div class="profile-pick-container">
         <img v-bind:class="user.imageClass" :src="profilePicUrl" alt="user-pic" />
-        <!-- <img v-bind:class="imageSizeClass" :src="profilePicUrl" alt="user-pic" /> -->
       </div>
       <div class="usernames-container">
         <router-link
@@ -43,7 +42,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   border: 1px solid #e6e6e6;
-  /* flex-wrap: wrap; */
   background: rgb(255, 255, 255);
   padding: 0.5rem 1rem;
   border-radius: 5px;
@@ -53,7 +51,6 @@ export default {
   display: flex;
   justify-content: start;
   align-items: center;
-  /* border: 2px solid blue; */
   width: 100%;
 }
 

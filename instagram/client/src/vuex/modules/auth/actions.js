@@ -8,11 +8,10 @@ import {
   AUTH_RESET_STATE,
   FETCH_LOGGEDIN_USER,
   FETCH_TIMELINE_USER,
-  // UPDATE_TIMELINE_USER,
   UPDATE_USER_IMAGE_CLASS,
   RESET_AUTH_STATE,
 } from "./mutationTypes";
-import { RESET_STATE_GLOBAL } from "../../mutationTypes";
+// import { RESET_STATE_GLOBAL } from "../../mutationTypes";
 import { userService } from "@/infrastructure/userService";
 
 export const registerAction = (context, payload) => {
@@ -21,8 +20,6 @@ export const registerAction = (context, payload) => {
   requester
     .post(url, payload)
     .then(res => {
-      console.log("res => ", res);
-
       Vue.$toast.open({
         message: res.body.message,
         type: "success"
@@ -61,7 +58,7 @@ export const loginAction = (context, payload) => {
         type: "success"
       });
 
-      router.push("/home");
+      router.push("/");
     })
     .catch(err => {
       let message = "Server error!";
@@ -156,10 +153,10 @@ export const updateUserImageClass = (context, { user, userType }) => {
         userType
       });
 
-      Vue.$toast.open({
-        message: "LoggedIn/TimeLine User Image Class updated!",
-        type: "success"
-      });
+      // Vue.$toast.open({
+      //   message: "LoggedIn/TimeLine User Image Class updated!",
+      //   type: "success"
+      // });
     })
     .catch(error => {
       Vue.$toast.open({
@@ -186,10 +183,10 @@ export const updateUser = (context, data) => {
       // context.dispatch("fetchTimeLineUser", { username });
       router.push("/user/" + username);
 
-      Vue.$toast.open({
-        message: res.body.message,
-        type: "success"
-      });
+      // Vue.$toast.open({
+      //   message: res.body.message,
+      //   type: "success"
+      // });
     })
     .catch(err => {
       Vue.$toast.open({

@@ -76,9 +76,4 @@ public class UserPeopleViewModel {
     public void setProfilePicHeight(Integer profilePicHeight) {
         this.profilePicHeight = profilePicHeight;
     }
-
-    //    public Boolean isActive() {
-//        return this.isActive;
-//    }
-
 }

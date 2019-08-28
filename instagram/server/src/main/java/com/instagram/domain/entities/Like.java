@@ -6,7 +6,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-//@Table(name = "likes")
 @Table(name = "likes", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
 public class Like extends BaseEntity {
     private User user;

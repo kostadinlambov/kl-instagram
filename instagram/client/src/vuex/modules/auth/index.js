@@ -70,7 +70,6 @@ const mutations = {
 
   [UPDATE_TIMELINE_USER]: (state, payload) => {
     state.timeLineUser = { ...state.timeLineUser, ...payload.user };
-    // state.timeLineUser = {...state.timeLineUser,...payload.user};
     state.timeLineUser.isAdminOrRoot =
       payload.user.role === "ROOT" || payload.user.role === "ADMIN";
   },

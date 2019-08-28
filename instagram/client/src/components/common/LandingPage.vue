@@ -10,8 +10,8 @@
           <div class="hr-styles"></div>
           <p class="lead message">
             Please
-            <router-link class="text-info" to="/login">Login</router-link>or
-            <router-link class="text-info" to="/register">Register</router-link>if you don't have an account.
+            <router-link class="text-info" to="/login">Login</router-link> or
+            <router-link class="text-info" to="/register">Register</router-link> if you don't have an account.
           </p>
           <hr class="hr-styles" />
           <p class="lead">
@@ -126,9 +126,9 @@ export default {
 }
 
 @media screen and (max-width: 1300px) {
-  .start-page-margin {
-    /* margin-top: 8rem; */
-  }
+  /* .start-page-margin {
+    margin-top: 8rem;
+  } */
 }
 
 @media screen and (max-width: 800px) {

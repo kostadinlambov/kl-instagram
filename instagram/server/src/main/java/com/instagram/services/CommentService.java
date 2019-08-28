@@ -9,7 +9,7 @@ import java.util.List;
 public interface CommentService {
     CommentViewModel createComment(CommentCreateBindingModel commentCreateBindingModel) throws Exception;
 
-    CommentViewModel getLastByPostId(String postId);
+    CommentViewModel getLastByPostId(String postId) throws Exception;
 
     List<CommentViewModel> getAllByPostId(String postId) throws Exception;
 }

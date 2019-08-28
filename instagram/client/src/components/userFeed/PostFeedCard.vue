@@ -282,18 +282,6 @@ header {
 
 .username-container {
   text-align: left;
-  /* display: flex;
-  justify-content: space-between; */
-  /* align-items: center; */
-  /* width: 100%; */
-}
-
-.header-button {
-  /* padding-right: 5px; */
-}
-
-img {
-  /* width: 100%; */
 }
 
 .image-wrapper {
@@ -301,7 +289,6 @@ img {
   /* width: 100%; */
   position: relative;
   overflow: hidden;
-  /* border-radius: 50%; */
 }
 
 .image-wrapper:after {

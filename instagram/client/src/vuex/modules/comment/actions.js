@@ -30,10 +30,10 @@ export const createComment = (context, data) => {
 
       context.dispatch("updateUserImageClass", {comments:comments, arrType: 'commentsCreator'});
 
-      Vue.$toast.open({
-        message: res.body.message,
-        type: "success"
-      });
+      // Vue.$toast.open({
+      //   message: res.body.message,
+      //   type: "success"
+      // });
 
     })
     .catch(err => {
@@ -57,17 +57,17 @@ export const fetchLastCommentByPostId = (context, postId) => {
       comment
     });
 
-    Vue.$toast.open({
-      message: res.body.message,
-      type: "success"
-    });
+    // Vue.$toast.open({
+    //   message: res.body.message,
+    //   type: "success"
+    // });
 
   })
   .catch(err => {
-    Vue.$toast.open({
-      message: err.body.message,
-      type: "error"
-    });
+    // Vue.$toast.open({
+    //   message: err.body.message,
+    //   type: "error"
+    // });
   });
 }
 
@@ -109,10 +109,10 @@ export const updateUserImageClass = (context, {comments, arrType}) => {
         arrType
       });
 
-      Vue.$toast.open({
-        message: "User Image Class updated!",
-        type: "success"
-      });
+      // Vue.$toast.open({
+      //   message: "User Image Class updated!",
+      //   type: "success"
+      // });
     }).catch(error => {
       Vue.$toast.open({
         message: 'Update User Image Class Error!  => ' + arrType,

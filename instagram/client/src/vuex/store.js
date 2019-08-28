@@ -11,16 +11,6 @@ import { RESET_STATE_GLOBAL } from "./mutationTypes";
 
 Vue.use(Vuex);
 
-// initial State
-// function initialState(){
-//   return{
-//   auth: { ...auth.state },
-//   user: { ...user.state },
-//   post: { ...post.state },
-//   comment: { ...post.comment },
-// };
-// } 
-
 let initialState = {
   auth: { ...auth.state },
   user: { ...user.state },
@@ -98,12 +88,4 @@ export const store = new Vuex.Store({
     //   }
     // }
 
-  // [RESET_STATE]: state => {
-  //   // Object.keys(initialState).forEach(key => {
-  //   //   Object.assign(state[key], initialState[key])
-  //   // })
-
-  //   state.usersAdmin = [];
-  //   state.users = [];
-  // },
 });

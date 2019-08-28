@@ -16,7 +16,6 @@ import java.util.Map;
 
 import static com.instagram.utils.constants.ResponseMessageConstants.SERVER_ERROR_MESSAGE;
 
-
 @Service
 public class CloudinaryServiceImpl implements CloudinaryService {
     private final Cloudinary cloudinary;

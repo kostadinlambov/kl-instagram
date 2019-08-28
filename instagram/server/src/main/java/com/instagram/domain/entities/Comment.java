@@ -70,15 +70,6 @@ public class Comment extends BaseEntity{
 //        this.timelineUser = timelineUser;
 //    }
 
-    //    @OneToOne(optional = false, targetEntity = User.class)
-//    @JoinColumn(name = "receiver", referencedColumnName = "id")
-//    public User getReceiver() {
-//        return this.receiver;
-//    }
-//
-//    public void setReceiver(User receiver) {
-//        this.receiver = receiver;
-//    }
 
     @OneToMany(targetEntity = Like.class, mappedBy = "comment", cascade = CascadeType.ALL)
     @JsonManagedReference

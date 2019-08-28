@@ -11,7 +11,7 @@ export default new Router({
     {
       path: "/",
       name: "landing-page",
-      component: () => import("./components/common/LandingPage.vue"),
+      component: () => import("./components/common/LandingPage.vue")
       // beforeEnter: (to, from, next) => {
       //   const isAuth = userService.isAuth();
 
@@ -25,10 +25,8 @@ export default new Router({
     {
       path: "/register",
       name: "register-page",
-      // route level code-splitting
-      // this generates a separate chunk (register.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "register" */ "./components/auth/RegisterPage.vue"),
+      component: () =>
+        import(/* webpackChunkName: "register" */ "./components/auth/RegisterPage.vue"),
       beforeEnter: (to, from, next) => {
         const isAuth = userService.isAuth();
 
@@ -65,7 +63,7 @@ export default new Router({
           next();
         }
       },
-      component: () => import("./components/userFeed/UserFeedPage.vue"),
+      component: () => import("./components/userFeed/UserFeedPage.vue")
     },
     {
       path: "/people",
@@ -122,7 +120,7 @@ export default new Router({
         } else {
           next();
         }
-      },
+      }
       // children: [
       //   { path: 'all',   component: () => import("./components/user/FollowerModal.vue")}
       //  ]
@@ -141,7 +139,6 @@ export default new Router({
         }
       }
     },
-
     {
       path: "/account/edit",
       name: "edit-profile",
@@ -205,8 +202,7 @@ export default new Router({
       path: "*",
       name: "error-page",
       component: ErrorPage
-    },
-
+    }
     // {
     //   path: "/user",
     //   name: "user-page",
@@ -223,8 +219,7 @@ export default new Router({
     //   children: [
     //    { path: 'all',   component: () => import("./components/userAll/UserAllPage.vue")}
     //   ]
-     
+
     // },
-    
   ]
 });

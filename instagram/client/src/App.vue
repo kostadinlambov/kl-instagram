@@ -49,13 +49,6 @@ body {
   margin: 0;
   min-height: 100vh;
   background: rgb(250, 250, 250);
-  /* background: #eee; */
-  /* font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px; */
 }
 
 :root {
@@ -115,10 +108,6 @@ h6 {
   padding-bottom: 0.5em;
 }
 
-/* @each $heading, $size in $headings {
-	#{$heading} { font-size: $size; }
-} */
-
 h5,
 h6 {
   font-weight: bold;
@@ -138,15 +127,11 @@ li {
 
 a {
   text-decoration: none;
-  /* color: rgb(192, 192, 192); */
 }
 
 /* a:hover {
 	color: white;
 } */
-
-/* background: rgb(65, 184, 131); */
-/* background: rgb(53, 73, 94); */
 
 .app-link {
   color: #61dafb;
@@ -192,10 +177,6 @@ a {
   border: 1px solid #fff;
   box-shadow: 0 0 14px 1px rgba(0, 0, 0, 0.3);
 }
-
-/* .text-info{
-  color:white;
-} */
 
 /* Forms CSS */
 

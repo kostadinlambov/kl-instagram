@@ -130,7 +130,6 @@ export default {
   color: rgb(65, 184, 131);
   background: white;
   border: 1px solid #e6e6e6;
-
 }
 
 @media  screen and (max-width: 900px){

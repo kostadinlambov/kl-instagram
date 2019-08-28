@@ -36,17 +36,9 @@ export default {
 
   data() {
     return {
-      //   loggedInUserId: userService.getUserId(),
-      //   orderedByFollowingAscArr: [],
-      //   orderedByFollowingDescArr: []
+      orderedByFollowingDescArr: []
     };
   },
-  //   props: {
-  //     users: {
-  //       type: Object
-  //     },
-  //   },
-
   computed: {
     ...mapGetters("user", {
       users: "getAllUsers",
@@ -87,11 +79,6 @@ export default {
         (firstUser, secondUser) => firstUser.active - secondUser.active
       );
     },
-
-    addEventListeners() {
-      // this.$root.$on("on-follow", this.onFollowHandler);
-      // this.$root.$on("on-unfollow", this.onUnFollowHandler);
-    }
   },
 
   // created() {
@@ -99,7 +86,6 @@ export default {
   // },
 
   mounted() {
-    this.addEventListeners();
     // this.orderByFollowingAsc();
     this.orderByFollowingDesc();
   },
@@ -123,7 +109,6 @@ export default {
   margin: 0 auto;
   max-width: 600px;
   width: 100%;
-  /* border: 1px solid red; */
 }
 
 @media screen and (min-width: 640px) {
@@ -144,12 +129,9 @@ export default {
 
 .user-feed-title {
   display: block;
-  /* color: #262626; */
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
-  /* margin: -6px 0; */
-  /* color: rgb(65, 184, 131); */
   color: #999;
 }
 

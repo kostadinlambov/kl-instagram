@@ -49,10 +49,10 @@ export const fetchNonLoggedInUserPosts = (context,{ loggedInUser, pageNumber }) 
         loading: false
       });
 
-      Vue.$toast.open({
-        message: "All non loggedInUser Posts fetched!",
-        type: "success"
-      });
+      // Vue.$toast.open({
+      //   message: "All non loggedInUser Posts fetched!",
+      //   type: "success"
+      // });
     })
     .catch(err => {
       Vue.$toast.open({
@@ -87,10 +87,10 @@ export const fetchUserPosts = (context, {username, pageNumber}) => {
         arrType: "userPosts"
       });
 
-      Vue.$toast.open({
-        message: "All User Posts fetched!",
-        type: "success"
-      });
+      // Vue.$toast.open({
+      //   message: "All User Posts fetched!",
+      //   type: "success"
+      // });
     })
     .catch(err => {
       Vue.$toast.open({
@@ -130,10 +130,10 @@ export const fetchFollowingPosts = (context, {loggedInUser, pageNumber}) => {
         arrType: "followingPosts"
       });
 
-      Vue.$toast.open({
-        message: "All Following Posts fetched!",
-        type: "success"
-      });
+      // Vue.$toast.open({
+      //   message: "All Following Posts fetched!",
+      //   type: "success"
+      // });
     })
     .catch(err => {
       Vue.$toast.open({
@@ -154,10 +154,10 @@ export const updatePostImageClass = (context, { posts, arrType }) => {
           arrType
         });
 
-        Vue.$toast.open({
-          message: "Post Image Class updated!",
-          type: "success"
-        });
+        // Vue.$toast.open({
+        //   message: "Post Image Class updated!",
+        //   type: "success"
+        // });
       })
       
 };
@@ -175,10 +175,10 @@ export const updateCreatorImageClass = (context, {posts, arrType}) => {
         arrType
       });
 
-      Vue.$toast.open({
-        message: "Post Creator Image Class updated!",
-        type: "success"
-      });
+      // Vue.$toast.open({
+      //   message: "Post Creator Image Class updated!",
+      //   type: "success"
+      // });
     }).catch(error => {
       Vue.$toast.open({
         message: 'Update User Image Class Error!  => ' + arrType,
@@ -287,10 +287,10 @@ export const fetchPostDetails = (context, {postId, loggedInUserId}) => {
         post: res.body.payload
       });
 
-      Vue.$toast.open({
-        message: res.body.message,
-        type: "success"
-      });
+      // Vue.$toast.open({
+      //   message: res.body.message,
+      //   type: "success"
+      // });
     })
     .catch(err => {
       Vue.$toast.open({

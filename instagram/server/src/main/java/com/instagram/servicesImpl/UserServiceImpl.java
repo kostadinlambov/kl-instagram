@@ -135,10 +135,6 @@ public class UserServiceImpl implements UserService {
         }
 
         return userPeopleViewModels;
-
-//        return allNotFollowers.stream()
-//                .map(x -> this.modelMapper.map(x, UserServiceModel.class))
-//                .collect(Collectors.toList());
     }
 
     @Override
@@ -214,16 +210,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean deleteUserById(String id) throws Exception {
-//        User user = this.userRepository.findById(loggedInUserId)
-//                .filter(userValidation::isValid)
-//                .orElseThrow(Exception::new);
-//
-//        String userAuthority = this.getUserAuthority(user.getId());
-//
-//        if("ROOT".equals(userAuthority) ){
-//            throw new Exception(SERVER_ERROR_MESSAGE);
-//        }
-
         this.userRepository.findById(id)
                 .filter(userValidation::isValid)
                 .orElseThrow(Exception::new);
@@ -240,7 +226,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserServiceModel> getAllUsersAdmin(String userId) throws Exception {
-        User userById = this.userRepository.findById(userId).orElse(null);
+        User userById = this.userRepository.findById(userId).orElseThrow(Exception::new);
 
         if (!userValidation.isValid(userById)) {
             throw new Exception(SERVER_ERROR_MESSAGE);
@@ -279,7 +265,6 @@ public class UserServiceImpl implements UserService {
 
         return this.userRepository.save(user) != null;
     }
-
 
     @Override
     public boolean demoteUser(String id) throws Exception {

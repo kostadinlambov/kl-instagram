@@ -80,36 +80,14 @@ public class ApplicationSecurityConfiguration
                         "/comment/create",
                         "comment/all/*",
                         "comment/last/*"
-//                        "/relationship/friends/*",
-//                        "/relationship/findFriends/*",
-//                        "/relationship/addFriend",
-//                        "/relationship/removeFriend",
-//                        "/relationship/acceptFriend",
-//                        "/relationship/cancelRequest",
-//                        "/relationship/search",
-//                        "/pictures/all/*",
-//                        "/pictures/add",
-//                        "/pictures/remove",
-//                        "/post/remove",
-//                        "/comment/remove",
-//                        "/message/create",
-//                        "/message/all/*",
-//                        "/message/friend",
-//                        "/socket/**"
                 ).hasAnyAuthority("ADMIN", "ROOT", "USER")
                 .antMatchers(
                         "/user/promote",
                         "/user/demote",
                         "/user/admin/all/*"
-
-//                        "/users/details/username",
-//                        "/logs/all",
-//                        "/logs/findByUserName/*"
                 ).hasAnyAuthority("ADMIN", "ROOT")
                 .antMatchers(
                         "/user/delete/*"
-//                        "/logs/clear",
-//                        "/logs/clearByName/*"
                 ).hasAuthority("ROOT")
                 .requestMatchers(EndpointRequest.toAnyEndpoint()).hasAnyAuthority("ADMIN", "ROOT", "USER")
                 .anyRequest().authenticated()
