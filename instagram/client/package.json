@@ -10,7 +10,7 @@
   "dependencies": {
     "bootstrap": "4.3.1",
     "core-js": "^2.6.5",
-    "jquery": "3.4.1",
+    "jquery": "3.5.0",
     "js-cookie": "^2.2.1",
     "line-awesome": "github:icons8/line-awesome",
     "popper.js": "1.15.0",
