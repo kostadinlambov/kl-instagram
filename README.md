@@ -1,7 +1,5 @@
 # kl-instagram
 
-#### This is a Social Network application.
-
 The application is a Stateful app built with [Spring Boot](http://spring.io/projects/spring-boot), [MySQL](https://www.mysql.com/) and [Vue.js](https://vuejs.org).
 
 Features:
