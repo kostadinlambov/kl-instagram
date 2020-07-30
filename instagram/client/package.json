@@ -10,9 +10,8 @@
   "dependencies": {
     "bootstrap": "4.3.1",
     "core-js": "^2.6.5",
-    "jquery": "3.4.1",
+    "jquery": "^3.5.1",
     "js-cookie": "^2.2.1",
-    "line-awesome": "github:icons8/line-awesome",
     "popper.js": "1.15.0",
     "vue": "^2.6.10",
     "vue-infinite-scroll": "^2.0.2",
